@@ -1,0 +1,18 @@
+<mvc:View height="100%" controllerName="com.hzl.Controller.Dashboard.dashboard" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+              xmlns:myData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+               <Page title="{i18n>Dsh_title}" enableScrolling="false">
+                              <TileContainer>
+                                             <StandardTile myData:key="fromFluTransQualEntry" type="Create" title="{i18n>Dsh_FTQE}" infoState="Success" press="onTileClick"/>
+                                             <StandardTile myData:key="fromFluTransQualAnalEntry" type="Create" title="{i18n>Dsh_FTQAE}" infoState="Success" press="onTileClick"/>
+                                             <StandardTile myData:key="fromFluTrnsReport" icon="sap-icon://pie-chart" type="None" title="{i18n>Dsh_FTR}" press="onTileClick"/>
+                              				 <StandardTile myData:key="solSlurrQualScrn" icon="sap-icon://create" title="{i18n>Dsh_SSQS}" press="onTileClick"/>
+                              				 <StandardTile myData:key="solSlurrReport" icon="sap-icon://bar-chart" title="{i18n>Dsh_SSR}" press="onTileClick"/>
+                              </TileContainer>
+                              <footer>
+                                             <Toolbar>
+                                                            <ToolbarSpacer/>
+                                                            <ToolbarSpacer/>
+                                             </Toolbar>
+                              </footer>
+               </Page>
+</mvc:View>

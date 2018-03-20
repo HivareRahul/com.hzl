@@ -1,0 +1,71 @@
+<mvc:View controllerName="com.hzl.Controller.FluTrnsQulEntry.fluTrnsQulEntry" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
+	<Page title="{i18n>FTQE_title}" showNavButton="true" navButtonPress="myNavBack">
+		<content>
+				<fb:FilterBar id="FTQE_fltBar" reset="onReset" search="onSearch">
+                <fb:filterItems>
+                    <fb:FilterItem name="B" label="{i18n>FTQE_frmDt}" mandatory="true">
+                        <fb:control>
+                            <DateTimeInput id="frmDate" type="DateTime" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQE_PH_frmDt}" valueState="{valueState>/frmDate}"
+                                dateValue="{filterData>/frmDate}"/>
+                        </fb:control>
+                    </fb:FilterItem>
+                    <fb:FilterItem name="C" label="{i18n>FTQE_toDt}" mandatory="true">
+                        <fb:control>
+                            <DateTimeInput id="toDate" type="DateTime" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQE_PH_ToDt}" valueState="{valueState>/toDate}"
+                            dateValue="{filterData>/toDate}"/>
+                        </fb:control>
+                    </fb:FilterItem>
+                    <fb:FilterItem name="D" mandatory="true" label="{i18n>FTQE_plt}">
+                        <fb:control>
+								<ComboBox id="FTQEplant" showValueStateMessage="false" placeholder="{i18n>FTQE_PH_plt}" value="{filterData>/plt}">
+									<core:Item key="HYDRO-1" text="HYDRO-1"/>
+									<core:Item key="HYDRO-2" text="HYDRO-2"/>
+								</ComboBox>
+                        </fb:control>
+                    </fb:FilterItem>
+                </fb:filterItems>
+            </fb:FilterBar>
+			<Table id="fluTrnsQualityEntryTable" items="{tableModel>/Rowsets/Rowset/0/Row/}" growing="true"  mode="SingleSelectMaster"  itemPress="vendorSelect">
+				<headerToolbar>
+							<Toolbar>							
+								<ToolbarSpacer/>								
+								<Button tooltip="{i18n>vewSttg}" icon="sap-icon://drop-down-list" press="handleViewSettings"/>
+								<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressed"/>
+								<Button	tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>
+							</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column hAlign="Center" id="date"><Text text="{i18n>FTQE_dt}"/></Column>
+					<Column hAlign="Center" id="shift"><Text text="{i18n>FTQE_sft}"/></Column>
+					<Column hAlign="Center" id="materialTransfer"><Text text="{i18n>FTQE_MatTrans}"/></Column>
+					<Column hAlign="Center" id="materialTransFrom"><Text text="{i18n>FTQE_matTrnsFrm}"/></Column>
+					<Column hAlign="Center" id="materialTransTo"><Text text="{i18n>FTQE_matTrnsTo}"/></Column>
+					<Column hAlign="Center" id="quantity"><Text text="{i18n>FTQE_qlt}"/></Column>
+					<Column hAlign="Center" id="quantityUOM"><Text text="{i18n>FTQE_qltUOM}"/></Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation">
+						<cells>
+							<Text text="{tableModel>S_DATE}"/>
+							<Text text="{tableModel>SHIFT}"/>
+							<Text text="{tableModel>TO_MAT_DESC}"/>
+							<Text text="{tableModel>FROM_PLANT_DESC}"/>
+							<Text text="{tableModel>TO_PLANT_DESC}"/>
+							<cmn:TextField value="{tableModel>MAT_QTY}" editable="false"/>
+							<Text text="m3"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button id="update" text="{i18n>FTQE_sv}" press="onUpdate"/>
+				<Button id="cancel" text="{i18n>FTQE_cnl}" press="onCancel"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

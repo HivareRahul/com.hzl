@@ -1,0 +1,34 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:myData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+	<Dialog id="FTQAEDialog1" title="{i18n>FTQAE_AD_title}" contentWidth="50%">
+		<f:SimpleForm editable="true" layout="ResponsiveLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3"
+			labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2"
+			singleContainerFullSize="false">
+			<f:content>
+				<Label text="{i18n>FTQAE_dt}" design="Bold" required ="true"></Label>
+				<DateTimeInput id="addDate" value="{addDialogModel>/Date}" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQAE_AD_PH_entDt}" width="80%" type="DateTime"></DateTimeInput>
+				<Label text="{i18n>FTQAE_shift}" design="Bold" required ="true"></Label>
+				<ComboBox id="addShift" value="{addDialogModel>/Shift}" width="80%" placeholder="{i18n>FTQAE_PH_selsft}">
+					<core:Item key="A" text="A"/>
+					<core:Item key="B" text="B"/>
+					<core:Item key="C" text="C"/>
+				</ComboBox>
+				<Label text="{i18n>FTQAE_matTrns}" design="Bold" required ="true"></Label>
+				<Input id="addMatTrans" value="{addDialogModel>/MaterialTransfered}" width="80%" type="Text" placeholder="{i18n>FTQAE_PH_entMatTrans}" showSuggestion="true" showValueHelp="true" myData:key="FRM_MAT_DESC" valueHelpRequest="handleValueHelp" valueHelpOnly="true"></Input>
+				<Label text="{i18n>FTQAE_MTF}" design="Bold" required ="true"></Label>
+				<Input id="addMatTransFrm" value="{addDialogModel>/MaterialTransferFrom}" width="80%" type="Text" placeholder="{i18n>FTQAE_AD_PH_entMatTrnsFrm}" showSuggestion="true" showValueHelp="true" myData:key="FRM_PLANT_DESC" valueHelpRequest="handleValueHelp" valueHelpOnly="true"></Input>
+				<Label text="{i18n>FTQAE_matTrnsTo}" design="Bold" required ="true"></Label>
+				<Input id="addMatTransTo" value="{addDialogModel>/MaterialTransferTo}" width="80%" type="Text" placeholder="{i18n>FTQAE_PH_entMatTransTo}" showSuggestion="true" showValueHelp="true" myData:key="TO_PLANT_DESC" valueHelpRequest="handleValueHelp" valueHelpOnly="true"></Input>
+				<Label text="{i18n>FTQAE_AD_znGPL}" design="Bold" required ="true"></Label>
+				<Input id="addZnGPL" value="{addDialogModel>/ZnInGPL}" width="80%" type="Text" placeholder="{i18n>FTQAE_AD_PH_znGPL}" myData:key="ZN_GPL_PARAM"></Input>
+				<Label text="{i18n>FTQAE_AD_den}" design="Bold" required ="true"></Label>
+				<Input id="addDen" value="{addDialogModel>/Density}" width="80%" type="Text" placeholder="{i18n>FTQAE_AD_PH_entDen}" myData:key="DEN_PARAM"></Input>			
+			</f:content>
+		</f:SimpleForm>
+		<beginButton>
+			<Button text="{i18n>FTQAE_AD_sv}" press="onSave"/>
+		</beginButton>
+		<endButton>
+			<Button text="{i18n>FTQAE_AD_cn}" press="onCloseDialog"/>
+		</endButton>
+	</Dialog>
+</core:FragmentDefinition>

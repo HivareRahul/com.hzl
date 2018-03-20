@@ -1,0 +1,22 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog title="{i18n>custSett}" confirm="handleConfirm">
+		<sortItems>
+			<ViewSettingsItem text="{i18n>FTQAE_dt}" key="S_DATE"/>
+			<ViewSettingsItem text="{i18n>FTQAE_shift}" key="SHIFT" selected="true"/>
+			<ViewSettingsItem text="{i18n>FTQAE_matTrns}" key="FRM_MAT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQAE_MTF}" key="FRM_PLANT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQAE_matTrnsTo}" key="TO_MAT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQAE_znGPL}" key="ZN_GPL_PARAM"/>
+			<ViewSettingsItem text="{i18n>FTQAE_znDen}" key="DEN_PARAM"/>
+		</sortItems>
+		<groupItems>
+			<ViewSettingsItem text="{i18n>FTQAE_dt}" key="S_DATE"/>
+			<ViewSettingsItem text="{i18n>FTQAE_shift}" key="SHIFT"/>
+			<ViewSettingsItem text="{i18n>FTQAE_matTrns}" key="FRM_MAT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQAE_MTF}" key="FRM_PLANT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQAE_matTrnsTo}" key="TO_MAT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQAE_znGPL}" key="ZN_GPL_PARAM"/>
+			<ViewSettingsItem text="{i18n>FTQAE_znDen}" key="DEN_PARAM"/>
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,81 @@
+<mvc:View
+	height="100%"
+	controllerName="com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnlyEntry"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:l="sap.ui.layout"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:myData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:cmn="sap.ui.commons">	
+	<Page title="{i18n>FTQAE_Title}" showNavButton="true" navButtonPress="myNavBack">
+		<content>
+		<fb:FilterBar id="FTQAE_fltBar" search="onSearch" reset="onReset">
+			<fb:filterItems>
+				<fb:FilterItem name="fromDate" label="{i18n>FTQAE_frmDate}" mandatory="true">
+					<fb:control>
+						<DateTimeInput id="frmDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQAE_PH_frmDt}" type="DateTime"></DateTimeInput>
+					</fb:control>
+				</fb:FilterItem>
+				<fb:FilterItem name="toDate" label="{i18n>FTQAE_toDate}" mandatory="true">
+					<fb:control>
+						<DateTimeInput id="toDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQAE_PH_toDt}" type="DateTime"></DateTimeInput>
+					</fb:control>
+				</fb:FilterItem>
+				<fb:FilterItem name="plant" label="{i18n>FTQAE_plt}" mandatory="true">
+					<fb:control>
+						<ComboBox showValueStateMessage="false" placeholder="{i18n>FTQAE_PH_selPlnt}">
+							<core:Item key="HYDRO-1" text="HYDRO-1"/>
+							<core:Item key="HYDRO-2" text="HYDRO-2"/>
+						</ComboBox>
+					</fb:control>
+				</fb:FilterItem>						
+			</fb:filterItems>							
+	    </fb:FilterBar>	
+			<Table id="fluTrnsQulAnlyEntrTable" items="{fluTrnsQulAnlyEntr>/Rowsets/Rowset/0/Row/}" growing="true" mode="SingleSelectMaster"  itemPress="vendorSelect">
+				<headerToolbar>
+							<Toolbar>							
+								<ToolbarSpacer/>
+								<Button tooltip="{i18n>add}" icon="sap-icon://add" press="onAdd"/>						
+								<Button tooltip="{i18n>vewSttg}" icon="sap-icon://drop-down-list" press="handleViewSettings"/>
+								<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressed"/>
+								<Button	tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>
+							</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column hAlign="Center" id="date"><Text text="{i18n>FTQAE_dt}"/></Column>
+					<Column hAlign="Center" id="shift"><Text text="{i18n>FTQAE_shift}"/></Column>
+					<Column hAlign="Center" id="matTrans"><Text text="{i18n>FTQAE_matTrns}"/></Column>
+					<Column hAlign="Center" id="matTransFrm"><Text text="{i18n>FTQAE_MTF}"/></Column>
+					<Column hAlign="Center" id="matTransTo"><Text text="{i18n>FTQAE_matTrnsTo}"/></Column>
+					<Column hAlign="Center" id="znGpl"><Text text="{i18n>FTQAE_znGPL}"/></Column>
+					<Column hAlign="Center" id="znGplUOM"><Text text="{i18n>FTQAE_znGplUOM}"/></Column>
+					<Column hAlign="Center" id="znDen"><Text text="{i18n>FTQAE_znDen}"/></Column>
+					<Column hAlign="Center" id="znDenUOM"><Text text="{i18n>FTQAE_znDenUOM}"/></Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation">
+						<cells>
+							<Text text="{fluTrnsQulAnlyEntr>S_DATE}"/>
+							<Text text="{fluTrnsQulAnlyEntr>SHIFT}"/>
+							<Text text="{fluTrnsQulAnlyEntr>TO_MAT_DESC}"/>
+							<Text text="{fluTrnsQulAnlyEntr>FRM_PLANT_DESC}"/>
+							<Text text="{fluTrnsQulAnlyEntr>TO_PLANT_DESC}"/>
+							<cmn:TextField value="{fluTrnsQulAnlyEntr>ZN_GPL_PARAM}" type="Number" editable="false"/>
+							<Text text="GPL"/>
+							<cmn:TextField value="{fluTrnsQulAnlyEntr>DEN_PARAM}" type="Number" editable="false"/>
+							<Text text="kg/m3"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>	    	
+ 		</content> 
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button id="update" text="{i18n>FTQAE_sv}" press="onUpdate"/>
+				<Button id="cancel" text="{i18n>FTQAE_cancel}" press="onCancel"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

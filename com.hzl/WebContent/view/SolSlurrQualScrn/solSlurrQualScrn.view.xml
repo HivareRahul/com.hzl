@@ -1,0 +1,78 @@
+<mvc:View controllerName="com.hzl.Controller.SolSlurrQualScrn.solSlurrQualScrn" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
+	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
+	<Page title="Solution slurry qualitative screen" showNavButton="true" navButtonPress="myNavBack">
+		<content>
+				<fb:FilterBar reset="onReset" search="onSearch">
+                <fb:filterItems>
+                   <fb:FilterItem name="SSQSpt" mandatory="true" label="{i18n>SSQSplt}">
+                        <fb:control>
+							<ComboBox id="SSQSplant" showValueStateMessage="false" placeholder="{i18n>SSQS_PH_selPlt}">
+								<core:Item key="HYDRO-1" text="HYDRO-1"/>
+								<core:Item key="HYDRO-2" text="HYDRO-2"/>
+							</ComboBox>
+                        </fb:control>
+                    </fb:FilterItem>                
+                    <fb:FilterItem name="SSQSd" label="{i18n>SSQSdt}" mandatory="true">
+                        <fb:control>
+                            <DateTimeInput id="SSQSdate" valueFormat="MM-dd-yyyy" placeholder="{i18n>SSQS_PH_enDt}" change="onDate"/>
+                        </fb:control>
+                    </fb:FilterItem>
+                </fb:filterItems>
+            </fb:FilterBar>
+			<Table id="SSQS_Table" items="" growing="true">
+				<headerToolbar>
+							<Toolbar>							
+								<ToolbarSpacer/>								
+								<Button tooltip="{i18n>vewSttg}" icon="sap-icon://drop-down-list" press="handleViewSettings"/>
+								<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressed"/>
+								<Button	tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>
+							</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column hAlign="Center" id="smpId"><Text text="{i18n>SSQS_smpId}"/></Column>
+					<Column hAlign="Center" id="smpNm"><Text text="{i18n>SSQS_smpNm}"/></Column>
+					<Column hAlign="Center" id="smpGrp"><Text text="{i18n>SSQS_smpGrp}"/></Column>
+					<Column hAlign="Center" id="znGPL"><Text text="{i18n>SSQS_znGpl}"/></Column>
+					<Column hAlign="Center" id="perH2o"><Text text="{i18n>SSQS_h2o}"/></Column>
+					<Column hAlign="Center" id="bdGrmCc"><Text text="{i18n>SSQS_bd}"/></Column>
+					<Column hAlign="Center" id="perTzn"><Text text="{i18n>SSQS_tZn}"/></Column>
+					<Column hAlign="Center" id="solGpl"><Text text="{i18n>SSQS_sldGpl}"/></Column>
+					<Column hAlign="Center" id="perPb"><Text text="{i18n>SSQS_pb}"/></Column>
+					<Column hAlign="Center" id="perZn"><Text text="{i18n>SSQS_zn}"/></Column>
+					<Column hAlign="Center" id="perCd"><Text text="{i18n>SSQS_cd}"/></Column>
+					<Column hAlign="Center" id="perAg"><Text text="{i18n>SSQS_ag}"/></Column>
+					<Column hAlign="Center" id="sluDen"><Text text="{i18n>SSQS_sluDen}"/></Column>
+					<Column hAlign="Center" id="solDen"><Text text="{i18n>SSQS_sldDen}"/></Column>					
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="NL1"/>
+							<Text text="NL01C001"/>
+							<Text text="Cell House Sample"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+							<cmn:TextField value="" editable="true" width="5rem"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+		<footer>
+			<Toolbar>
+				<ToolbarSpacer/>
+				<Button id="SSQSupdate" text="{i18n>SSQS_sv}"/>
+				<Button id="SSQScancel" text="{i18n>SSQS_cancel}"/>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>

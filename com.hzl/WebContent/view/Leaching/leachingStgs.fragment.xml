@@ -1,0 +1,26 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog title="{i18n>custSett}" confirm="handleConfirm">
+		<sortItems>
+			<ViewSettingsItem text="{i18n>date}" key="S_DATE"/>
+			<ViewSettingsItem text="{i18n>qualityM3}" key="TOTAL_QTY"  selected="true"/>
+			<ViewSettingsItem text="{i18n>micZnMt}" key="TOTAL_ZN_MIC"/>
+			<ViewSettingsItem text="{i18n>znGpl}" key="AVG_ZN_GPL"/>
+			<ViewSettingsItem text="{i18n>mtVol}" key="TOTAL_ZN_VOL"/>
+			<ViewSettingsItem text="{i18n>frmPlt}" key="FRM_PLANT_NUM"/>
+			<ViewSettingsItem text="{i18n>toPlt}" key="TO_PLANT_NUM"/>
+			<ViewSettingsItem text="{i18n>mtrNoFrm}" key="FRM_MAT_NUM"/>
+			<ViewSettingsItem text="{i18n>mtrNoTo}" key="TO_MAT_NUM"/>
+		</sortItems>
+		<groupItems>
+			<ViewSettingsItem text="{i18n>date}" key="S_DATE"/>
+			<ViewSettingsItem text="{i18n>qualityM3}" key="TOTAL_QTY"/>
+			<ViewSettingsItem text="{i18n>micZnMt}" key="TOTAL_ZN_MIC"/>
+			<ViewSettingsItem text="{i18n>znGpl}" key="AVG_ZN_GPL"/>
+			<ViewSettingsItem text="{i18n>mtVol}" key="TOTAL_ZN_VOL"/>
+			<ViewSettingsItem text="{i18n>frmPlt}" key="FRM_PLANT_NUM"/>
+			<ViewSettingsItem text="{i18n>toPlt}" key="TO_PLANT_NUM"/>
+			<ViewSettingsItem text="{i18n>mtrNoFrm}" key="FRM_MAT_NUM"/>
+			<ViewSettingsItem text="{i18n>mtrNoTo}" key="TO_MAT_NUM"/>
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

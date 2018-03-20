@@ -1,0 +1,75 @@
+<mvc:View controllerName="com.hzl.Controller.Leaching.leaching" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
+	displayBlock="true" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:fb="sap.ui.comp.filterbar">
+	<Page title="{i18n>title}" showNavButton="true" navButtonPress="myNavBack">
+		<content>
+			<l:VerticalLayout width="100%">
+				<fb:FilterBar id="FTR_fltBar" reset="onReset" search="onSearch">
+					<fb:filterItems>						
+						<fb:FilterItem name="B" label="{i18n>frmDat}" mandatory="true">
+							<fb:control>
+								<DateTimeInput type="DateTime" id="frmDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>PH_frmDt}" width="100%"/>
+							</fb:control>
+						</fb:FilterItem>
+						<fb:FilterItem name="C" label="{i18n>toDt}" mandatory="true">
+							<fb:control>
+								<DateTimeInput type="DateTime" id="toDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>PH_toDt}" width="100%"/>
+							</fb:control>
+						</fb:FilterItem>
+						<fb:FilterItem name="A" label="{i18n>plant}" mandatory="true">
+							<fb:control>
+								<ComboBox id="plant" showValueStateMessage="false" placeholder="{i18n>FTQE_PH_plt}">
+									<core:Item key="HYDRO-1" text="HYDRO-1"/>
+									<core:Item key="HYDRO-2" text="HYDRO-2"/>
+								</ComboBox>								
+							</fb:control>
+						</fb:FilterItem>
+					</fb:filterItems>
+				</fb:FilterBar>
+			</l:VerticalLayout>
+			<Table id="FTR_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}" growing="true" mode="SingleSelectMaster" itemPress="vendorSelect">
+				<headerToolbar>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button tooltip="{i18n>vewSttg}" icon="sap-icon://drop-down-list" press="handleViewSettings"/>
+						<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressed"/>
+						<Button tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>
+					</Toolbar>
+				</headerToolbar>
+				<columns>
+					<Column hAlign="Center" id="recordDate"><Text text="{i18n>date}"/></Column>
+					<Column hAlign="Center" id="recordQuality"><Text text="{i18n>qualityM3}"/></Column>
+					<Column hAlign="Center" id="recordQualityUOM"><Text text="{i18n>qntUOM}"/></Column>
+					<Column hAlign="Center" id="recordMic"><Text text="{i18n>micZnMt}"/></Column>
+					<Column hAlign="Center" id="recordMicUOM"><Text text="{i18n>znMicUOM}"/></Column>
+					<Column hAlign="Center" id="recordGpl"><Text text="{i18n>znGpl}"/></Column>
+					<Column hAlign="Center" id="recordGplUOM"><Text text="{i18n>znGplUOM}"/></Column>
+					<Column hAlign="Center" id="recordMtVolume"><Text text="{i18n>mtVol}"/></Column>
+					<Column hAlign="Center" id="recordMtVolumeUOM"><Text text="{i18n>znVolUOM}"/></Column>
+					<Column hAlign="Center" id="recordFrmPlt"><Text text="{i18n>frmPlt}"/></Column>
+					<Column hAlign="Center" id="recordToPlt"><Text text="{i18n>toPlt}"/></Column>
+					<Column hAlign="Center" id="recordMtrNumFrm"><Text text="{i18n>mtrNoFrm}"/></Column>
+					<Column hAlign="Center" id="recordMtrNumTo"><Text text="{i18n>mtrNoTo}"/></Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation">
+						<cells>
+							<Text text="{tableModel>S_DATE}"/>
+							<Text text="{tableModel>TOTAL_QTY}"/>
+							<Text text="m3"/>
+							<Text text="{tableModel>TOTAL_ZN_MIC}"/>
+							<Text text="MIC"/>
+							<Text text="{tableModel>AVG_ZN_GPL}"/>
+							<Text text="GPL"/>
+							<Text text="{tableModel>TOTAL_ZN_VOL}"/>
+							<Text text="m3"/>
+							<Text text="{tableModel>FRM_PLANT_DESC} - {tableModel>FRM_PLANT_NUM}"/>
+							<Text text="{tableModel>TO_PLANT_DESC} - {tableModel>TO_PLANT_NUM}"/>
+							<Text text="{tableModel>FRM_MAT_DESC} - {tableModel>FRM_MAT_NUM}"/>
+							<Text text="{tableModel>TO_MAT_DESC} - {tableModel>TO_MAT_NUM}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

@@ -1,0 +1,130 @@
+<mvc:View controllerName="com.hzl.Controller.Leaching.shiftDetails" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<Page title="{i18n>SD_sftDet}" showNavButton="true" navButtonPress="myNavBack">
+		<content>
+			<Panel expandable="true" expanded="true" headerText="{i18n>SD_repEntry}">		
+				<content>
+				    <Table id="repEtryTbl" items="{headerModel>/}">
+						<headerToolbar>
+								<Toolbar>							
+									<ToolbarSpacer/>
+									<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressedRepEtry"/>
+								</Toolbar>
+						</headerToolbar>				    	    
+						<columns>
+							<Column hAlign="Center" id="dt"><Text text="{i18n>date}"/></Column>
+							<Column hAlign="Center" id="qul"><Text text="{i18n>qualityM3}"/></Column>
+							<Column hAlign="Center" id="qulUOM"><Text text="{i18n>qntUOM}"/></Column>
+							<Column hAlign="Center" id="znMT"><Text text="{i18n>micZnMt}"/></Column>
+							<Column hAlign="Center" id="znMtUOM"><Text text="{i18n>znMicUOM}"/></Column>
+							<Column hAlign="Center" id="znGPL"><Text text="{i18n>znGpl}"/></Column>
+							<Column hAlign="Center" id="znGplUOM"><Text text="{i18n>znGplUOM}"/></Column>
+							<Column hAlign="Center" id="znVol"><Text text="{i18n>mtVol}"/></Column>
+							<Column hAlign="Center" id="znVolUOM"><Text text="{i18n>znVolUOM}"/></Column>
+							<Column hAlign="Center" id="frmPlt"><Text text="{i18n>frmPlt}"/></Column>
+							<Column hAlign="Center" id="toPlt"><Text text="{i18n>toPlt}"/></Column>
+							<Column hAlign="Center" id="mtNoFrm"><Text text="{i18n>mtrNoFrm}"/></Column>
+							<Column hAlign="Center" id="mtNoTo"><Text text="{i18n>mtrNoTo}"/></Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{headerModel>Date}"/>
+									<Text text="{headerModel>MaterialQuantity}"/>
+									<Text text="{headerModel>QuantityUOM}"/>
+									<Text text="{headerModel>ZnMIC}"/>
+									<Text text="{headerModel>ZnMICUOM}"/>
+									<Text text="{headerModel>ZnGPL}"/>
+									<Text text="{headerModel>ZnGPLUOM}"/>
+									<Text text="{headerModel>ZnVol}"/>
+									<Text text="{headerModel>ZnVolUOM}"/>
+									<Text text="{headerModel>MaterialTransferedFromPlant}"/>
+									<Text text="{headerModel>MaterialTranferedToPlant}"/>
+									<Text text="{headerModel>MaterialTransferedFrom}"/>
+									<Text text="{headerModel>MaterialTransferedTo}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>	
+				</content>
+			</Panel>	
+			<Panel expandable="true" expanded="true" headerText="{i18n>SD_shiftAverage}">		
+				<content>
+					<Table id="sftAvgTbl" items="{sftAvgTblModel>/Rowsets/Rowset/0/Row/}" mode="SingleSelectMaster" selectionChange="tableOneSelect">
+						<headerToolbar>
+									<Toolbar>							
+										<ToolbarSpacer/>
+										<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressedSftAvg"/>
+									</Toolbar>
+						</headerToolbar>					
+						<columns>
+							<Column hAlign="Center" id="SA_dt"><Text text="{i18n>SD_Date}"/></Column>
+							<Column hAlign="Center" id="SA_matQty"><Text text="{i18n>SD_matQty}"/></Column>
+							<Column hAlign="Center" id="SA_matQtyUOM"><Text text="{i18n>SD_matQtyUOM}"/></Column>	
+							<Column hAlign="Center" id="SA_znVol"><Text text="{i18n>SD_FluidZNVolume}"/></Column>
+							<Column hAlign="Center" id="SA_znVolUOM"><Text text="{i18n>SD_ZnVolUOM}"/></Column>													
+							<Column hAlign="Center" id="SA_znGPL"><Text text="{i18n>SD_FluidZNGPL}"/></Column>
+							<Column hAlign="Center" id="SA_znGplUOM"><Text text="{i18n>SD_FluidZNGPL_UOM}"/></Column>
+							<Column hAlign="Center" id="SA_den"><Text text="{i18n>SD_FluidDensity}"/></Column>							
+							<Column hAlign="Center" id="SA_znMT"><Text text="{i18n>SD_FluidZNMIC}"/></Column>
+							<Column hAlign="Center" id="SA_znMtUOM"><Text text="{i18n>SD_ZnMicUOM}"/></Column>
+							<Column hAlign="Center" id="SA_sft"><Text text="{i18n>SD_Shift}"/></Column>							
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{sftAvgTblModel>S_DATE}"/>
+									<Text text="{sftAvgTblModel>MAT_VOL_TRAN}"/>
+									<Text text="m3"/>		
+									<Text text="{sftAvgTblModel>AVG_ZN_VOL}"/>
+									<Text text="m3"/>																
+									<Text text="{sftAvgTblModel>AVG_ZN_GPL}"/>
+									<Text text="GPL"/>
+									<Text text="{sftAvgTblModel>AVG_ZN_DEN}"/>									
+									<Text text="{sftAvgTblModel>AVG_ZN_MIC}"/>
+									<Text text="MIC"/>
+									<Text text="{sftAvgTblModel>SHIFT}"/>									
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Panel>			
+			<Panel expandable="true" expanded="true" headerText="{i18n>SD_shiftVal}">		
+				<content>					
+					<Table id="shtVluTbl" items="{shtVluTblModel>/Rowsets/Rowset/0/Row/}" growing="true" growingThreshold="5">
+						<headerToolbar>
+									<Toolbar>							
+										<ToolbarSpacer/>
+										<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressedSftVlu"/>
+									</Toolbar>
+						</headerToolbar>					
+						<columns>
+							<Column hAlign="Center" id="SV_dt"><Text text="{i18n>SD_SV_dt}"/></Column>
+							<Column hAlign="Center" id="SV_sft"><Text text="{i18n>SD_SV_sft}"/></Column>
+							<Column hAlign="Center" id="SV_spEstZnGPL"><Text text="{i18n>SD_SV_spEstZnGPL}"/></Column>
+							<Column hAlign="Center" id="SV_spWstZnGPL"><Text text="{i18n>SD_SV_spWstZnGPL}"/></Column>
+							<Column hAlign="Center" id="SV_fdEstInZnGPL"><Text text="{i18n>SD_SV_fdEstInZnGPL}"/></Column>
+							<Column hAlign="Center" id="SV_fdWstInZnGPL"><Text text="{i18n>SD_SV_fdWstInZnGPL}"/></Column>
+							<Column hAlign="Center" id="SV_den"><Text text="{i18n>SD_SV_dst}"/></Column>
+							<Column hAlign="Center" id="SV_znGPL"><Text text="{i18n>SD_SV_znGPL}"/></Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<Text text="{shtVluTblModel>S_DATE}"/>
+									<Text text="{shtVluTblModel>SHIFT}"/>
+									<Text text="{shtVluTblModel>SPENTEAST_ZN_GPL}"/>
+									<Text text="{shtVluTblModel>SPENTWEST_ZN_GPL}"/>
+									<Text text="{shtVluTblModel>FEEDEAST_ZN_GPL}"/>
+									<Text text="{shtVluTblModel>FEEDWEST_ZN_GPL}"/>
+									<Text text="{shtVluTblModel>DENSITY}"/>
+									<Text text="{shtVluTblModel>ZN_GPL}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</Panel>					
+		</content>
+	</Page>
+</mvc:View>

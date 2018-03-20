@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog title="{i18n>custSett}" confirm="handleConfirm">
+		<sortItems>
+			<ViewSettingsItem text="{i18n>FTQE_dt}" key="S_DATE"/>
+			<ViewSettingsItem text="{i18n>FTQE_sft}" key="SHIFT" selected="true"/>
+			<ViewSettingsItem text="{i18n>FTQE_MatTrans}" key="TO_MAT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQE_matTrnsFrm}" key="FROM_PLANT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQE_matTrnsTo}" key="TO_PLANT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQE_qlt}" key="MAT_QTY"/>
+		</sortItems>
+		<groupItems>
+			<ViewSettingsItem text="{i18n>FTQE_dt}" key="S_DATE"/>
+			<ViewSettingsItem text="{i18n>FTQE_sft}" key="SHIFT"/>
+			<ViewSettingsItem text="{i18n>FTQE_MatTrans}" key="TO_MAT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQE_matTrnsFrm}" key="FROM_PLANT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQE_matTrnsTo}" key="TO_PLANT_DESC"/>
+			<ViewSettingsItem text="{i18n>FTQE_qlt}" key="MAT_QTY"/>
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition> 
