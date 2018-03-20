@@ -1,18 +1,28 @@
 sap.ui.define([
 		"com/hzl/Controller/baseController",
-		"sap/m/MessageBox"
-	], function(baseController, MessageBox) {
+		"sap/m/MessageBox",
+		"sap/ui/model/resource/ResourceModel",
+		"com/hzl/Controller/SolSlurrQualScrn/solSlurrQualScrnPersoService",
+		"sap/m/TablePersoController"
+	], function(baseController, MessageBox, ResourceModel, solSlurrQualScrnPersoService, TablePersoController) {
 	"use strict";
 
 	return baseController.extend("com.hzl.Controller.SolSlurrQualScrn.solSlurrQualScrn", {
 		/** SAP UI5 life cycle method triggered on first load 
 		 *  @DefaultValue setting default value for date control 
 		 *  @Visiblity hiding and showing controls based on requirement
+		 *  @Models i18n for ResourceModel
 		 */
 		onInit : function (evt) {
 			this.getView().byId("SSQSupdate").setEnabled(false);
 			this.getView().byId("SSQScancel").setEnabled(false);			
 			this.getView().byId("SSQSdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
+			this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
+			this._oTPC = new TablePersoController({
+				table: this.getView().byId("SSQS_Table"),
+				componentName: "SSQS",
+				persoService: solSlurrQualScrnPersoService
+			}).activate();			
 		},
 
 		/** @Event search event name onSearch triggers when search button clicked
@@ -60,7 +70,23 @@ sap.ui.define([
     		for(var i=0;i<arr.length;i++){
     			this.getView().byId(arr[i]).setValue("");
     		}
-        }
+        },
+
+		/** @Event press event triggers when view setting icon clicked on table header
+		 */ 
+		handleViewSettings: function (oEvent) {
+			if (!this._settingDialog) {
+				this._settingDialog = sap.ui.xmlfragment("com.hzl.view.SolSlurrQualScrn.solSlurrQualScnSttgs", this);
+		        this._settingDialog.setModel(this.getView().getModel("i18n"), "i18n"); 				
+			}
+			this._settingDialog.open();
+		},
+
+		/** @Event press event triggers when setting icon clicked on table header
+		 */
+		onPersoButtonPressed: function (oEvent) {
+			this._oTPC.openDialog();
+		}
 	});	
 
 });

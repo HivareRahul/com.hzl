@@ -1,0 +1,36 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog title="{i18n>custSett}" confirm="handleConfirm">
+		<sortItems>
+			<ViewSettingsItem text="{i18n>SSQS_smpId}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_smpNm}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_smpGrp}" key="" selected="true"/>
+			<ViewSettingsItem text="{i18n>SSQS_znGpl}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_h2o}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_bd}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_tZn}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_sldGpl}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_pb}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_zn}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_cd}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_ag}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_sluDen}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_sldDen}" key=""/>						
+		</sortItems>
+		<groupItems>
+			<ViewSettingsItem text="{i18n>SSQS_smpId}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_smpNm}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_smpGrp}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_znGpl}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_h2o}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_bd}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_tZn}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_sldGpl}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_pb}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_zn}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_cd}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_ag}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_sluDen}" key=""/>
+			<ViewSettingsItem text="{i18n>SSQS_sldDen}" key=""/>			
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>
