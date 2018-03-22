@@ -7,11 +7,9 @@
 				<Label text="{i18n>FTQAE_dt}" design="Bold" required ="true"></Label>
 				<DateTimeInput id="addDate" value="{addDialogModel>/Date}" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQAE_AD_PH_entDt}" width="80%" type="DateTime"></DateTimeInput>
 				<Label text="{i18n>FTQAE_shift}" design="Bold" required ="true"></Label>
-				<ComboBox id="addShift" value="{addDialogModel>/Shift}" width="80%" placeholder="{i18n>FTQAE_PH_selsft}">
-					<core:Item key="A" text="A"/>
-					<core:Item key="B" text="B"/>
-					<core:Item key="C" text="C"/>
-				</ComboBox>
+				<ComboBox id="addShift" value="{addDialogModel>/Shift}" items="{/Rowsets/Rowset/3/Row/}" width="80%" placeholder="{i18n>FTQAE_PH_selsft}">
+					<core:Item key="{SHIFT}" text="{SHIFT}"/>
+				</ComboBox> 
 				<Label text="{i18n>FTQAE_matTrns}" design="Bold" required ="true"></Label>
 				<Input id="addMatTrans" value="{addDialogModel>/MaterialTransfered}" width="80%" type="Text" placeholder="{i18n>FTQAE_PH_entMatTrans}" showSuggestion="true" showValueHelp="true" myData:key="FRM_MAT_DESC" valueHelpRequest="handleValueHelp" valueHelpOnly="true"></Input>
 				<Label text="{i18n>FTQAE_MTF}" design="Bold" required ="true"></Label>

@@ -17,12 +17,12 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @DefaultValue setting default value for date control 
 	 *  @Visiblity hiding and showing controls based on requirement
 	 *  @TablePersoController creating TablePersoController for table
-	 *  @Models oFlagModel for vendorSelect event and another i18n for ResourceModel
+	 *  @Models viewModel for basic view operations and another i18n for ResourceModel
 	 *  @Method createAddDialog and viewSettingInit method for instantiation for add dialog and view setting dialog
 	 */
 	onInit: function () {	
-		this.getView().byId("update").setEnabled(false);
-		this.getView().byId("cancel").setEnabled(false);
+		this.getView().setModel(new JSONModel({enable:false}),"viewModel");
+		this.oViewModel = this.getView().getModel("viewModel");		
 		this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()));			
 		this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth()-1))));						
 		this.viewSettingInit();
@@ -31,7 +31,6 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 			componentName: "FTQAE",
 			persoService: fluTrnsQulAnlyEntrPersoService
 		}).activate();		
-        this.getView().setModel(new JSONModel(), "oFlagModel");
         this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
         this.createAddDialog();
 	},
@@ -41,8 +40,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @oAjaxHandler reusable ajax call
 	 */	
 	onSearch : function(oEvent){
-		this.getView().byId("update").setEnabled(false);
-		this.getView().byId("cancel").setEnabled(false);
+		this.oViewModel.setProperty("/enable", false);
 		var that = this;		
 		this.filterBar = this.getView().byId("FTQAE_fltBar");
 		var fromDate = this.filterBar.determineControlByName("fromDate");
@@ -241,12 +239,11 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 */ 
 	createAddDialog: function(){
 		var addDialogModel = {"Date" : "","Shift": "","MaterialTransfered": "","MaterialTransferedNum": "","MaterialTransferFrom": "","MaterialTransferFromNum": "","MaterialTransferTo": "","MaterialTransferToNum": "","ZnInGPL":"","Density":"","TO_MAT_NUM":""};
-		var addDialogModel1 = new JSONModel(addDialogModel);	
 		if (!this._addDialog) {
 			this._addDialog = sap.ui.xmlfragment("idQualAnalysisRec","com.hzl.view.FluTrnQulAnlyEntry.addFTQAE", this);
 	        this._addDialog.setModel(this.getView().getModel("i18n"),"i18n");	
 		}
-		this._addDialog.setModel(addDialogModel1, "addDialogModel");		
+		this._addDialog.setModel(new JSONModel(addDialogModel), "addDialogModel");		
 	},
 	
 	/** @Event press event triggers when plus icon clicked on table header
@@ -278,6 +275,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 */	 	
 	successOnAdd: function(rs){
 		this.getView().setModel(new JSONModel(rs),"inpDialogModel");
+		this._addDialog.setModel(this.getView().getModel("inpDialogModel"));
 	},
 
 	/** @Function callback function for ajax fail
@@ -425,9 +423,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 */		
 	onUpdate: function(oEvent){
 		var that = this;
-		this.getView().byId("update").setEnabled(false);
-		this.getView().byId("cancel").setEnabled(false);
-		
+		this.oViewModel.setProperty("/enable", false);
 		var myEditModel1 = this.getView().getModel("myEdit").getData();	
 		var oTable = this.getView().byId("fluTrnsQulAnlyEntrTable");
 		myEditModel1.fourth = oTable.getSelectedItem().getCells()[5].getValue();
@@ -470,8 +466,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @Visiblity makes input fields enable
 	 */		
 	vendorSelect: function(oEvent){
-		this.getView().byId("update").setEnabled(true);
-		this.getView().byId("cancel").setEnabled(true);
+		this.oViewModel.setProperty("/enable", true);
 		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:"",sixth:"",seventh:"",eight:""}), "myEdit");
 		var myEditModel = this.getView().getModel("myEdit").getData();
 		var row = oEvent.getParameter("listItem").getBindingContext("fluTrnsQulAnlyEntr");        		
@@ -485,7 +480,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		var oItem = oEvent.getParameter("listItem");
     	var oTable = this.getView().byId("fluTrnsQulAnlyEntrTable");
     	var oIndex = oTable.indexOfItem(oItem);
-    	var oModel = this.getView().getModel("oFlagModel");
+    	var oModel = this.getView().getModel("viewModel");
         var oFlag = oModel.getProperty("/oIndex");
         if (oFlag === undefined) {
           oModel.setProperty("/oIndex", oIndex);
@@ -537,6 +532,13 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 				},
 				SHIFT: function(oContext) {
 					var name = oContext.getProperty("SHIFT");
+					return {
+						key: name,
+						text: name
+					};
+				},
+				FRM_MAT_DESC: function(oContext) {
+					var name = oContext.getProperty("FRM_MAT_DESC");
 					return {
 						key: name,
 						text: name

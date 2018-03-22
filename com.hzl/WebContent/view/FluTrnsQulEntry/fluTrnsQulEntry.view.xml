@@ -63,8 +63,8 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-				<Button id="update" text="{i18n>FTQE_sv}" press="onUpdate"/>
-				<Button id="cancel" text="{i18n>FTQE_cnl}" press="onCancel"/>
+				<Button id="update" text="{i18n>FTQE_sv}" press="onUpdate" enabled="{viewModel>/enable}"/>
+				<Button id="cancel" text="{i18n>FTQE_cnl}" press="onCancel" enabled="{viewModel>/enable}"/>
 			</Toolbar>
 		</footer>
 	</Page>

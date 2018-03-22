@@ -3,19 +3,22 @@ sap.ui.define([
 		"sap/m/MessageBox",
 		"sap/ui/model/resource/ResourceModel",
 		"com/hzl/Controller/SolSlurrQualScrn/solSlurrQualScrnPersoService",
-		"sap/m/TablePersoController"
-	], function(baseController, MessageBox, ResourceModel, solSlurrQualScrnPersoService, TablePersoController) {
-	"use strict";
+		"sap/m/TablePersoController",
+		"sap/ui/model/json/JSONModel",
+		"com/hzl/Util/ajaxHandler"
+	], function(baseController, MessageBox, ResourceModel, solSlurrQualScrnPersoService, TablePersoController, JSONModel, ajaxHandler) {
+		"use strict";
 
 	return baseController.extend("com.hzl.Controller.SolSlurrQualScrn.solSlurrQualScrn", {
+
 		/** SAP UI5 life cycle method triggered on first load 
 		 *  @DefaultValue setting default value for date control 
 		 *  @Visiblity hiding and showing controls based on requirement
-		 *  @Models i18n for ResourceModel
+		 *  @Models i18n for ResourceModel and viewModel for basic view operations
 		 */
 		onInit : function (evt) {
-			this.getView().byId("SSQSupdate").setEnabled(false);
-			this.getView().byId("SSQScancel").setEnabled(false);			
+			this.getView().setModel(new JSONModel({enable:false}),"viewModel");	
+			this.oViewModel = this.getView().getModel("viewModel");
 			this.getView().byId("SSQSdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
 			this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
 			this._oTPC = new TablePersoController({
@@ -28,21 +31,44 @@ sap.ui.define([
 		/** @Event search event name onSearch triggers when search button clicked
 		 *  @Validation validation for Empty mandatory fields and reverse date
 		 */			
-		onSearch:function(oEvent){	
-			this.getView().byId("SSQSupdate").setEnabled(false);
-			this.getView().byId("SSQScancel").setEnabled(false);
+		onSearch:function(oEvent){					
+			this.oViewModel.setProperty("/enable", true);			
 			var that = this;	
-    		var date = this.getView().byId("SSQSd");
+    		var date = this.getView().byId("SSQSdate");
     		var plant = this.getView().byId("SSQSplant");    		
     		if(this.validation(this.filterBar) > 0){
     			MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));     			
     			return;
-    		}    		
-    	    if (Date.parse(fromDate.getValue().slice(0,10)+" "+fromDate.getValue().slice(11).split("-").join(":")) >= Date.parse(toDate.getValue().slice(0,10)+" "+toDate.getValue().slice(11).split("-").join(":"))) {	    	
-    	    	MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));     	    	
-    	        return;
-    	    }
-		},
+    		}	
+			this.startBusyIndicator();		
+			jQuery.sap.delayedCall(2000, this, function () {
+				this.stopBusyIndicator();
+			});	
+    		var oAjaxHandler = ajaxHandler.getInstance();
+    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
+    		oAjaxHandler.setProperties("j_user","CSPPRH");
+    		oAjaxHandler.setProperties("j_password","system@01");
+    		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_DIS");   
+    		// 03-22-2018 08:44:00
+    		oAjaxHandler.setProperties("Param.1",date.getValue() + " 00:00:00");
+    		oAjaxHandler.setProperties("Param.2",plant.getValue());
+    		oAjaxHandler.setProperties("Content-Type","text/json");
+    		oAjaxHandler.setCallBackSuccessMethod(this.successSrch, this);
+    		oAjaxHandler.setCallBackFailureMethod(this.failRequestScrch, this);
+    		oAjaxHandler.triggerPostRequest();    		    		
+         },
+          
+     	 /** @Function callback function for ajax success
+     	 */	         
+         successSrch: function(rs){
+				this.getView().setModel(new JSONModel(rs),"tableModel");
+         },
+         
+     	/** @Function callback function for ajax fail
+     	 */	         
+         failRequestScrch: function(rs){
+        	 sap.m.MessageBox.alert(rs.statusText);
+         },
         	
     	/** @Function validation for empty data in mandatory fields
     	 *  @Return numeric value
@@ -90,3 +116,7 @@ sap.ui.define([
 	});	
 
 });
+
+
+
+// http://10.101.23.146:50000/XMII/Illuminator?j_user=CSPPRH&j_password=system@01&QueryTemplate=SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_DIS&Content-Type=text/json&Param.1=03-19-2018 00:00:00&Param.2=HYDRO-1

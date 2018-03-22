@@ -20,7 +20,14 @@
                     </fb:FilterItem>
                 </fb:filterItems>
             </fb:FilterBar>
-			<Table id="SSQS_Table" items="" growing="true">
+			<!-- <Table id="SSQS_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}"> -->
+			<Table id="SSQS_Table" items="{
+							path : 'tableModel>/Rowsets/Rowset/0/Row/',
+							sorter : {
+								path : 'SAMP_GRP',
+								group : true
+							}
+						}">
 				<headerToolbar>
 							<Toolbar>							
 								<ToolbarSpacer/>								
@@ -48,20 +55,20 @@
 				<items>
 					<ColumnListItem>
 						<cells>
-							<Text text="NL1"/>
-							<Text text="NL01C001"/>
-							<Text text="Cell House Sample"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
-							<cmn:TextField value="" editable="true" width="5rem"/>
+							<Text text="{tableModel>EQP_NUM}"/>
+							<Text text="{tableModel>EQP_DESC}"/>
+							<Text text="{tableModel>SAMP_GRP}"/>
+							<cmn:TextField value="{tableModel>ZN_GPL_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>PER_H2O_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>BD_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>PERC_ZNPT_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>SOLID_GPL_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>PER_PB_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>PER_ZN_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>PER_CD_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>PER_AG_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>SLURRY_DEN_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>SOLID_DEN_PARAM}" editable="true" width="5rem"/>
 						</cells>
 					</ColumnListItem>
 				</items>
@@ -70,8 +77,8 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-				<Button id="SSQSupdate" text="{i18n>SSQS_sv}"/>
-				<Button id="SSQScancel" text="{i18n>SSQS_cancel}"/>
+				<Button id="SSQSupdate" text="{i18n>SSQS_sv}" enabled="{viewModel>/enable}"/>
+				<Button id="SSQScancel" text="{i18n>SSQS_cancel}" enabled="{viewModel>/enable}"/>
 			</Toolbar>
 		</footer>
 	</Page>

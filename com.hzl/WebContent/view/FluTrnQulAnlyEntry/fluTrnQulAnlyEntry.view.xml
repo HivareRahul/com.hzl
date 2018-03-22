@@ -29,7 +29,7 @@
 							<core:Item key="HYDRO-2" text="HYDRO-2"/>
 						</ComboBox>
 					</fb:control>
-				</fb:FilterItem>						
+				</fb:FilterItem>		
 			</fb:filterItems>							
 	    </fb:FilterBar>	
 			<Table id="fluTrnsQulAnlyEntrTable" items="{fluTrnsQulAnlyEntr>/Rowsets/Rowset/0/Row/}" growing="true" mode="SingleSelectMaster"  itemPress="vendorSelect">
@@ -73,8 +73,8 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-				<Button id="update" text="{i18n>FTQAE_sv}" press="onUpdate"/>
-				<Button id="cancel" text="{i18n>FTQAE_cancel}" press="onCancel"/>
+				<Button id="update" text="{i18n>FTQAE_sv}" press="onUpdate" enabled="{viewModel>/enable}"/>
+				<Button id="cancel" text="{i18n>FTQAE_cancel}" press="onCancel" enabled="{viewModel>/enable}"/>
 			</Toolbar>
 		</footer>
 	</Page>

@@ -13,16 +13,17 @@ sap.ui.define([
 	"use strict";
 
 	return baseController.extend("com.hzl.Controller.FluTrnsQulEntry.fluTrnsQulEntry", {
+
 		/** SAP UI5 life cycle method triggered on first load 
 		 *  @DefaultValue setting default value for date control 
 		 *  @Visiblity hiding and showing controls based on requirement
 		 *  @TablePersoController creating TablePersoController for table
-		 *  @Models oFlagModel for vendorSelect event and another i18n for ResourceModel
+		 *  @Models viewModel for basic view operations and another i18n for ResourceModel
 		 *  @Method viewSettingInit method for instantiation view setting dialog 
 		 */		
 		onInit: function () {
-			this.getView().byId("update").setEnabled(false);
-			this.getView().byId("cancel").setEnabled(false);
+			this.getView().setModel(new JSONModel({enable:false}),"viewModel");
+			this.oViewModel = this.getView().getModel("viewModel");
 			this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()));			
 			this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth()-1))));	
 			this._oTPC = new TablePersoController({
@@ -30,8 +31,7 @@ sap.ui.define([
 				componentName: "FTQE",
 				persoService: fluTrnsQulEntryPersoService
 			}).activate();	
-			this.viewSettingInit();		
-	        this.getView().setModel(new JSONModel(), "oFlagModel");  
+			this.viewSettingInit();		 
 	        this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
 		},
 		
@@ -92,8 +92,7 @@ sap.ui.define([
 				MessageBox.error(that.getView().getModel("i18n").getResourceBundle().getText("expoErrorAlert") + oError);
 			}).then(function() {
 				oExport.destroy();
-			});
-			
+			});			
 		},
 
 		/** @Event press event triggers when setting icon clicked on table header
@@ -153,8 +152,7 @@ sap.ui.define([
 		 *  @oAjaxHandler reusable ajax call
 		 */			
 		onSearch:function(oEvent){	
-			this.getView().byId("update").setEnabled(false);
-			this.getView().byId("cancel").setEnabled(false);
+			this.oViewModel.setProperty("/enable", false);
 			var that = this;	
     		this.filterBar = this.getView().byId("FTQE_fltBar");
     		var fromDate = this.getView().byId("frmDate");
@@ -240,8 +238,7 @@ sap.ui.define([
     	 */	    	
     	onUpdate: function(oEvent){
     		var that = this;
-    		this.getView().byId("update").setEnabled(false);
-    		this.getView().byId("cancel").setEnabled(false);
+    		this.oViewModel.setProperty("/enable", false);
     		var myCell = this.getView().byId("fluTrnsQualityEntryTable").getSelectedItem();
     		var myEditModel1 = this.getView().getModel("myEdit").getData();
     		myEditModel1.fourth = myCell.getCells()[5].getValue();
@@ -279,9 +276,8 @@ sap.ui.define([
     	 *  @Model gets the required data and binds to the model
     	 *  @Visiblity makes input fields enable
     	 */	    	
-    	vendorSelect: function(oEvent){ 
-    		this.getView().byId("update").setEnabled(true);
-    		this.getView().byId("cancel").setEnabled(true);
+    	vendorSelect: function(oEvent){
+    		this.oViewModel.setProperty("/enable", true);
     		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:""}), "myEdit");
     		var myEditModel = this.getView().getModel("myEdit").getData();
     		var row = oEvent.getParameter("listItem").getBindingContext("tableModel");        		
@@ -293,7 +289,7 @@ sap.ui.define([
 	        var oItem = oEvent.getParameter("listItem");
 	    	var oTable = this.getView().byId("fluTrnsQualityEntryTable");
 	    	var oIndex = oTable.indexOfItem(oItem);
-	    	var oModel = this.getView().getModel("oFlagModel");
+	    	var oModel = this.getView().getModel("viewModel");
 	        var oFlag = oModel.getProperty("/oIndex");
 	        if (oFlag === undefined) {
 	          oModel.setProperty("/oIndex", oIndex);
