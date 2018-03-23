@@ -6,7 +6,7 @@
                                              <StandardTile myData:key="fromFluTransQualAnalEntry" type="Create" title="{i18n>Dsh_FTQAE}" infoState="Success" press="onTileClick"/>
                                              <StandardTile myData:key="fromFluTrnsReport" icon="sap-icon://pie-chart" type="None" title="{i18n>Dsh_FTR}" press="onTileClick"/>
                               				 <StandardTile myData:key="solSlurrQualScrn" icon="sap-icon://create" title="{i18n>Dsh_SSQS}" press="onTileClick"/>
-                              				 <StandardTile myData:key="solSlurrReport" icon="sap-icon://bar-chart" title="{i18n>Dsh_SSR}" press="onTileClick"/>
+                              				 <!-- <StandardTile myData:key="solSlurrReport" icon="sap-icon://bar-chart" title="{i18n>Dsh_SSR}" press="onTileClick"/> -->
                               </TileContainer>
                               <footer>
                                              <Toolbar>

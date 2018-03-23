@@ -60,6 +60,14 @@ sap.ui.define([], function() {
 		},
 		
 		/** 
+		 * @Function triggers put request
+		 */	
+		triggerPutRequest: function() {
+           this.setRequestMethod("PUT");
+           this._triggerRequest();
+		},
+		
+		/** 
 		 * @Function triggers get request
 		 */	
 		triggerGetRequest: function() {
@@ -102,7 +110,7 @@ sap.ui.define([], function() {
 		 * @Function sets the request data
 		 */
 		setRequestData: function(oRequestData) {
-			this.oRequestData = JSON.stringfy(oRequestData);
+			this.oRequestData = JSON.stringify(oRequestData);
 		},
 
 		/** 

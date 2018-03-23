@@ -21,6 +21,9 @@ sap.ui.define([
 		 *  @Models initialise of i18n for ResourceModel
 		 */				
 		onInit: function(){
+			this.getView().setModel(new JSONModel({userDetails:[]}),"viewModel");
+			this.oViewModel = this.getView().getModel("viewModel");	
+			this.initialSettings();
 			this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()));			
 			this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth()-1))));			
 			this._oTPC = new TablePersoController({
@@ -256,10 +259,11 @@ sap.ui.define([
      	 *  @Functinality resets the control data 
      	 */	      	
     	onReset: function(){
-    		var arr = ["frmDate","toDate","plant"];
+    		var arr = ["frmDate","toDate"];
     		for(var i=0;i<arr.length;i++){
     			this.getView().byId(arr[i]).setValue("");
     		}
+    		this.getView().byId("plant").setSelectedKey(null);
     	},
     	
       	/** @Function to instantiation of view setting dialog
@@ -330,6 +334,29 @@ sap.ui.define([
     					};
     				}             
     		};		
+    	},
+    	
+    	initialSettings: function(){
+    		var oAjaxHandler = ajaxHandler.getInstance();
+    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
+    		oAjaxHandler.setProperties("j_user","CSPPRH");
+    		oAjaxHandler.setProperties("j_password","system@01");
+    		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
+    		oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
+    		oAjaxHandler.setProperties("Content-Type","text/json"); 
+    		oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
+    		oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
+    		oAjaxHandler.triggerPostRequest();		
+    	},
+    	
+    	successIniSttg: function(rs){
+    		var viewModel = this.oViewModel.getData();
+    		viewModel.userDetails = rs;
+    		this.oViewModel.setData(viewModel);
+    	},
+    	
+    	failRequestIniSttg: function(){
+    		sap.m.MessageBox.alert(rs.statusText);
     	}
          
 	});

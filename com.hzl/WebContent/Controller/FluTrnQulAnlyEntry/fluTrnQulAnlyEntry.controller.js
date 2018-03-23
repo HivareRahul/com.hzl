@@ -327,10 +327,11 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @Functinality resets the control data 
 	 */	
 	onReset: function(){
-		var arr = ["fromDate","toDate","plant"];
+		var arr = ["fromDate","toDate"];
 		for(var i=0;i<arr.length;i++){
 			this.getView().byId("FTQAE_fltBar").determineControlByName(arr[i]).setValue("");
 		}
+		this.getView().byId("FTQAE_fltBar").determineControlByName("plant").setSelectedKey(null);
 	},
 	
 	/** @Event triggered on search of Global dialog
@@ -401,7 +402,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	/** @Function callback function for ajax success
 	 */	 	
 	successOnSave: function(rs){
-		sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("succAlert"));
+		//sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("succAlert"));
 		this.onSearch();
 	},
 	
@@ -513,11 +514,13 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
  	/** @Function to clean up add dialog
  	 */	     
 	cleanAddDialog: function(){
-		var arr = ["addDate","addShift","addMatTrans","addMatTransFrm","addMatTransTo","addZnGPL","addDen"];
+		var arr = ["addDate","addMatTrans","addMatTransFrm","addMatTransTo","addZnGPL","addDen"];
 		for(var i=0; i<arr.length; i++){
 			sap.ui.core.Fragment.byId("idQualAnalysisRec",arr[i]).setValue("");
 			sap.ui.core.Fragment.byId("idQualAnalysisRec",arr[i]).setValueState("None");
-		}		
+		}
+		sap.ui.core.Fragment.byId("idQualAnalysisRec","addShift").setSelectedKey(null);
+		sap.ui.core.Fragment.byId("idQualAnalysisRec","addShift").setValueState("None");
 	},
 	
  	/** @Function to instantiation of view setting dialog

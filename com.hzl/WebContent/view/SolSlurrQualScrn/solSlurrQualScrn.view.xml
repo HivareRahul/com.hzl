@@ -2,14 +2,17 @@
 	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
 	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
 	<Page title="Solution slurry qualitative screen" showNavButton="true" navButtonPress="myNavBack">
+		<headerContent>
+			<Text text="Login as:"></Text>
+			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
+		</headerContent>	
 		<content>
 				<fb:FilterBar reset="onReset" search="onSearch">
                 <fb:filterItems>
                    <fb:FilterItem name="SSQSpt" mandatory="true" label="{i18n>SSQSplt}">
                         <fb:control>
-							<ComboBox id="SSQSplant" showValueStateMessage="false" placeholder="{i18n>SSQS_PH_selPlt}">
-								<core:Item key="HYDRO-1" text="HYDRO-1"/>
-								<core:Item key="HYDRO-2" text="HYDRO-2"/>
+							<ComboBox id="SSQSplant" showValueStateMessage="false" placeholder="{i18n>SSQS_PH_selPlt}" items="{viewModel>/userDetails/Rowsets/Rowset/1/Row/}">
+								<core:Item key="{viewModel>PLANT}" text="{viewModel>PLANT}"/>
 							</ComboBox>
                         </fb:control>
                     </fb:FilterItem>                
@@ -70,8 +73,8 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-				<Button id="SSQSupdate" text="{i18n>SSQS_sv}" enabled="{viewModel>/enable}"/>
-				<Button id="SSQScancel" text="{i18n>SSQS_cancel}" enabled="{viewModel>/enable}"/>
+				<Button id="SSQSupdate" text="{i18n>SSQS_sv}" enabled="{viewModel>/enable}" press="onUpdate" visible="{viewModel>/visiblity/updateSave}"/>
+				<Button id="SSQScancel" text="{i18n>SSQS_cancel}" enabled="{viewModel>/enable}" press="onCancel"  visible="{viewModel>/visiblity/updateCancel}"/>
 			</Toolbar>
 		</footer>
 	</Page>

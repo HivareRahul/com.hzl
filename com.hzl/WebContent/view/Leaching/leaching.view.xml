@@ -1,6 +1,10 @@
 <mvc:View controllerName="com.hzl.Controller.Leaching.leaching" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
 	displayBlock="true" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:fb="sap.ui.comp.filterbar">
 	<Page title="{i18n>title}" showNavButton="true" navButtonPress="myNavBack">
+		<headerContent>
+			<Text text="Login as:"></Text>
+			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
+		</headerContent>	
 		<content>
 			<l:VerticalLayout width="100%">
 				<fb:FilterBar id="FTR_fltBar" reset="onReset" search="onSearch">
@@ -17,9 +21,8 @@
 						</fb:FilterItem>
 						<fb:FilterItem name="A" label="{i18n>plant}" mandatory="true">
 							<fb:control>
-								<ComboBox id="plant" showValueStateMessage="false" placeholder="{i18n>FTQE_PH_plt}">
-									<core:Item key="HYDRO-1" text="HYDRO-1"/>
-									<core:Item key="HYDRO-2" text="HYDRO-2"/>
+								<ComboBox id="plant" showValueStateMessage="false" placeholder="{i18n>FTQE_PH_plt}" items="{viewModel>/userDetails/Rowsets/Rowset/1/Row/}">
+									<core:Item key="{viewModel>PLANT}" text="{viewModel>PLANT}"/>
 								</ComboBox>								
 							</fb:control>
 						</fb:FilterItem>

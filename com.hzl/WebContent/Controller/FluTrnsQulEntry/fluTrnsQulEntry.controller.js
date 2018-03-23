@@ -22,8 +22,9 @@ sap.ui.define([
 		 *  @Method viewSettingInit method for instantiation view setting dialog 
 		 */		
 		onInit: function () {
-			this.getView().setModel(new JSONModel({enable:false}),"viewModel");
+			this.getView().setModel(new JSONModel({enable:false,visiblity:{updateSave:false,updateCancel:false}}),"viewModel");
 			this.oViewModel = this.getView().getModel("viewModel");
+			this.initialSettings();
 			this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()));			
 			this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth()-1))));	
 			this._oTPC = new TablePersoController({
@@ -196,10 +197,11 @@ sap.ui.define([
      	 *  @Functinality resets the control data 
      	 */	         
         onReset:function(oEvent){
-        		var oFilterDataModel = new JSONModel({frmDate:"",toDate:"",tsId:"",MatTrans:"",matTrnsFrm:"",matTrnsTo:"",sft:"",plt:"",tagId:""});
+        		var oFilterDataModel = new JSONModel({frmDate:"",toDate:"",tsId:"",MatTrans:"",matTrnsFrm:"",matTrnsTo:"",sft:"",tagId:""});
                this.getView().setModel(oFilterDataModel,"filterData"); 
                this.getView().byId("frmDate").setValue("");
                this.getView().byId("toDate").setValue("");
+               this.getView().byId("FTQEplant").setSelectedKey(null);
         },
         	
     	/** @Function validation for empty data in mandatory fields
@@ -360,6 +362,37 @@ sap.ui.define([
 						};
 					}				
 				};    		
+    	},
+    	
+    	initialSettings: function(){
+    		var oAjaxHandler = ajaxHandler.getInstance();
+    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
+    		oAjaxHandler.setProperties("j_user","CSPPRH");
+    		oAjaxHandler.setProperties("j_password","system@01");
+    		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
+    		oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
+    		oAjaxHandler.setProperties("Content-Type","text/json"); 
+    		oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
+    		oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
+    		oAjaxHandler.triggerPostRequest();		
+    	},
+    	
+    	successIniSttg: function(rs){
+    		var viewModel = this.oViewModel.getData();
+    		viewModel.userDetails = rs;
+    		this.oViewModel.setData(viewModel);
+    		this.visiblitySettings();	
+    	},
+    	
+    	failRequestIniSttg: function(){
+    		sap.m.MessageBox.alert(rs.statusText);
+    	},
+    	
+    	visiblitySettings: function(){
+    		var viewModel = this.oViewModel.getData();
+    		viewModel.visiblity.updateCancel = true;
+    		viewModel.visiblity.updateSave = true;
+    		this.oViewModel.setData(viewModel);
     	}
 
 

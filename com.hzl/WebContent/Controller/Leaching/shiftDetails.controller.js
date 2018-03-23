@@ -14,6 +14,8 @@ sap.ui.define([
 		 * @Function initPersonas called to initialisation of all personas belong to this screen
 		 */			
 		onInit: function(){
+			this.getView().setModel(new JSONModel({userDetails:[]}),"viewModel");
+			this.oViewModel = this.getView().getModel("viewModel");					
 			this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
 			this.initPersonas();			
 		},
@@ -25,7 +27,7 @@ sap.ui.define([
 		onRouteMatched: function(oEvent){		
 			if(!oEvent.getParameter("arguments").shiftData){
 				return;
-			}else{
+			}else{			
 				this.startBusyIndicator();		
 				jQuery.sap.delayedCall(1000, this, function () {
 					this.stopBusyIndicator();
@@ -73,6 +75,7 @@ sap.ui.define([
      	 */			
 		successTab1: function(rs){
 			this.getView().setModel(new JSONModel(rs),"sftAvgTblModel");
+			this.initialSettings();
 		},
         
      	/** @Function callback function for ajax fail
@@ -164,6 +167,29 @@ sap.ui.define([
 		 */		
 		onPersoButtonPressedSftVlu: function (oEvent) {
 			this._oTPC_sftVlu.openDialog();
-		}
+		},
+    	
+    	initialSettings: function(){
+    		var oAjaxHandler = ajaxHandler.getInstance();
+    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
+    		oAjaxHandler.setProperties("j_user","CSPPRH");
+    		oAjaxHandler.setProperties("j_password","system@01");
+    		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
+    		oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
+    		oAjaxHandler.setProperties("Content-Type","text/json"); 
+    		oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
+    		oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
+    		oAjaxHandler.triggerPostRequest();		
+    	},
+    	
+    	successIniSttg: function(rs){
+    		var viewModel = this.oViewModel.getData();
+    		viewModel.userDetails = rs;
+    		this.oViewModel.setData(viewModel);
+    	},
+    	
+    	failRequestIniSttg: function(){
+    		sap.m.MessageBox.alert(rs.statusText);
+    	}
 	});
 });

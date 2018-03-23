@@ -20,8 +20,9 @@ sap.ui.define([
 		 *  @Models i18n for ResourceModel and viewModel for basic view operations
 		 */
 		onInit : function (evt) {
-			this.getView().setModel(new JSONModel({enable:false, myEditData:[]}),"viewModel");	
+			this.getView().setModel(new JSONModel({enable:false, myEditData:[],visiblity:{updateSave:false,updateCancel:false}}),"viewModel");	
 			this.oViewModel = this.getView().getModel("viewModel");
+			this.initialSettings();
 			this.getView().byId("SSQSdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
 			this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
 			this._oTPC = new TablePersoController({
@@ -95,10 +96,8 @@ sap.ui.define([
      	 *  @Functinality resets the control data 
      	 */	         
         onReset:function(oEvent){
-    		var arr = ["SSQSplant","SSQSdate"];
-    		for(var i=0;i<arr.length;i++){
-    			this.getView().byId(arr[i]).setValue("");
-    		}
+    		this.getView().byId("SSQSdate").setValue("");
+    		this.getView().byId("SSQSplant").setSelectedKey(null);
         },
 
 		/** @Event press event triggers when view setting icon clicked on table header
@@ -210,6 +209,48 @@ sap.ui.define([
 				}
 			}
 			this.oViewModel.setData(editArr);
+		},
+		
+		/** @Event press event trigger on clicking save button of page not add dialog
+		 *  @Visiblity setting visiblity of save and cancel button
+		 *  @Model getting the required data into model table getSelected item method
+		 *  @oAjaxHandler reusable ajax call
+		 */		
+		onUpdate: function(oEvent){			
+			var param = {
+	                 name: 'Param.1',
+	                 value: this.oViewModel.getData().myEditData
+	        };						
+			var oAjaxHandler = ajaxHandler.getInstance();
+			oAjaxHandler.setUrlContext("/XMII/Illuminator");
+			oAjaxHandler.setProperties("j_user","CSPPRH");
+			oAjaxHandler.setProperties("j_password","system@01");
+			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
+			oAjaxHandler.setProperties("content-type","text/json");
+			oAjaxHandler.setRequestData(param);
+			oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
+			oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
+			oAjaxHandler.triggerPutRequest();
+			this.oViewModel.getData().myEditData = [];
+		},
+		
+		/** @Function callback function for ajax success
+		 */		
+		successOnUpdate: function(rs){
+			sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+			this.onSearch();
+		},
+		
+		/** @Function callback function for ajax fail
+		 */		
+		failRequestOnUpdate: function(rs){
+			sap.m.MessageBox.alert(rs.statusText);
+		},
+		
+		/** @Event press event trigger on clicking cancel button
+		 */	 	
+		onCancel: function(){
+			this.onSearch();
 		},
 		
 	 	/** @Function to instantiation of view setting dialog
@@ -405,7 +446,41 @@ sap.ui.define([
 			}).then(function() {
 				oExport.destroy();
 			});			
+		},
+		
+		initialSettings: function(){
+			var oAjaxHandler = ajaxHandler.getInstance();
+			oAjaxHandler.setUrlContext("/XMII/Illuminator");
+			oAjaxHandler.setProperties("j_user","CSPPRH");
+			oAjaxHandler.setProperties("j_password","system@01");
+			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
+			oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
+			oAjaxHandler.setProperties("Content-Type","text/json"); 
+			oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
+			oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
+			oAjaxHandler.triggerPostRequest();		
+		},
+		
+		successIniSttg: function(rs){
+			var viewModel = this.oViewModel.getData();
+			viewModel.userDetails = rs;
+			this.oViewModel.setData(viewModel);
+			this.visiblitySettings();	
+		},
+		
+		failRequestIniSttg: function(){
+			sap.m.MessageBox.alert(rs.statusText);
+		},
+		
+		visiblitySettings: function(){
+			var viewModel = this.oViewModel.getData();
+			viewModel.visiblity.updateCancel = true;
+			viewModel.visiblity.updateSave = true;
+			this.oViewModel.setData(viewModel);
 		}
 	});	
 
 });
+
+
+//http://10.101.23.146:50000/XMII/Illuminator?j_user=CSPPRH&j_password=system@01&QueryTemplate=SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE&Content-Type=text/json&Param.1= 
