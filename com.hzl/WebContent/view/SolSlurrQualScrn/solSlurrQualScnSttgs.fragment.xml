@@ -19,7 +19,7 @@
 		<groupItems>
 			<ViewSettingsItem text="{i18n>SSQS_smpId}" key="EQP_NUM"/>
 			<ViewSettingsItem text="{i18n>SSQS_smpNm}" key="EQP_DESC"/>
-			<ViewSettingsItem text="{i18n>SSQS_smpGrp}" key="SAMP_GRP" selected="true"/>
+			<ViewSettingsItem text="{i18n>SSQS_smpGrp}" key="SAMP_GRP"/>
 			<ViewSettingsItem text="{i18n>SSQS_znGpl}" key="ZN_GPL_PARA"/>
 			<ViewSettingsItem text="{i18n>SSQS_h2o}" key="PER_H2O_PARAM"/>
 			<ViewSettingsItem text="{i18n>SSQS_bd}" key="BD_PARAM"/>
@@ -30,7 +30,7 @@
 			<ViewSettingsItem text="{i18n>SSQS_cd}" key="PER_CD_PARAM"/>
 			<ViewSettingsItem text="{i18n>SSQS_ag}" key="PER_AG_PARAM"/>
 			<ViewSettingsItem text="{i18n>SSQS_sluDen}" key="SLURRY_DEN_PARAM"/>
-			<ViewSettingsItem text="{i18n>SSQS_sldDen}" key="SOLID_DEN_PARAM"/>			
-		</groupItems>
+			<ViewSettingsItem text="{i18n>SSQS_sldDen}" key="SOLID_DEN_PARAM"/>	
+		</groupItems>		
 	</ViewSettingsDialog>
 </core:FragmentDefinition>

@@ -20,9 +20,10 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @Models viewModel for basic view operations and another i18n for ResourceModel
 	 *  @Method createAddDialog and viewSettingInit method for instantiation for add dialog and view setting dialog
 	 */
-	onInit: function () {	
-		this.getView().setModel(new JSONModel({enable:false}),"viewModel");
-		this.oViewModel = this.getView().getModel("viewModel");		
+	onInit: function () {
+		this.getView().setModel(new JSONModel({enable:false,userDetails:[],visiblity:{add:false,updateSave:false,updateCancel:false}}),"viewModel");
+		this.oViewModel = this.getView().getModel("viewModel");	
+		this.initialSettings();
 		this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()));			
 		this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth()-1))));						
 		this.viewSettingInit();
@@ -573,6 +574,38 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 					};
 				}
 		};		
+	},
+	
+	initialSettings: function(){
+		var oAjaxHandler = ajaxHandler.getInstance();
+		oAjaxHandler.setUrlContext("/XMII/Illuminator");
+		oAjaxHandler.setProperties("j_user","CSPPRH");
+		oAjaxHandler.setProperties("j_password","system@01");
+		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
+		oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
+		oAjaxHandler.setProperties("Content-Type","text/json"); 
+		oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
+		oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
+		oAjaxHandler.triggerPostRequest();		
+	},
+	
+	successIniSttg: function(rs){
+		var viewModel = this.oViewModel.getData();
+		viewModel.userDetails = rs;
+		this.oViewModel.setData(viewModel);
+		this.visiblitySettings();	
+	},
+	
+	failRequestIniSttg: function(){
+		sap.m.MessageBox.alert(rs.statusText);
+	},
+	
+	visiblitySettings: function(){
+		var viewModel = this.oViewModel.getData();
+		viewModel.visiblity.add = true;
+		viewModel.visiblity.updateCancel = true;
+		viewModel.visiblity.updateSave = true;
+		this.oViewModel.setData(viewModel);
 	}
 });
 

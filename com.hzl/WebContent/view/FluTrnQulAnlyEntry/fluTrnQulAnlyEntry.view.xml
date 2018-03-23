@@ -9,6 +9,10 @@
 	xmlns:myData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:cmn="sap.ui.commons">	
 	<Page title="{i18n>FTQAE_Title}" showNavButton="true" navButtonPress="myNavBack">
+		<headerContent>
+			<Text text="Login as:"></Text>
+			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
+		</headerContent>
 		<content>
 		<fb:FilterBar id="FTQAE_fltBar" search="onSearch" reset="onReset">
 			<fb:filterItems>
@@ -24,9 +28,8 @@
 				</fb:FilterItem>
 				<fb:FilterItem name="plant" label="{i18n>FTQAE_plt}" mandatory="true">
 					<fb:control>
-						<ComboBox showValueStateMessage="false" placeholder="{i18n>FTQAE_PH_selPlnt}">
-							<core:Item key="HYDRO-1" text="HYDRO-1"/>
-							<core:Item key="HYDRO-2" text="HYDRO-2"/>
+						<ComboBox showValueStateMessage="false" placeholder="{i18n>FTQAE_PH_selPlnt}" items="{viewModel>/userDetails/Rowsets/Rowset/1/Row/}">
+							<core:Item key="{viewModel>PLANT}" text="{viewModel>PLANT}"/>
 						</ComboBox>
 					</fb:control>
 				</fb:FilterItem>		
@@ -36,7 +39,7 @@
 				<headerToolbar>
 							<Toolbar>							
 								<ToolbarSpacer/>
-								<Button tooltip="{i18n>add}" icon="sap-icon://add" press="onAdd"/>						
+								<Button tooltip="{i18n>add}" icon="sap-icon://add" press="onAdd" visible="{viewModel>/visiblity/add}"/>						
 								<Button tooltip="{i18n>vewSttg}" icon="sap-icon://drop-down-list" press="handleViewSettings"/>
 								<Button tooltip="{i18n>setClms}" icon="sap-icon://action-settings" press="onPersoButtonPressed"/>
 								<Button	tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>
@@ -73,8 +76,8 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-				<Button id="update" text="{i18n>FTQAE_sv}" press="onUpdate" enabled="{viewModel>/enable}"/>
-				<Button id="cancel" text="{i18n>FTQAE_cancel}" press="onCancel" enabled="{viewModel>/enable}"/>
+				<Button id="update" text="{i18n>FTQAE_sv}" press="onUpdate" enabled="{viewModel>/enable}" visible="{viewModel>/visiblity/updateSave}"/>
+				<Button id="cancel" text="{i18n>FTQAE_cancel}" press="onCancel" enabled="{viewModel>/enable}" visible="{viewModel>/visiblity/updateCancel}"/>
 			</Toolbar>
 		</footer>
 	</Page>

@@ -61,11 +61,6 @@ sap.ui.define([
 						content : "{TO_MAT_DESC}"
 					}
 				}, {
-					name : "Tag Id",
-					template : {
-						content : "{TAG_ID}"
-					}
-				}, {
 					name : "Material Transfered From",
 					template : {
 						content : "{FROM_PLANT_DESC}"

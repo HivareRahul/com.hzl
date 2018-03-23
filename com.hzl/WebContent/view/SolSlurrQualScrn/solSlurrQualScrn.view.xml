@@ -20,14 +20,7 @@
                     </fb:FilterItem>
                 </fb:filterItems>
             </fb:FilterBar>
-			<!-- <Table id="SSQS_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}"> -->
-			<Table id="SSQS_Table" items="{
-							path : 'tableModel>/Rowsets/Rowset/0/Row/',
-							sorter : {
-								path : 'SAMP_GRP',
-								group : true
-							}
-						}">
+			<Table id="SSQS_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}">
 				<headerToolbar>
 							<Toolbar>							
 								<ToolbarSpacer/>								
@@ -58,17 +51,17 @@
 							<Text text="{tableModel>EQP_NUM}"/>
 							<Text text="{tableModel>EQP_DESC}"/>
 							<Text text="{tableModel>SAMP_GRP}"/>
-							<cmn:TextField value="{tableModel>ZN_GPL_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>PER_H2O_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>BD_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>PERC_ZNPT_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>SOLID_GPL_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>PER_PB_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>PER_ZN_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>PER_CD_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>PER_AG_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>SLURRY_DEN_PARAM}" editable="true" width="5rem"/>
-							<cmn:TextField value="{tableModel>SOLID_DEN_PARAM}" editable="true" width="5rem"/>
+							<cmn:TextField value="{tableModel>ZN_GPL_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>PER_H2O_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>BD_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>PERC_ZNPT_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>SOLID_GPL_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>PER_PB_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>PER_ZN_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>PER_CD_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>PER_AG_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>SLURRY_DEN_PARAM}" editable="true" width="5rem" change="onRowChange"/>
+							<cmn:TextField value="{tableModel>SOLID_DEN_PARAM}" editable="true" width="5rem" change="onRowChange"/>
 						</cells>
 					</ColumnListItem>
 				</items>
