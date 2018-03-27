@@ -20,7 +20,7 @@ sap.ui.define([
 		 *  @Models i18n for ResourceModel and viewModel for basic view operations
 		 */
 		onInit : function (evt) {
-			this.getView().setModel(new JSONModel({enable:false, myEditData:[],visiblity:{updateSave:false,updateCancel:false}}),"viewModel");	
+			this.getView().setModel(new JSONModel({enable:false, userDetails:[], myEditData:[],visiblity:{updateSave:false,updateCancel:false}}),"viewModel");	
 			this.oViewModel = this.getView().getModel("viewModel");
 			this.initialSettings();
 			this.getView().byId("SSQSdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
@@ -41,7 +41,7 @@ sap.ui.define([
 			var that = this;	
     		var date = this.getView().byId("SSQSdate");
     		var plant = this.getView().byId("SSQSplant");    		
-    		if(this.validation(this.filterBar) > 0){
+    		if(this.validation() > 0){
     			MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));     			
     			return;
     		}	
@@ -216,29 +216,33 @@ sap.ui.define([
 		 *  @Model getting the required data into model table getSelected item method
 		 *  @oAjaxHandler reusable ajax call
 		 */		
-		onUpdate: function(oEvent){			
-			var param = {
-	                 name: 'Param.1',
-	                 value: this.oViewModel.getData().myEditData
-	        };						
-			var oAjaxHandler = ajaxHandler.getInstance();
-			oAjaxHandler.setUrlContext("/XMII/Illuminator");
-			oAjaxHandler.setProperties("j_user","CSPPRH");
-			oAjaxHandler.setProperties("j_password","system@01");
-			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
-			oAjaxHandler.setProperties("content-type","text/json");
-			oAjaxHandler.setRequestData(param);
-			oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
-			oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
-			oAjaxHandler.triggerPutRequest();
-			this.oViewModel.getData().myEditData = [];
+		onUpdate: function(oEvent){	
+			this.inc = 0;
+			var myEditData = this.oViewModel.getData().myEditData;
+			for(var i=0; i<myEditData.length; i++){
+				var oAjaxHandler = ajaxHandler.getInstance();
+				oAjaxHandler.setUrlContext("/XMII/Illuminator");
+				oAjaxHandler.setProperties("j_user","CSPPRH");
+				oAjaxHandler.setProperties("j_password","system@01");
+				oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
+				oAjaxHandler.setProperties("content-type","text/json");
+				oAjaxHandler.setProperties("Param.1",JSON.stringify(myEditData[i]));
+				oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
+				oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
+				oAjaxHandler.triggerPutRequest();
+			}			
 		},
 		
 		/** @Function callback function for ajax success
 		 */		
 		successOnUpdate: function(rs){
-			sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
-			this.onSearch();
+			this.inc ++;
+			console.log("entered"+this.inc+" Array length "+this.oViewModel.getData().myEditData.length);
+			if(this.oViewModel.getData().myEditData.length === this.inc){
+				sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+				this.oViewModel.getData().myEditData = [];
+				this.onSearch();				
+			}
 		},
 		
 		/** @Function callback function for ajax fail
@@ -481,6 +485,3 @@ sap.ui.define([
 	});	
 
 });
-
-
-//http://10.101.23.146:50000/XMII/Illuminator?j_user=CSPPRH&j_password=system@01&QueryTemplate=SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE&Content-Type=text/json&Param.1= 

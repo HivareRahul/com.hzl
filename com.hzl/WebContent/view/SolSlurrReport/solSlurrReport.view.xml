@@ -2,20 +2,23 @@
 	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
 	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
 	<Page title="Solution Slurry Report" showNavButton="true" navButtonPress="myNavBack">
+		<headerContent>
+			<Text text="Login as:"></Text>
+			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
+		</headerContent>	
 		<content>
 				<fb:FilterBar reset="onReset" search="onSearch">
                 <fb:filterItems>
                    <fb:FilterItem name="A" mandatory="true" label="Plant">
                         <fb:control>
-								<ComboBox id="SSQSplant" showValueStateMessage="false" placeholder="select plant...">
-									<core:Item key="HYDRO-1" text="HYDRO-1"/>
-									<core:Item key="HYDRO-2" text="HYDRO-2"/>
+								<ComboBox id="SSRplant" showValueStateMessage="false" placeholder="select plant..."  items="{viewModel>/userDetails/Rowsets/Rowset/1/Row/}">
+									<core:Item key="{viewModel>PLANT}" text="{viewModel>PLANT}"/>
 								</ComboBox>
                         </fb:control>
                     </fb:FilterItem>                
                     <fb:FilterItem name="B" label="Date" mandatory="true">
                         <fb:control>
-                            <DateTimeInput id="SSQSdate" type="DateTime" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="enter date..."/>
+                            <DateTimeInput id="SSRdate" valueFormat="MM-dd-yyyy" placeholder="enter date..."/>
                         </fb:control>
                     </fb:FilterItem>
                 </fb:filterItems>
