@@ -2,7 +2,7 @@
 	displayBlock="true" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:fb="sap.ui.comp.filterbar">
 	<Page title="{i18n>title}" showNavButton="true" navButtonPress="myNavBack">
 		<headerContent>
-			<Text text="Login as:"></Text>
+			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
 		</headerContent>	
 		<content>

@@ -18,6 +18,7 @@ sap.ui.define([
 		 *  @DefaultValue setting default value for date control 
 		 *  @Visiblity hiding and showing controls based on requirement
 		 *  @Models i18n for ResourceModel and viewModel for basic view operations
+		 *  @Method viewSettingInit method for instantiation for view setting dialog and initialSettings for user data and role based visiblity
 		 */
 		onInit : function (evt) {
 			this.getView().setModel(new JSONModel({enable:false, userDetails:[], myEditData:[],visiblity:{updateSave:false,updateCancel:false}}),"viewModel");	
@@ -239,7 +240,7 @@ sap.ui.define([
 			this.inc ++;
 			console.log("entered"+this.inc+" Array length "+this.oViewModel.getData().myEditData.length);
 			if(this.oViewModel.getData().myEditData.length === this.inc){
-				sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+				//sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
 				this.oViewModel.getData().myEditData = [];
 				this.onSearch();				
 			}
@@ -452,6 +453,8 @@ sap.ui.define([
 			});			
 		},
 		
+	 	/** @Function initialSettings to get user data
+	 	 */			
 		initialSettings: function(){
 			var oAjaxHandler = ajaxHandler.getInstance();
 			oAjaxHandler.setUrlContext("/XMII/Illuminator");
@@ -465,6 +468,8 @@ sap.ui.define([
 			oAjaxHandler.triggerPostRequest();		
 		},
 		
+		/** @Function callback function for ajax success
+		 */			
 		successIniSttg: function(rs){
 			var viewModel = this.oViewModel.getData();
 			viewModel.userDetails = rs;
@@ -472,10 +477,14 @@ sap.ui.define([
 			this.visiblitySettings();	
 		},
 		
-		failRequestIniSttg: function(){
+		/** @Function callback function for ajax fail
+		 */			
+		failRequestIniSttg: function(rs){
 			sap.m.MessageBox.alert(rs.statusText);
 		},
 		
+		/** @Function visiblity setting based on roles
+		 */			
 		visiblitySettings: function(){
 			var viewModel = this.oViewModel.getData();
 			viewModel.visiblity.updateCancel = true;

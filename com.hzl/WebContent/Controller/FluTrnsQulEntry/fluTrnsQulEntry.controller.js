@@ -16,10 +16,9 @@ sap.ui.define([
 
 		/** SAP UI5 life cycle method triggered on first load 
 		 *  @DefaultValue setting default value for date control 
-		 *  @Visiblity hiding and showing controls based on requirement
 		 *  @TablePersoController creating TablePersoController for table
 		 *  @Models viewModel for basic view operations and another i18n for ResourceModel
-		 *  @Method viewSettingInit method for instantiation view setting dialog 
+		 *  @Method viewSettingInit method for instantiation view setting dialog , initialSettings for user data and role based visiblity
 		 */		
 		onInit: function () {
 			this.getView().setModel(new JSONModel({enable:false,visiblity:{updateSave:false,updateCancel:false}}),"viewModel");
@@ -274,6 +273,9 @@ sap.ui.define([
     	 *  @Visiblity makes input fields enable
     	 */	    	
     	vendorSelect: function(oEvent){
+    		if(this.role != "ZNREC_REPORT_ANALYST"){
+    			return;
+    		}    		
     		this.oViewModel.setProperty("/enable", true);
     		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:""}), "myEdit");
     		var myEditModel = this.getView().getModel("myEdit").getData();
@@ -364,6 +366,8 @@ sap.ui.define([
 				};    		
     	},
     	
+     	/** @Function initialSettings to get user data
+     	 */	    	
     	initialSettings: function(){
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setUrlContext("/XMII/Illuminator");
@@ -377,6 +381,8 @@ sap.ui.define([
     		oAjaxHandler.triggerPostRequest();		
     	},
     	
+    	/** @Function callback function for ajax success
+    	 */	    	
     	successIniSttg: function(rs){
     		var viewModel = this.oViewModel.getData();
     		viewModel.userDetails = rs;
@@ -384,14 +390,21 @@ sap.ui.define([
     		this.visiblitySettings();	
     	},
     	
-    	failRequestIniSttg: function(){
+    	/** @Function callback function for ajax fail
+    	 */	    	
+    	failRequestIniSttg: function(rs){
     		sap.m.MessageBox.alert(rs.statusText);
     	},
     	
+    	/** @Function visiblity setting based on roles
+    	 */	    	
     	visiblitySettings: function(){
-    		var viewModel = this.oViewModel.getData();
-    		viewModel.visiblity.updateCancel = true;
-    		viewModel.visiblity.updateSave = true;
+    		var viewModel = this.oViewModel.getData();    		
+    		this.role = "ZNREC_REPORT_ANALYST";
+    		if(this.role === "ZNREC_REPORT_ANALYST"){
+        		viewModel.visiblity.updateCancel = true;
+        		viewModel.visiblity.updateSave = true;		
+    		}    		
     		this.oViewModel.setData(viewModel);
     	}
 

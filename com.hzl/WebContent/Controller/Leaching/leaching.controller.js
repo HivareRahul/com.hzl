@@ -18,7 +18,8 @@ sap.ui.define([
 		/** SAP UI5 life cycle method triggered on first load 
 		 *  @DefaultValue setting default value for date control 
 		 *  @TablePersoController creating TablePersoController for table
-		 *  @Models initialise of i18n for ResourceModel
+		 *  @Models viewModel for basic view operations and another i18n for ResourceModel
+		 *  @Method initialSettings for user data and role based visiblity 
 		 */				
 		onInit: function(){
 			this.getView().setModel(new JSONModel({userDetails:[]}),"viewModel");
@@ -336,6 +337,8 @@ sap.ui.define([
     		};		
     	},
     	
+     	/** @Function initialSettings to get user data
+     	 */    	
     	initialSettings: function(){
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setUrlContext("/XMII/Illuminator");
@@ -349,13 +352,17 @@ sap.ui.define([
     		oAjaxHandler.triggerPostRequest();		
     	},
     	
+    	/** @Function callback function for ajax success
+    	 */	    	
     	successIniSttg: function(rs){
     		var viewModel = this.oViewModel.getData();
     		viewModel.userDetails = rs;
     		this.oViewModel.setData(viewModel);
     	},
     	
-    	failRequestIniSttg: function(){
+    	/** @Function callback function for ajax fail
+    	 */	    	
+    	failRequestIniSttg: function(rs){
     		sap.m.MessageBox.alert(rs.statusText);
     	}
          

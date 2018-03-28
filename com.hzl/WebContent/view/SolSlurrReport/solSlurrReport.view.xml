@@ -3,11 +3,11 @@
 	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
 	<Page title="Solution Slurry Report" showNavButton="true" navButtonPress="myNavBack">
 		<headerContent>
-			<Text text="Login as:"></Text>
+			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
 		</headerContent>	
 		<content>
-				<fb:FilterBar reset="onReset" search="onSearch">
+			<fb:FilterBar reset="onReset" search="onSearch">
                 <fb:filterItems>
                    <fb:FilterItem name="A" mandatory="true" label="Plant">
                         <fb:control>

@@ -12,6 +12,7 @@ sap.ui.define([
 		/** SAP UI5 life cycle method triggered on first load 
 		 * @Functionality instantiated the router to get the navigated data
 		 * @Function initPersonas called to initialisation of all personas belong to this screen
+		 * @Models viewModel for basic view operations
 		 */			
 		onInit: function(){
 			this.getView().setModel(new JSONModel({userDetails:[]}),"viewModel");
@@ -72,6 +73,7 @@ sap.ui.define([
 		},
 		
     	 /** @Function callback function for ajax success
+    	  * @Method initialSettings for user data and role based visiblity
      	 */			
 		successTab1: function(rs){
 			this.getView().setModel(new JSONModel(rs),"sftAvgTblModel");
@@ -169,6 +171,8 @@ sap.ui.define([
 			this._oTPC_sftVlu.openDialog();
 		},
     	
+     	/** @Function initialSettings to get user data
+     	 */  		
     	initialSettings: function(){
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setUrlContext("/XMII/Illuminator");
@@ -182,13 +186,17 @@ sap.ui.define([
     		oAjaxHandler.triggerPostRequest();		
     	},
     	
+    	/** @Function callback function for ajax success
+    	 */	    	
     	successIniSttg: function(rs){
     		var viewModel = this.oViewModel.getData();
     		viewModel.userDetails = rs;
     		this.oViewModel.setData(viewModel);
     	},
     	
-    	failRequestIniSttg: function(){
+    	/** @Function callback function for ajax fail
+    	 */	    	
+    	failRequestIniSttg: function(rs){
     		sap.m.MessageBox.alert(rs.statusText);
     	}
 	});

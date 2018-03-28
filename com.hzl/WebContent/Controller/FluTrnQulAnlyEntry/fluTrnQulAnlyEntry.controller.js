@@ -15,10 +15,9 @@ sap.ui.define([
 return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnlyEntry", {
 	/** SAP UI5 life cycle method triggered on first load 
 	 *  @DefaultValue setting default value for date control 
-	 *  @Visiblity hiding and showing controls based on requirement
 	 *  @TablePersoController creating TablePersoController for table
 	 *  @Models viewModel for basic view operations and another i18n for ResourceModel
-	 *  @Method createAddDialog and viewSettingInit method for instantiation for add dialog and view setting dialog
+	 *  @Method createAddDialog and viewSettingInit method for instantiation for add dialog and view setting dialog, initialSettings for user data and role based visiblity
 	 */
 	onInit: function () {
 		this.getView().setModel(new JSONModel({enable:false,userDetails:[],visiblity:{add:false,updateSave:false,updateCancel:false}}),"viewModel");
@@ -468,6 +467,9 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @Visiblity makes input fields enable
 	 */		
 	vendorSelect: function(oEvent){
+		if(this.role != "ZNREC_LAB_SUP"){
+			return;
+		}
 		this.oViewModel.setProperty("/enable", true);
 		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:"",sixth:"",seventh:"",eight:""}), "myEdit");
 		var myEditModel = this.getView().getModel("myEdit").getData();
@@ -579,6 +581,8 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		};		
 	},
 	
+ 	/** @Function initialSettings to get user data
+ 	 */	
 	initialSettings: function(){
 		var oAjaxHandler = ajaxHandler.getInstance();
 		oAjaxHandler.setUrlContext("/XMII/Illuminator");
@@ -592,6 +596,8 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		oAjaxHandler.triggerPostRequest();		
 	},
 	
+	/** @Function callback function for ajax success
+	 */	
 	successIniSttg: function(rs){
 		var viewModel = this.oViewModel.getData();
 		viewModel.userDetails = rs;
@@ -599,17 +605,29 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		this.visiblitySettings();	
 	},
 	
-	failRequestIniSttg: function(){
+	/** @Function callback function for ajax fail
+	 */		
+	failRequestIniSttg: function(rs){
 		sap.m.MessageBox.alert(rs.statusText);
 	},
 	
+	/** @Function visiblity setting based on roles
+	 */		
 	visiblitySettings: function(){
+		//userDetails.Rowsets.Rowset[2].Columns.Column[0].Name
 		var viewModel = this.oViewModel.getData();
-		viewModel.visiblity.add = true;
-		viewModel.visiblity.updateCancel = true;
-		viewModel.visiblity.updateSave = true;
-		this.oViewModel.setData(viewModel);
+		this.role = "ZNREC_LAB_SUP";
+		if(this.role === "ZNREC_LAB_SUP"){
+			viewModel.visiblity.add = true;
+			viewModel.visiblity.updateCancel = true;
+			viewModel.visiblity.updateSave = true;			
+		}
+		if(this.role === "ZNREC_LAB_ANALYST"){
+			viewModel.visiblity.add = true;		
+		}		
+		this.oViewModel.setData(viewModel);		
 	}
+	
 });
 
 });
