@@ -22,15 +22,16 @@ sap.ui.core.UIComponent.extend("com.hzl.Component", {
 				targetControl: "idAppControl",
 				targetAggregation : "pages",
 				clearTarget: false,
-				transition: "slide"
+				transition: "slide",
+	            bypassed: {
+	                "target": "notFound"
+	            }
         	},
         	routes : [	
         		{	pattern: "",
 					name : "home",
 					view : "Dashboard.dashboard",
-					viewLevel : 1,					
-					
-					transition: "flip"
+					viewLevel : 1
 				},
 				{	pattern: "FTQAE",
 					name : "FTQAE",					
@@ -61,7 +62,12 @@ sap.ui.core.UIComponent.extend("com.hzl.Component", {
 					name : "solSlurrReport",					
 					view : "SolSlurrReport.solSlurrReport",
 					viewLevel : 2
-				}							
+				},
+				{
+					pattern : ":all*:",
+					name : "notFound",
+					view : "Global.notFound"
+	            }
 				]
         }
 	},

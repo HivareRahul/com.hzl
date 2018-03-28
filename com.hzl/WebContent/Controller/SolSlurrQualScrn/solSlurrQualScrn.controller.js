@@ -242,7 +242,8 @@ sap.ui.define([
 			if(this.oViewModel.getData().myEditData.length === this.inc){
 				//sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
 				this.oViewModel.getData().myEditData = [];
-				this.onSearch();				
+				this.onSearch();
+				this.inc = 0;
 			}
 		},
 		

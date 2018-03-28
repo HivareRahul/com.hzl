@@ -1,0 +1,26 @@
+<mvc:View
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m"
+	controllerName="com.hzl.Controller.Global.global">
+	<Page
+		title="{i18n>notFoundTitle}"
+		 showNavButton="true" 
+		 navButtonPress="myNavBack">
+		<content>
+		<FlexBox
+			alignItems="Center"
+			justifyContent="Center">
+			<items>
+				<Label
+					class="sapUiLargeMargin"
+					textAlign="Center"
+					text="{i18n>notFoundText}" />
+			</items>
+		</FlexBox>
+		</content>
+		<footer>
+			<Bar>
+			</Bar>
+		</footer>
+	</Page>
+</mvc:View>
