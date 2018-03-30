@@ -1,6 +1,6 @@
 <mvc:View controllerName="com.hzl.Controller.SolSlurrQualScrn.solSlurrQualScrn" xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
-	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
+	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons" xmlns:table="sap.ui.table">
 	<Page title="Solution slurry qualitative screen" showNavButton="true" navButtonPress="myNavBack">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>

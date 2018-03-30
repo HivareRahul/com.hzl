@@ -23,12 +23,8 @@ sap.ui.define([
 	 	 */			
 		initialSettings: function(){
 			var oAjaxHandler = ajaxHandler.getInstance();
-			oAjaxHandler.setUrlContext("/XMII/Illuminator");
-			oAjaxHandler.setProperties("j_user","CSPPRH");
-			oAjaxHandler.setProperties("j_password","system@01");
 			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
 			oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
-			oAjaxHandler.setProperties("Content-Type","text/json"); 
 			oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
 			oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
 			oAjaxHandler.triggerPostRequest();		
@@ -72,13 +68,9 @@ sap.ui.define([
 				this.stopBusyIndicator();
 			});	
     		var oAjaxHandler = ajaxHandler.getInstance();
-    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-    		oAjaxHandler.setProperties("j_user","CSPPRH");
-    		oAjaxHandler.setProperties("j_password","system@01");
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_DIS");   
     		oAjaxHandler.setProperties("Param.1",date.getValue() + " 00:00:00");
     		oAjaxHandler.setProperties("Param.2",plant.getValue());
-    		oAjaxHandler.setProperties("Content-Type","text/json");
     		oAjaxHandler.setCallBackSuccessMethod(this.successSrch, this);
     		oAjaxHandler.setCallBackFailureMethod(this.failRequestScrch, this);
     		oAjaxHandler.triggerPostRequest(); */   		    		

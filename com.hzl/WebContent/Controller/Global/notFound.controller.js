@@ -3,7 +3,7 @@ sap.ui.define([
 	], function(baseController) {
 		"use strict";
 
-	return baseController.extend("com.hzl.Controller.Global.global", {
+	return baseController.extend("com.hzl.Controller.Global.notFound", {
 
 	});	
 

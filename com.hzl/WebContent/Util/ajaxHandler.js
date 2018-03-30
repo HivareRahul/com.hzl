@@ -7,7 +7,7 @@ sap.ui.define([], function() {
 		 */			
 		getInstance: function() {
 			var init = function() {
-				this.requestUri = "http://10.101.23.146:50000";
+				this.requestUri = "http://10.101.23.146:50000/XMII/Illuminator?j_user=CSPPRH&j_password=system@01&Content-Type=text/json";
 				this.requestMethod = "GET";
 				this.oRequestData = {};
 			};

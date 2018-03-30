@@ -1,7 +1,7 @@
 <mvc:View
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns="sap.m"
-	controllerName="com.hzl.Controller.Global.global">
+	controllerName="com.hzl.Controller.Global.notFound">
 	<Page
 		title="{i18n>notFoundTitle}"
 		 showNavButton="true" 

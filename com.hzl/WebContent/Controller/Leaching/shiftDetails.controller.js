@@ -37,17 +37,13 @@ sap.ui.define([
 				var patterData = JSON.parse(atob(oEvent.getParameter("arguments").shiftData));
 				
 				var oAjaxHandler = ajaxHandler.getInstance();
-	    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-	    		oAjaxHandler.setProperties("j_user","CSPPRH");
-	    		oAjaxHandler.setProperties("j_password","system@01");
 	    		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_REPORT_PSHIFT_DIS");    
 	    		oAjaxHandler.setProperties("Param.1",patterData.first);
 	    		oAjaxHandler.setProperties("Param.2",patterData.second);
 	    		oAjaxHandler.setProperties("Param.3",patterData.third);
 	    		oAjaxHandler.setProperties("Param.4",patterData.fourth);
 	    		oAjaxHandler.setProperties("Param.5",patterData.fifth);
-	    		oAjaxHandler.setProperties("Param.6",patterData.sixth);	    		
-	    		oAjaxHandler.setProperties("Content-Type","text/json");
+	    		oAjaxHandler.setProperties("Param.6",patterData.sixth);	
 	    		oAjaxHandler.setCallBackSuccessMethod(this.successTab1, this);
 	    		oAjaxHandler.setCallBackFailureMethod(this.failRequestTab1, this);
 	    		oAjaxHandler.triggerPostRequest(); 	    		
@@ -102,10 +98,6 @@ sap.ui.define([
 			});			
 			var that = this;
 			var row = oEvent.getParameter("listItem").getBindingContext("sftAvgTblModel");	
-			var oAjaxHandler = ajaxHandler.getInstance();
-    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-    		oAjaxHandler.setProperties("j_user","CSPPRH");
-    		oAjaxHandler.setProperties("j_password","system@01");
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_REPORT_SHIFT_DET_DIS");    
     		oAjaxHandler.setProperties("Param.1",row.getProperty("S_DATE"));
     		oAjaxHandler.setProperties("Param.2",row.getProperty("SHIFT"));
@@ -175,12 +167,8 @@ sap.ui.define([
      	 */  		
     	initialSettings: function(){
     		var oAjaxHandler = ajaxHandler.getInstance();
-    		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-    		oAjaxHandler.setProperties("j_user","CSPPRH");
-    		oAjaxHandler.setProperties("j_password","system@01");
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
     		oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
-    		oAjaxHandler.setProperties("Content-Type","text/json"); 
     		oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
     		oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
     		oAjaxHandler.triggerPostRequest();		

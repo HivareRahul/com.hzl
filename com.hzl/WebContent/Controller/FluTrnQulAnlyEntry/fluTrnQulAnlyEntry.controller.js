@@ -59,14 +59,10 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 			this.stopBusyIndicator();
 		});	    
 		var oAjaxHandler = ajaxHandler.getInstance();
-		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-		oAjaxHandler.setProperties("j_user","CSPPRH");
-		oAjaxHandler.setProperties("j_password","system@01");
 		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_QUAL_DIS");
 		oAjaxHandler.setProperties("Param.1",fromDate.getValue());
 		oAjaxHandler.setProperties("Param.2",toDate.getValue());
 		oAjaxHandler.setProperties("Param.3",plant.getValue());
-		oAjaxHandler.setProperties("Content-Type","text/json");
 		oAjaxHandler.setCallBackSuccessMethod(this.successSrch, this);
 		oAjaxHandler.setCallBackFailureMethod(this.failRequestScrch, this);
 		oAjaxHandler.triggerPostRequest();
@@ -258,12 +254,8 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 			return;
 		}
 		var oAjaxHandler = ajaxHandler.getInstance();
-		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-		oAjaxHandler.setProperties("j_user","CSPPRH");
-		oAjaxHandler.setProperties("j_password","system@01");
 		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_ADD_BUTTON_CLK_QUAL");
 		oAjaxHandler.setProperties("Param.1",plant);
-		oAjaxHandler.setProperties("Content-Type","text/json");
 		oAjaxHandler.setCallBackSuccessMethod(this.successOnAdd, this);
 		oAjaxHandler.setCallBackFailureMethod(this.failRequestOnAdd, this);
 		oAjaxHandler.triggerPostRequest();			
@@ -379,9 +371,6 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		}		
 		var data = this._addDialog.getModel("addDialogModel").getData();		
 		var oAjaxHandler = ajaxHandler.getInstance();
-		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-		oAjaxHandler.setProperties("j_user","CSPPRH");
-		oAjaxHandler.setProperties("j_password","system@01");
 		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_ADD_ROW_QUAL");
 		oAjaxHandler.setProperties("Param.1",data.Density);
 		oAjaxHandler.setProperties("Param.2",data.Shift);
@@ -391,7 +380,6 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		oAjaxHandler.setProperties("Param.6","");
 		oAjaxHandler.setProperties("Param.7",data.MaterialTransferToNum);
 		oAjaxHandler.setProperties("Param.8",data.MaterialTransferFromNum);
-		oAjaxHandler.setProperties("Content-Type","text/json");
 		oAjaxHandler.setCallBackSuccessMethod(this.successOnSave, this);
 		oAjaxHandler.setCallBackFailureMethod(this.failRequestOnSave, this);
 		oAjaxHandler.triggerPostRequest();	
@@ -430,9 +418,6 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		myEditModel1.fourth = oTable.getSelectedItem().getCells()[5].getValue();
 		myEditModel1.first = oTable.getSelectedItem().getCells()[7].getValue();
 		var oAjaxHandler = ajaxHandler.getInstance();
-		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-		oAjaxHandler.setProperties("j_user","CSPPRH");
-		oAjaxHandler.setProperties("j_password","system@01");
 		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_UPD_ROW_QUAL");
 		oAjaxHandler.setProperties("Param.1",myEditModel1.first);
 		oAjaxHandler.setProperties("Param.2",myEditModel1.second);
@@ -442,7 +427,6 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		oAjaxHandler.setProperties("Param.6",myEditModel1.sixth);
 		oAjaxHandler.setProperties("Param.7",myEditModel1.seventh);
 		oAjaxHandler.setProperties("Param.8",myEditModel1.eight);
-		oAjaxHandler.setProperties("Content-Type","text/json");
 		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:"",sixth:"",seventh:"",eight:""}), "myEdit"); 
 		oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
 		oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
@@ -585,12 +569,8 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
  	 */	
 	initialSettings: function(){
 		var oAjaxHandler = ajaxHandler.getInstance();
-		oAjaxHandler.setUrlContext("/XMII/Illuminator");
-		oAjaxHandler.setProperties("j_user","CSPPRH");
-		oAjaxHandler.setProperties("j_password","system@01");
 		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/COMMON/QRY/XQRY_GetLoggedInUserDetails");
 		oAjaxHandler.setProperties("Param.1","10.101.23.146:50000/");
-		oAjaxHandler.setProperties("Content-Type","text/json"); 
 		oAjaxHandler.setCallBackSuccessMethod(this.successIniSttg, this);
 		oAjaxHandler.setCallBackFailureMethod(this.failRequestIniSttg, this);
 		oAjaxHandler.triggerPostRequest();		
