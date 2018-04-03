@@ -1,7 +1,7 @@
 <mvc:View controllerName="com.hzl.Controller.SolSlurrReport.solSlurrReport" xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
 	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
-	<Page title="Solution Slurry Report" showNavButton="true" navButtonPress="myNavBack">
+	<Page title="{i18n>SSR_title}" showNavButton="true" navButtonPress="myNavBack">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
@@ -9,21 +9,21 @@
 		<content>
 			<fb:FilterBar reset="onReset" search="onSearch">
                 <fb:filterItems>
-                   <fb:FilterItem name="A" mandatory="true" label="Plant">
+                   <fb:FilterItem name="A" mandatory="true" label="{i18n>SSR_plt}">
                         <fb:control>
-								<ComboBox id="SSRplant" showValueStateMessage="false" placeholder="select plant..."  items="{viewModel>/userDetails/Rowsets/Rowset/1/Row/}">
+								<ComboBox id="SSRplant" showValueStateMessage="false" placeholder="{i18n>SSR_PH_selPlt}"  items="{viewModel>/userDetails/Rowsets/Rowset/1/Row/}">
 									<core:Item key="{viewModel>PLANT}" text="{viewModel>PLANT}"/>
 								</ComboBox>
                         </fb:control>
                     </fb:FilterItem>                
-                    <fb:FilterItem name="B" label="Date" mandatory="true">
+                    <fb:FilterItem name="B" label="{i18n>SSR_dt}" mandatory="true">
                         <fb:control>
-                            <DateTimeInput id="SSRdate" valueFormat="MM-dd-yyyy" placeholder="enter date..."/>
+                            <DateTimeInput id="SSRdate" valueFormat="MM-dd-yyyy" placeholder="{i18n>SSR_PH_enDt}"/>
                         </fb:control>
                     </fb:FilterItem>
                 </fb:filterItems>
             </fb:FilterBar>
-			<Table id="SSQS_Table" items="" growing="true">
+			<Table id="SSR_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}" mode="SingleSelectMaster"  itemPress="vendorSelect">
 				<headerToolbar>
 							<Toolbar>							
 								<ToolbarSpacer/>								
@@ -33,24 +33,22 @@
 							</Toolbar>
 				</headerToolbar>
 				<columns>
-					<Column hAlign="Center" id="slNo"><Text text="Sl No"/></Column>
-					<Column hAlign="Center" id="smp"><Text text="Samples"/></Column>
-					<Column hAlign="Center" id="std"><Text text="Standard"/></Column>
-					<Column hAlign="Center" id="fac"><Text text="Factor"/></Column>
-					<Column hAlign="Center" id="znGpl"><Text text="Zn gpl/wt %"/></Column>
-					<Column hAlign="Center" id="znTon"><Text text="Zn tons solid"/></Column>
-					<Column hAlign="Center" id="znKg"><Text text="Zn kgs liquid"/></Column>
+					<Column hAlign="Center" id="smp"><Text text="{i18n>SSR_smp}"/></Column>
+					<Column hAlign="Center" id="std"><Text text="{i18n>SSR_std}"/></Column>
+					<Column hAlign="Center" id="fac"><Text text="{i18n>SSR_fac}"/></Column>
+					<Column hAlign="Center" id="actVol"><Text text="{i18n>SSR_actVol}"/></Column>					
+					<Column hAlign="Center" id="znGpl"><Text text="{i18n>SSR_znGpl}"/></Column>
+					<Column hAlign="Center" id="znKg"><Text text="{i18n>SSR_znMic}"/></Column>
 				</columns>
 				<items>
 					<ColumnListItem>
 						<cells>
-							<Text text="1"/>
-							<Text text="Tank 1"/>
-							<Text text=""/>
-							<cmn:TextField value="" editable="true"/>
-							<Text text=""/>
-							<Text text=""/>
-							<Text text=""/>
+							<Text text="{tableModel>EQP_DESC}"/>
+							<Text text="{tableModel>STD_VOL}"/>
+							<cmn:TextField value="{tableModel>EQP_FAC}" editable="false"/>							
+							<Text text="{tableModel>ACT_VOL}"/>
+							<Text text="{tableModel>ZN_CAL}"/>
+							<Text text="{tableModel>ZN_MIC}"/>
 						</cells>
 					</ColumnListItem>
 				</items>
@@ -59,8 +57,8 @@
 		<footer>
 			<Toolbar>
 				<ToolbarSpacer/>
-				<Button id="update" text="Save"/>
-				<Button id="cancel" text="Cancel"/>
+				<Button id="update" text="{i18n>SSR_sv}"/>
+				<Button id="cancel" text="{i18n>SSR_cancel}"/>
 			</Toolbar>
 		</footer>
 	</Page>

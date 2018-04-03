@@ -213,30 +213,32 @@ sap.ui.define([
 		 *  @Model getting the required data into model table getSelected item method
 		 *  @oAjaxHandler reusable ajax call
 		 */		
-		onUpdate: function(oEvent){	
+		onUpdate: function(oEvent){				
 			this.inc = 0;
-			var myEditData = this.oViewModel.getData().myEditData;
-			for(var i=0; i<myEditData.length; i++){
+			var myEditData = { "name": "Param.1","value" : this.oViewModel.getData().myEditData };
+			//oAjaxHandler.setRequestData(myEditData);
+			//for(var i=0; i<myEditData.length; i++){
 				var oAjaxHandler = ajaxHandler.getInstance();
+				oAjaxHandler.setRequestData(myEditData);
 				oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
-				oAjaxHandler.setProperties("Param.1",JSON.stringify(myEditData[i]));
+				//oAjaxHandler.setProperties("Param.1",JSON.stringify(myEditData));
 				oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
 				oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
 				oAjaxHandler.triggerPutRequest();
-			}			
+			//}			
 		},
 		
 		/** @Function callback function for ajax success
 		 */		
 		successOnUpdate: function(rs){
-			this.inc ++;
-			console.log("entered"+this.inc+" Array length "+this.oViewModel.getData().myEditData.length);
-			if(this.oViewModel.getData().myEditData.length === this.inc){
+			//this.inc ++;
+			//console.log("entered"+this.inc+" Array length "+this.oViewModel.getData().myEditData.length);
+			//if(this.oViewModel.getData().myEditData.length === this.inc){
 				//sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
 				this.oViewModel.getData().myEditData = [];
 				this.onSearch();
-				this.inc = 0;
-			}
+				//this.inc = 0;
+			//}
 		},
 		
 		/** @Function callback function for ajax fail

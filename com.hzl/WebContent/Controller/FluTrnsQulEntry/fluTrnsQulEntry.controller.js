@@ -268,7 +268,6 @@ sap.ui.define([
     		if(this.role != "ZNREC_REPORT_ANALYST"){
     			return;
     		}    		
-    		this.oViewModel.setProperty("/enable", true);
     		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:""}), "myEdit");
     		var myEditModel = this.getView().getModel("myEdit").getData();
     		var row = oEvent.getParameter("listItem").getBindingContext("tableModel");        		
