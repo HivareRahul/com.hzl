@@ -49,7 +49,7 @@
 					<Column hAlign="Center" id="quantityUOM"><Text text="{i18n>FTQE_qltUOM}"/></Column>
 				</columns>
 				<items>
-					<ColumnListItem type="Navigation">
+					<ColumnListItem type="Active">
 						<cells>
 							<Text text="{tableModel>S_DATE}"/>
 							<Text text="{tableModel>SHIFT}"/>

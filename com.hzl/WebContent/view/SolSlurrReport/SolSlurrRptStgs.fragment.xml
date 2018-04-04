@@ -1,0 +1,20 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<ViewSettingsDialog title="{custSett}" confirm="handleConfirm">
+		<sortItems>
+			<ViewSettingsItem text="{SSR_smp}" key="EQP_DESC" selected="true"/>
+			<ViewSettingsItem text="{SSR_std}" key="STD_VOL"/>
+			<ViewSettingsItem text="{SSR_fac}" key="EQP_FAC"/>
+			<ViewSettingsItem text="{SSR_actVol}" key="ACT_VOL"/>
+			<ViewSettingsItem text="{SSR_znGpl}" key="ZN_CAL"/>
+			<ViewSettingsItem text="{SSR_znMic}" key="ZN_MIC"/>				
+		</sortItems>
+		<groupItems>
+			<ViewSettingsItem text="{SSR_smp}" key="EQP_DESC"/>
+			<ViewSettingsItem text="{SSR_std}" key="STD_VOL"/>
+			<ViewSettingsItem text="{SSR_fac}" key="EQP_FAC"/>
+			<ViewSettingsItem text="{SSR_actVol}" key="ACT_VOL"/>
+			<ViewSettingsItem text="{SSR_znGpl}" key="ZN_CAL"/>
+			<ViewSettingsItem text="{SSR_znMic}" key="ZN_MIC"/>	
+		</groupItems>		
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

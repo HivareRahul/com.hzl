@@ -2,21 +2,31 @@ sap.ui.define([
 		"com/hzl/Controller/baseController",
 		"sap/ui/model/json/JSONModel",
 		"com/hzl/Util/ajaxHandler",
-		"sap/m/MessageBox"
-	], function(baseController, JSONModel, ajaxHandler, MessageBox) {
+		"sap/m/MessageBox",
+		"sap/ui/model/Sorter",
+		"sap/m/TablePersoController",
+		"com/hzl/Controller/SolSlurrReport/SolSlurrRptPersoService",
+		"sap/ui/core/util/Export",
+		"sap/ui/core/util/ExportTypeCSV"
+	], function(baseController, JSONModel, ajaxHandler, MessageBox, Sorter, TablePersoController, SolSlurrRptPersoService, Export, ExportTypeCSV) {
 	"use strict";
-
 	return baseController.extend("com.hzl.Controller.SolSlurrReport.solSlurrReport", {
 		/** SAP UI5 life cycle method triggered on first load 
 		 *  @DefaultValue setting default value for date control 
 		 *  @Models viewModel for basic view operations and another i18n for ResourceModel
-		 *  @Method initialSettings for user data and role based visiblity
+		 *  @Method viewSettingInit method for instantiation view setting dialog , initialSettings for user data and role based visiblity
 		 */
 		onInit : function (evt) {
-			this.getView().setModel(new JSONModel({enable:false,userDetails:[]}),"viewModel");	
+			this.getView().setModel(new JSONModel({enable:false,userDetails:[],visiblity:{updateSave:false,updateCancel:false}}),"viewModel");	
 			this.oViewModel = this.getView().getModel("viewModel");	
 			this.getView().byId("SSRdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
-			this.initialSettings();			
+			this.initialSettings();		
+			this.viewSettingInit();
+			this._oTPC = new TablePersoController({
+				table: this.getView().byId("SSR_Table"),
+				componentName: "SSR",
+				persoService: SolSlurrRptPersoService
+			}).activate();			
 		},
 		
 	 	/** @Function initialSettings to get user data
@@ -36,6 +46,7 @@ sap.ui.define([
 			var viewModel = this.oViewModel.getData();
 			viewModel.userDetails = rs;
 			this.oViewModel.setData(viewModel);
+			this.visiblitySettings();
 		},
 		
 		/** @Function callback function for ajax fail
@@ -43,6 +54,18 @@ sap.ui.define([
 		failRequestIniSttg: function(rs){
 			sap.m.MessageBox.alert(rs.statusText);
 		},
+    	
+    	/** @Function visiblity setting based on roles
+    	 */	    	
+    	visiblitySettings: function(){
+    		var viewModel = this.oViewModel.getData();    		
+    		this.role = "ZNREC_REPORT_ANALYST";
+    		if(this.role === "ZNREC_REPORT_ANALYST"){
+        		viewModel.visiblity.updateCancel = true;
+        		viewModel.visiblity.updateSave = true;		
+    		}    		
+    		this.oViewModel.setData(viewModel);
+    	},
          
      	/** @Method called when reset button is clicked
      	 *  @Functinality resets the control data 
@@ -55,7 +78,8 @@ sap.ui.define([
 		/** @Event search event name onSearch triggers when search button clicked
 		 *  @Validation validation for Empty mandatory fields and reverse date
 		 */			
-		onSearch:function(oEvent){								
+		onSearch:function(oEvent){
+			this.oViewModel.setProperty("/enable", false);	
 			var that = this;	
     		var date = this.getView().byId("SSRdate");
     		var plant = this.getView().byId("SSRplant");    		
@@ -111,17 +135,7 @@ sap.ui.define([
     	 *  @Visiblity makes input fields enable
     	 */	    	
     	vendorSelect: function(oEvent){
-    		if(true){
-    			return;
-    		}
-    		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:""}), "myEdit");
-    		var myEditModel = this.getView().getModel("myEdit").getData();
-    		var row = oEvent.getParameter("listItem").getBindingContext("tableModel");        		
-    		myEditModel.first = row.getProperty("S_DATE");
-    		myEditModel.second = row.getProperty("GUID");
-    		myEditModel.third = row.getProperty("STATUS"); 
-    		myEditModel.fifth = row.getProperty("TAG_ID"); 
-    		
+    		this.oViewModel.setProperty("/enable", true);
 	        var oItem = oEvent.getParameter("listItem");
 	    	var oTable = this.getView().byId("SSR_Table");
 	    	var oIndex = oTable.indexOfItem(oItem);
@@ -160,8 +174,10 @@ sap.ui.define([
      	 *  @oAjaxHandler reusable ajax call
      	 */		
      	onUpdate: function(oEvent){
-     		var that = this;
-     		this.oViewModel.setProperty("/enable", false);
+     		var oTable = this.getView().byId("SSR_Table");
+     		//oTable.getSelectedItem().getBindingContext("tableModel").getProperty("EQP_DESC");
+     		sap.m.MessageToast.show(oTable.getSelectedItem().getBindingContext("tableModel").getProperty("EQP_DESC"));
+     		/*this.oViewModel.setProperty("/enable", false);
      		var myEditModel1 = this.getView().getModel("myEdit").getData();	
      		var oTable = this.getView().byId("fluTrnsQulAnlyEntrTable");
      		myEditModel1.fourth = oTable.getSelectedItem().getCells()[5].getValue();
@@ -169,17 +185,10 @@ sap.ui.define([
      		var oAjaxHandler = ajaxHandler.getInstance();
      		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_UPD_ROW_QUAL");
      		oAjaxHandler.setProperties("Param.1",myEditModel1.first);
-     		oAjaxHandler.setProperties("Param.2",myEditModel1.second);
-     		oAjaxHandler.setProperties("Param.3",myEditModel1.third);
-     		oAjaxHandler.setProperties("Param.4",myEditModel1.fourth);
-     		oAjaxHandler.setProperties("Param.5",myEditModel1.fifth);
-     		oAjaxHandler.setProperties("Param.6",myEditModel1.sixth);
-     		oAjaxHandler.setProperties("Param.7",myEditModel1.seventh);
-     		oAjaxHandler.setProperties("Param.8",myEditModel1.eight);
      		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:"",sixth:"",seventh:"",eight:""}), "myEdit"); 
      		oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
      		oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
-     		oAjaxHandler.triggerPostRequest();				
+     		oAjaxHandler.triggerPostRequest();	*/			
      	},
      	
      	/** @Function callback function for ajax success
@@ -193,7 +202,151 @@ sap.ui.define([
      	 */		
      	failRequestOnUpdate: function(rs){
      		sap.m.MessageBox.alert(rs.statusText);
-     	}
+     	},
+    	
+    	/** @Event press event trigger on clicking cancel button
+    	 */    	
+    	onCancel: function(){
+    		this.onSearch();
+    	},
+
+		/** @Event press event triggers when view setting icon clicked on table header
+		 */ 
+		handleViewSettings: function (oEvent) {
+			if (!this._settingDialog) {
+				this._settingDialog = sap.ui.xmlfragment("com.hzl.view.SolSlurrReport.SolSlurrRptStgs", this);
+		        this._settingDialog.setModel(this.getView().getModel("i18n")); 				
+			}
+			this._settingDialog.open();
+		},
+		
+		/** @Event press event triggers when view setting parameters are set
+		 */ 		
+		handleConfirm: function(oEvent) {
+			var oView = this.getView();
+			var oTable = oView.byId("SSR_Table");
+			var mParams = oEvent.getParameters();
+			var oBinding = oTable.getBinding("items");
+			var sPath;
+			var bDescending;
+			var vGroup;
+			var aSorters = [];
+			if (mParams.groupItem) {
+				sPath = mParams.groupItem.getKey();
+				bDescending = mParams.groupDescending;
+				vGroup = this.mGroupFunctions[sPath];
+				aSorters.push(new Sorter(sPath, bDescending, vGroup));
+			}
+			sPath = mParams.sortItem.getKey();
+			bDescending = mParams.sortDescending;
+			aSorters.push(new Sorter(sPath, bDescending));
+			oBinding.sort(aSorters);
+		},
+    	
+      	/** @Function to instantiation of view setting dialog
+      	 */	         
+    	viewSettingInit: function(){
+			this.mGroupFunctions = {
+					EQP_DESC : function(oContext) {
+						var name = oContext.getProperty("EQP_DESC");
+						return {
+							key: name,
+							text: name
+						};
+					},
+					STD_VOL : function(oContext) {
+						var name = oContext.getProperty("STD_VOL");
+						return {
+							key: name,
+							text: name
+						};
+					},
+					EQP_FAC : function(oContext) {
+						var name = oContext.getProperty("EQP_FAC");
+						return {
+							key: name,
+							text: name
+						};
+					},
+					ACT_VOL : function(oContext) {
+						var name = oContext.getProperty("ACT_VOL");
+						return {
+							key: name,
+							text: name
+						};
+					},
+					ZN_CAL : function(oContext) {
+						var name = oContext.getProperty("ZN_CAL");
+						return {
+							key: name,
+							text: name
+						};
+					},
+					ZN_MIC : function(oContext) {
+						var name = oContext.getProperty("ZN_MIC");
+						return {
+							key: name,
+							text: name
+						};
+					}				
+				};    		
+    	},
+
+		/** @Event press event triggers when setting icon clicked on table header
+		 */
+		onPersoButtonPressed: function (oEvent) {
+			this._oTPC.openDialog();
+		},
+		
+		/** @Event press event triggers when import icon clicked on table header to export in CSV file
+		 */ 		
+		onDataExport: function(){
+			var that = this;
+			var oExport = new Export({
+				exportType : new ExportTypeCSV({}),
+				models : this.getView().getModel("tableModel"),
+				rows : {
+					path : "/Rowsets/Rowset/0/Row/"
+				},
+				columns : [{
+					name : "Samples",
+					template : {
+						content : "{EQP_DESC}"
+					}
+				}, {
+					name : "Standard",
+					template : {
+						content : "{STD_VOL}"
+					}
+				}, {
+					name : "Factor",
+					template : {
+						content : "{EQP_FAC}"
+					}
+				}, {
+					name : "Actual Volume",
+					template : {
+						content : "{ACT_VOL}"
+					}
+				}, {
+					name : "Zn gpl/wt %",
+					template : {
+						content : "{ZN_CAL}"
+					}
+				}, {
+					name : "Zn MIC(tons)",
+					template : {
+						content : "{ZN_MIC}"
+					}
+				}]
+			});
+
+			oExport.saveFile().catch(function(oError) {
+				MessageBox.error(that.getView().getModel("i18n").getResourceBundle().getText("expoErrorAlert") + oError);
+			}).then(function() {
+				oExport.destroy();
+			});			
+		}
 	
 	});	
 

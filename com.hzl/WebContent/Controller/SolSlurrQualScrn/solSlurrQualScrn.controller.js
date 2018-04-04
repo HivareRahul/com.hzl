@@ -2,14 +2,12 @@ sap.ui.define([
 		"com/hzl/Controller/baseController",
 		"sap/m/MessageBox",
 		"sap/ui/model/resource/ResourceModel",
-		"com/hzl/Controller/SolSlurrQualScrn/solSlurrQualScrnPersoService",
-		"sap/m/TablePersoController",
 		"sap/ui/model/json/JSONModel",
 		"com/hzl/Util/ajaxHandler",
 		"sap/ui/model/Sorter",
 		"sap/ui/core/util/Export",
 		"sap/ui/core/util/ExportTypeCSV"
-	], function(baseController, MessageBox, ResourceModel, solSlurrQualScrnPersoService, TablePersoController, JSONModel, ajaxHandler, Sorter, Export, ExportTypeCSV) {
+	], function(baseController, MessageBox, ResourceModel, JSONModel, ajaxHandler, Sorter, Export, ExportTypeCSV) {
 		"use strict";
 
 	return baseController.extend("com.hzl.Controller.SolSlurrQualScrn.solSlurrQualScrn", {
@@ -26,11 +24,6 @@ sap.ui.define([
 			this.initialSettings();
 			this.getView().byId("SSQSdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
 			this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
-			this._oTPC = new TablePersoController({
-				table: this.getView().byId("SSQS_Table"),
-				componentName: "SSQS",
-				persoService: solSlurrQualScrnPersoService
-			}).activate();	
 			this.viewSettingInit();
 		},
 
@@ -105,12 +98,6 @@ sap.ui.define([
 		        this._settingDialog.setModel(this.getView().getModel("i18n"), "i18n"); 				
 			}
 			this._settingDialog.open();
-		},
-
-		/** @Event press event triggers when setting icon clicked on table header
-		 */
-		onPersoButtonPressed: function (oEvent) {
-			this._oTPC.openDialog();
 		},
 		
 		/** @Event press event triggers when view setting parameters are set
@@ -215,13 +202,13 @@ sap.ui.define([
 		 */		
 		onUpdate: function(oEvent){				
 			this.inc = 0;
-			var myEditData = { "name": "Param.1","value" : this.oViewModel.getData().myEditData };
+			//var myEditData = { "name": "Param.1","value" : this.oViewModel.getData().myEditData };
 			//oAjaxHandler.setRequestData(myEditData);
 			//for(var i=0; i<myEditData.length; i++){
 				var oAjaxHandler = ajaxHandler.getInstance();
-				oAjaxHandler.setRequestData(myEditData);
+				//oAjaxHandler.setRequestData(myEditData);
 				oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
-				//oAjaxHandler.setProperties("Param.1",JSON.stringify(myEditData));
+				oAjaxHandler.setProperties("Param.1",JSON.stringify(this.oViewModel.getData().myEditData));
 				oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
 				oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
 				oAjaxHandler.triggerPutRequest();
@@ -244,6 +231,7 @@ sap.ui.define([
 		/** @Function callback function for ajax fail
 		 */		
 		failRequestOnUpdate: function(rs){
+			this.oViewModel.getData().myEditData = [];
 			sap.m.MessageBox.alert(rs.statusText);
 		},
 		

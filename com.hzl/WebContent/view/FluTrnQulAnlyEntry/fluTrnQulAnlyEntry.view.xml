@@ -57,7 +57,7 @@
 					<Column hAlign="Center" id="znDenUOM"><Text text="{i18n>FTQAE_znDenUOM}"/></Column>
 				</columns>
 				<items>
-					<ColumnListItem type="Navigation">
+					<ColumnListItem type="Active">
 						<cells>
 							<Text text="{fluTrnsQulAnlyEntr>S_DATE}"/>
 							<Text text="{fluTrnsQulAnlyEntr>SHIFT}"/>

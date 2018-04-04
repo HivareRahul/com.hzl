@@ -1,16 +1,9 @@
 sap.ui.define([
-		"sap/ui/core/mvc/Controller",
-		"sap/ui/model/json/JSONModel"
-	], function(Controller, JSONModel) {
+		"sap/ui/core/mvc/Controller"
+	], function(Controller) {
 	"use strict";
 
 	var baseController = Controller.extend("com.hzl.Controller.baseController", {
-		/** SAP UI5 life cycle method triggered on first load 
-		 */	
-		onInit : function () {
-			
-		},
-		
 		/** 
 		 * @Functionality use to get the routing histry and navigate as per the routing pattern
 		 */			
