@@ -110,7 +110,7 @@ sap.ui.define([], function() {
 		 * @Function sets the request data
 		 */
 		setRequestData: function(oRequestData) {
-			this.oRequestData = JSON.stringify(oRequestData);
+			this.oRequestData = oRequestData;
 		},
 
 		/** 

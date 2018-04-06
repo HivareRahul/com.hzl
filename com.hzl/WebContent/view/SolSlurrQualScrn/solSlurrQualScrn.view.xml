@@ -48,7 +48,7 @@
 					<Column hAlign="Center" id="solDen"><Text text="{i18n>SSQS_sldDen}"/></Column>					
 				</columns>
 			</Table>            
-            <ScrollContainer height='22rem' vertical='true'>
+            <ScrollContainer height='28.5rem' vertical='true'>
 				<Table id="SSQS_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}">
 					<columns>
 						<Column hAlign="Center"></Column>

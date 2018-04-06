@@ -48,7 +48,7 @@
 							<cmn:TextField value="{tableModel>EQP_FAC}" editable="false"/>							
 							<Text text="{tableModel>ACT_VOL}"/>
 							<Text text="{tableModel>ZN_CAL}"/>
-							<Text text="{tableModel>ZN_MIC}"/>
+							<cmn:TextField value="{tableModel>ZN_MIC}" editable="false"/>	
 						</cells>
 					</ColumnListItem>
 				</items>

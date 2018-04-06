@@ -135,7 +135,13 @@ sap.ui.define([
     	 *  @Visiblity makes input fields enable
     	 */	    	
     	vendorSelect: function(oEvent){
+    		var index;
     		this.oViewModel.setProperty("/enable", true);
+    		if(oEvent.getParameter("listItem").getBindingContext("tableModel").getProperty("EQP_DESC") === "NLC 006 Dyke"){
+    			index = 2;
+    		}else{
+    			index = 5;
+    		}
 	        var oItem = oEvent.getParameter("listItem");
 	    	var oTable = this.getView().byId("SSR_Table");
 	    	var oIndex = oTable.indexOfItem(oItem);
@@ -143,21 +149,22 @@ sap.ui.define([
 	        var oFlag = oModel.getProperty("/oIndex");
 	        if (oFlag === undefined) {
 	          oModel.setProperty("/oIndex", oIndex);
-	          this.onPress(oItem, true);
+	          this.onPress(oItem, true, index);
 	        } else {
 	          var oPreviousItem = oTable.getItems()[oFlag];
-	          this.onPress(oPreviousItem, false);
+	          this.onPress(oPreviousItem, false, "");
 	          var oCurrentItem = oTable.getItems()[oIndex];
 	          oModel.setProperty("/oIndex", oIndex);
-              this.onPress(oCurrentItem, true);
+              this.onPress(oCurrentItem, true, index);
             }
   
     	},
     	
     	/** @Method to make input field editable on row click
     	 */	    	
-    	onPress: function(oItem, oFlag) {
+    	onPress: function(oItem, oFlag, index) {
             var oEditableCells = oItem.getCells();
+            oEditableCells.splice(index, 1);
             $(oEditableCells).each(function(i) {
               var oEditableCell = oEditableCells[i];
               var oMetaData = oEditableCell.getMetadata();

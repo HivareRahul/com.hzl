@@ -200,38 +200,27 @@ sap.ui.define([
 		 *  @Model getting the required data into model table getSelected item method
 		 *  @oAjaxHandler reusable ajax call
 		 */		
-		onUpdate: function(oEvent){				
-			this.inc = 0;
-			//var myEditData = { "name": "Param.1","value" : this.oViewModel.getData().myEditData };
-			//oAjaxHandler.setRequestData(myEditData);
-			//for(var i=0; i<myEditData.length; i++){
+		onUpdate: function(oEvent){	
+			var myData = 'Param.1={"Root":'+JSON.stringify(this.oViewModel.getData().myEditData)+'}';
 				var oAjaxHandler = ajaxHandler.getInstance();
-				//oAjaxHandler.setRequestData(myEditData);
 				oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
-				oAjaxHandler.setProperties("Param.1",JSON.stringify(this.oViewModel.getData().myEditData));
+				oAjaxHandler.setRequestData(myData);
+				//oAjaxHandler.setProperties("Param.1",JSON.stringify(this.oViewModel.getData().myEditData));
 				oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
 				oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
-				oAjaxHandler.triggerPutRequest();
-			//}			
+				oAjaxHandler.triggerPostRequest();		
+				this.oViewModel.getData().myEditData = [];				
 		},
 		
 		/** @Function callback function for ajax success
 		 */		
 		successOnUpdate: function(rs){
-			//this.inc ++;
-			//console.log("entered"+this.inc+" Array length "+this.oViewModel.getData().myEditData.length);
-			//if(this.oViewModel.getData().myEditData.length === this.inc){
-				//sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
-				this.oViewModel.getData().myEditData = [];
 				this.onSearch();
-				//this.inc = 0;
-			//}
 		},
 		
 		/** @Function callback function for ajax fail
 		 */		
 		failRequestOnUpdate: function(rs){
-			this.oViewModel.getData().myEditData = [];
 			sap.m.MessageBox.alert(rs.statusText);
 		},
 		
