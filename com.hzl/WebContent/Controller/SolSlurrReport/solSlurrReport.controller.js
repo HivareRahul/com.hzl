@@ -17,7 +17,7 @@ sap.ui.define([
 		 *  @Method viewSettingInit method for instantiation view setting dialog , initialSettings for user data and role based visiblity
 		 */
 		onInit : function (evt) {
-			this.getView().setModel(new JSONModel({enable:false,userDetails:[],visiblity:{updateSave:false,updateCancel:false}}),"viewModel");	
+			this.getView().setModel(new JSONModel({myEditData:[],enable:false,userDetails:[],visiblity:{updateSave:false,updateCancel:false}}),"viewModel");	
 			this.oViewModel = this.getView().getModel("viewModel");	
 			this.getView().byId("SSRdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
 			this.initialSettings();		
@@ -26,7 +26,7 @@ sap.ui.define([
 				table: this.getView().byId("SSR_Table"),
 				componentName: "SSR",
 				persoService: SolSlurrRptPersoService
-			}).activate();			
+			}).activate();		
 		},
 		
 	 	/** @Function initialSettings to get user data
@@ -88,9 +88,9 @@ sap.ui.define([
     			return;
     		}	
 			this.startBusyIndicator();		
-			jQuery.sap.delayedCall(3000, this, function () {
+			/*jQuery.sap.delayedCall(3000, this, function () {
 				this.stopBusyIndicator();
-			});	
+			});	*/
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QTY_DIS");   
     		oAjaxHandler.setProperties("Param.1",date.getValue() + " 00:00:00");
@@ -101,15 +101,19 @@ sap.ui.define([
          },
           
      	 /** @Function callback function for ajax success
+     	  * @initTableSetting initialisation of table as per requirement
      	 */	         
          successSrch: function(rs){
 				this.getView().setModel(new JSONModel(rs),"tableModel");	
+				this.initTableSetting();
+				this.stopBusyIndicator();
          },
          
      	/** @Function callback function for ajax fail
      	 */	         
          failRequestScrch: function(rs){
         	 sap.m.MessageBox.alert(rs.statusText);
+        	 this.stopBusyIndicator();
          },
      	
      	/** @Function validation for empty data in mandatory fields
@@ -129,74 +133,70 @@ sap.ui.define([
      		});
      		return result;
      	},
-    	
-    	/** @Event itemPress event triggered after clicking on a table row
-    	 *  @Model gets the required data and binds to the model
-    	 *  @Visiblity makes input fields enable
-    	 */	    	
-    	vendorSelect: function(oEvent){
-    		var index;
-    		this.oViewModel.setProperty("/enable", true);
-    		if(oEvent.getParameter("listItem").getBindingContext("tableModel").getProperty("EQP_DESC") === "NLC 006 Dyke"){
-    			index = 2;
-    		}else{
-    			index = 5;
-    		}
-	        var oItem = oEvent.getParameter("listItem");
-	    	var oTable = this.getView().byId("SSR_Table");
-	    	var oIndex = oTable.indexOfItem(oItem);
-	    	var oModel = this.getView().getModel("viewModel");
-	        var oFlag = oModel.getProperty("/oIndex");
-	        if (oFlag === undefined) {
-	          oModel.setProperty("/oIndex", oIndex);
-	          this.onPress(oItem, true, index);
-	        } else {
-	          var oPreviousItem = oTable.getItems()[oFlag];
-	          this.onPress(oPreviousItem, false, "");
-	          var oCurrentItem = oTable.getItems()[oIndex];
-	          oModel.setProperty("/oIndex", oIndex);
-              this.onPress(oCurrentItem, true, index);
-            }
-  
-    	},
-    	
-    	/** @Method to make input field editable on row click
-    	 */	    	
-    	onPress: function(oItem, oFlag, index) {
-            var oEditableCells = oItem.getCells();
-            oEditableCells.splice(index, 1);
-            $(oEditableCells).each(function(i) {
-              var oEditableCell = oEditableCells[i];
-              var oMetaData = oEditableCell.getMetadata();
-              var oElement = oMetaData.getElementName();
-              if (oElement == "sap.ui.commons.TextField") {
-                oEditableCell.setEditable(oFlag);
-              }
-            });
-         },
-     	
-     	/** @Event press event trigger on clicking save button of page not add dialog
-     	 *  @Visiblity setting visiblity of save and cancel button
-     	 *  @Model getting the required data into model table getSelected item method
-     	 *  @oAjaxHandler reusable ajax call
-     	 */		
-     	onUpdate: function(oEvent){
-     		var oTable = this.getView().byId("SSR_Table");
-     		//oTable.getSelectedItem().getBindingContext("tableModel").getProperty("EQP_DESC");
-     		sap.m.MessageToast.show(oTable.getSelectedItem().getBindingContext("tableModel").getProperty("EQP_DESC"));
-     		/*this.oViewModel.setProperty("/enable", false);
-     		var myEditModel1 = this.getView().getModel("myEdit").getData();	
-     		var oTable = this.getView().byId("fluTrnsQulAnlyEntrTable");
-     		myEditModel1.fourth = oTable.getSelectedItem().getCells()[5].getValue();
-     		myEditModel1.first = oTable.getSelectedItem().getCells()[7].getValue();
-     		var oAjaxHandler = ajaxHandler.getInstance();
-     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_UPD_ROW_QUAL");
-     		oAjaxHandler.setProperties("Param.1",myEditModel1.first);
-     		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:"",sixth:"",seventh:"",eight:""}), "myEdit"); 
-     		oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
-     		oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
-     		oAjaxHandler.triggerPostRequest();	*/			
-     	},
+		
+		/** @Event change event triggers when row data is changed
+		 */ 		
+		onRowChange: function(oEvent){
+			var inc = 0;
+			var editArr = this.oViewModel.getData();
+			var rowData = oEvent.getSource().getParent().getBindingContext("tableModel");
+			var myData = {  
+					ACT_VOL : rowData.getProperty("ACT_VOL"),
+					EQP_DESC : rowData.getProperty("EQP_DESC"),
+					EQP_FAC : rowData.getProperty("EQP_FAC"),
+					EQP_NUM : rowData.getProperty("EQP_NUM"),
+					EQP_TYP : rowData.getProperty("EQP_TYP"),
+					GUID_FACTOR : rowData.getProperty("GUID_FACTOR"),
+					GUID_QTY : rowData.getProperty("GUID_QTY"),
+					PLANT_DESC : rowData.getProperty("PLANT_DESC"),
+					PLANT_NUM : rowData.getProperty("PLANT_NUM"),
+					STD_VOL : rowData.getProperty("STD_VOL"),
+					S_DATE : rowData.getProperty("S_DATE"),
+					ZN_CAL : rowData.getProperty("ZN_CAL"),
+					ZN_MIC : rowData.getProperty("ZN_MIC")
+				};		
+			
+			if(editArr.myEditData.length === 0){
+				editArr.myEditData.push(myData);
+			}else{
+				for(var i = 0; i < editArr.myEditData.length; i++){
+					if( editArr.myEditData[i].GUID_FACTOR === rowData.getProperty("GUID_FACTOR")){
+						editArr.myEditData[i].ACT_VOL = rowData.getProperty("ACT_VOL");
+						editArr.myEditData[i].EQP_DESC = rowData.getProperty("EQP_DESC");
+						editArr.myEditData[i].EQP_FAC = rowData.getProperty("EQP_FAC");
+						editArr.myEditData[i].EQP_NUM = rowData.getProperty("EQP_NUM");
+						editArr.myEditData[i].EQP_TYP = rowData.getProperty("EQP_TYP");
+						editArr.myEditData[i].PLANT_DESC = rowData.getProperty("PLANT_DESC");
+						editArr.myEditData[i].PLANT_NUM = rowData.getProperty("PLANT_NUM");
+						editArr.myEditData[i].STD_VOL = rowData.getProperty("STD_VOL");
+						editArr.myEditData[i].S_DATE = rowData.getProperty("S_DATE");
+						editArr.myEditData[i].ZN_CAL = rowData.getProperty("ZN_CAL");
+						editArr.myEditData[i].ZN_MIC = rowData.getProperty("ZN_MIC");
+						inc ++;
+					}
+				}
+				if(inc === 0){
+					editArr.myEditData.push(myData);
+				}
+			}
+			this.oViewModel.setData(editArr);
+		},
+		
+		/** @Event press event trigger on clicking save button of page not add dialog
+		 *  @Visiblity setting visiblity of save and cancel button
+		 *  @Model getting the required data into model table getSelected item method
+		 *  @oAjaxHandler reusable ajax call
+		 */		
+		onUpdate: function(oEvent){	
+			/*var myData = 'Param.1={"Root":'+JSON.stringify(this.oViewModel.getData().myEditData)+'}';
+			var oAjaxHandler = ajaxHandler.getInstance();
+			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
+			oAjaxHandler.setRequestData(myData);
+			oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
+			oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
+			oAjaxHandler.triggerPostRequest();		
+			this.oViewModel.getData().myEditData = [];*/				
+		},
      	
      	/** @Function callback function for ajax success
      	 */		
@@ -353,6 +353,22 @@ sap.ui.define([
 			}).then(function() {
 				oExport.destroy();
 			});			
+		},
+		
+		initTableSetting:function(){
+			var a = 0;
+			var myTable = this.getView().byId("SSR_Table");
+			var length = myTable.getItems().length;
+			var ss = myTable.getItems()[0].getCells();
+			for(var i=0; i<myTable.getItems().length; i++){
+				if(myTable.getItems()[i].getCells()[0].getText() === "TH5"){
+					myTable.getItems()[i].getCells()[3].setEditable(false);
+					myTable.getItems()[i].getCells()[6].setEditable(true);					
+				}else{
+					myTable.getItems()[i].getCells()[3].setEditable(true);
+					myTable.getItems()[i].getCells()[6].setEditable(false);					
+				}
+			}
 		}
 	
 	});	

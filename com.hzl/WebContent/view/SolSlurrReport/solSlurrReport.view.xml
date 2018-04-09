@@ -23,7 +23,7 @@
                     </fb:FilterItem>
                 </fb:filterItems>
             </fb:FilterBar>
-			<Table id="SSR_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}" mode="SingleSelectMaster"  itemPress="vendorSelect">
+			<Table id="SSR_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}">
 				<headerToolbar>
 							<Toolbar>							
 								<ToolbarSpacer/>								
@@ -33,6 +33,7 @@
 							</Toolbar>
 				</headerToolbar>
 				<columns>
+					<Column hAlign="Center" id="EqyTyp"><Text text="Equipment Type"/></Column>
 					<Column hAlign="Center" id="smp"><Text text="{i18n>SSR_smp}"/></Column>
 					<Column hAlign="Center" id="std"><Text text="{i18n>SSR_std}"/></Column>
 					<Column hAlign="Center" id="fac"><Text text="{i18n>SSR_fac}"/></Column>
@@ -41,14 +42,15 @@
 					<Column hAlign="Center" id="znKg"><Text text="{i18n>SSR_znMic}"/></Column>
 				</columns>
 				<items>
-					<ColumnListItem type="Active">
+					<ColumnListItem>
 						<cells>
+							<Text text="{tableModel>EQP_TYP}"/>
 							<Text text="{tableModel>EQP_DESC}"/>
 							<Text text="{tableModel>STD_VOL}"/>
-							<cmn:TextField value="{tableModel>EQP_FAC}" editable="false"/>							
+							<cmn:TextField value="{tableModel>EQP_FAC}" editable="false" change="onRowChange"/>							
 							<Text text="{tableModel>ACT_VOL}"/>
 							<Text text="{tableModel>ZN_CAL}"/>
-							<cmn:TextField value="{tableModel>ZN_MIC}" editable="false"/>	
+							<cmn:TextField value="{tableModel>ZN_MIC}" editable="false" change="onRowChange"/>	
 						</cells>
 					</ColumnListItem>
 				</items>

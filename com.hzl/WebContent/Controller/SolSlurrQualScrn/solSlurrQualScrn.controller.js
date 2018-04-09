@@ -202,14 +202,13 @@ sap.ui.define([
 		 */		
 		onUpdate: function(oEvent){	
 			var myData = 'Param.1={"Root":'+JSON.stringify(this.oViewModel.getData().myEditData)+'}';
-				var oAjaxHandler = ajaxHandler.getInstance();
-				oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
-				oAjaxHandler.setRequestData(myData);
-				//oAjaxHandler.setProperties("Param.1",JSON.stringify(this.oViewModel.getData().myEditData));
-				oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
-				oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
-				oAjaxHandler.triggerPostRequest();		
-				this.oViewModel.getData().myEditData = [];				
+			var oAjaxHandler = ajaxHandler.getInstance();
+			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
+			oAjaxHandler.setRequestData(myData);
+			oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
+			oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
+			oAjaxHandler.triggerPostRequest();		
+			this.oViewModel.getData().myEditData = [];				
 		},
 		
 		/** @Function callback function for ajax success
