@@ -4,11 +4,9 @@ sap.ui.define([
 		"com/hzl/Util/ajaxHandler",
 		"sap/m/MessageBox",
 		"sap/ui/model/Sorter",
-		"sap/m/TablePersoController",
-		"com/hzl/Controller/SolSlurrReport/SolSlurrRptPersoService",
 		"sap/ui/core/util/Export",
 		"sap/ui/core/util/ExportTypeCSV"
-	], function(baseController, JSONModel, ajaxHandler, MessageBox, Sorter, TablePersoController, SolSlurrRptPersoService, Export, ExportTypeCSV) {
+	], function(baseController, JSONModel, ajaxHandler, MessageBox, Sorter, Export, ExportTypeCSV) {
 	"use strict";
 	return baseController.extend("com.hzl.Controller.SolSlurrReport.solSlurrReport", {
 		/** SAP UI5 life cycle method triggered on first load 
@@ -22,11 +20,6 @@ sap.ui.define([
 			this.getView().byId("SSRdate").setValue(this.changeDateFormat(new Date()).slice(0,10));
 			this.initialSettings();		
 			this.viewSettingInit();
-			this._oTPC = new TablePersoController({
-				table: this.getView().byId("SSR_Table"),
-				componentName: "SSR",
-				persoService: SolSlurrRptPersoService
-			}).activate();		
 		},
 		
 	 	/** @Function initialSettings to get user data
@@ -228,6 +221,7 @@ sap.ui.define([
 		},
 		
 		/** @Event press event triggers when view setting parameters are set
+		 * @initTableSetting initialisation of table as per requirement
 		 */ 		
 		handleConfirm: function(oEvent) {
 			var oView = this.getView();
@@ -248,6 +242,7 @@ sap.ui.define([
 			bDescending = mParams.sortDescending;
 			aSorters.push(new Sorter(sPath, bDescending));
 			oBinding.sort(aSorters);
+			this.initTableSetting();
 		},
     	
       	/** @Function to instantiation of view setting dialog
@@ -298,12 +293,6 @@ sap.ui.define([
 					}				
 				};    		
     	},
-
-		/** @Event press event triggers when setting icon clicked on table header
-		 */
-		onPersoButtonPressed: function (oEvent) {
-			this._oTPC.openDialog();
-		},
 		
 		/** @Event press event triggers when import icon clicked on table header to export in CSV file
 		 */ 		
@@ -355,12 +344,15 @@ sap.ui.define([
 			});			
 		},
 		
+		/** @Function use for initial setting of table fields enabling and disabling as per requirement
+		 */ 		
 		initTableSetting:function(){
 			var a = 0;
 			var myTable = this.getView().byId("SSR_Table");
-			var length = myTable.getItems().length;
-			var ss = myTable.getItems()[0].getCells();
 			for(var i=0; i<myTable.getItems().length; i++){
+				if(myTable.getItems()[i].getMetadata().getElementName() === "sap.m.GroupHeaderListItem"){
+					continue;
+				}
 				if(myTable.getItems()[i].getCells()[0].getText() === "TH5"){
 					myTable.getItems()[i].getCells()[3].setEditable(false);
 					myTable.getItems()[i].getCells()[6].setEditable(true);					
