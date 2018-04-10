@@ -162,9 +162,6 @@ sap.ui.define([
     	        return;
     	    }	
 			this.startBusyIndicator();		
-			jQuery.sap.delayedCall(2000, this, function () {
-				this.stopBusyIndicator();
-			});	
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_QTYDET_DIS");    		
     		oAjaxHandler.setProperties("IsTesting","T");
@@ -180,12 +177,14 @@ sap.ui.define([
      	 */	         
          successSrch: function(rs){
 				this.getView().setModel(new JSONModel(rs),"tableModel");
+				this.stopBusyIndicator();
          },
          
      	/** @Function callback function for ajax fail
      	 */	         
          failRequestScrch: function(rs){
         	 sap.m.MessageBox.alert(rs.statusText);
+        	 this.stopBusyIndicator();
          },
          
      	/** @Method called when reset button is clicked

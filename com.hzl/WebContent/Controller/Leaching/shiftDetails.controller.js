@@ -29,10 +29,7 @@ sap.ui.define([
 			if(!oEvent.getParameter("arguments").shiftData){
 				return;
 			}else{			
-				this.startBusyIndicator();		
-				jQuery.sap.delayedCall(1000, this, function () {
-					this.stopBusyIndicator();
-				});				
+				this.startBusyIndicator();					
 				this.getView().setModel(new JSONModel({}),"shtVluTblModel");
 				var patterData = JSON.parse(atob(oEvent.getParameter("arguments").shiftData));
 				
@@ -74,12 +71,14 @@ sap.ui.define([
 		successTab1: function(rs){
 			this.getView().setModel(new JSONModel(rs),"sftAvgTblModel");
 			this.initialSettings();
+			this.stopBusyIndicator();
 		},
         
      	/** @Function callback function for ajax fail
      	 */		
 		failRequestTab1: function(rs){
 			sap.m.MessageBox.alert(rs.statusText);
+			this.stopBusyIndicator();
 		},		
         
      	/** @Return returns the router

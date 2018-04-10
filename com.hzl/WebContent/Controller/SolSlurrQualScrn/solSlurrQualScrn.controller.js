@@ -40,9 +40,6 @@ sap.ui.define([
     			return;
     		}	
 			this.startBusyIndicator();		
-			jQuery.sap.delayedCall(3000, this, function () {
-				this.stopBusyIndicator();
-			});	
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_DIS");   
     		oAjaxHandler.setProperties("Param.1",date.getValue() + " 00:00:00");
@@ -55,13 +52,15 @@ sap.ui.define([
      	 /** @Function callback function for ajax success
      	 */	         
          successSrch: function(rs){
-				this.getView().setModel(new JSONModel(rs),"tableModel");	
+				this.getView().setModel(new JSONModel(rs),"tableModel");
+				this.stopBusyIndicator();
          },
          
      	/** @Function callback function for ajax fail
      	 */	         
          failRequestScrch: function(rs){
         	 sap.m.MessageBox.alert(rs.statusText);
+        	 this.stopBusyIndicator();
          },
         	
     	/** @Function validation for empty data in mandatory fields
@@ -126,6 +125,9 @@ sap.ui.define([
 		/** @Event change event triggers when row data is changed
 		 */ 		
 		onRowChange: function(oEvent){
+			var val = oEvent.getSource().getValue();
+            val = val.replace(/[^\d]/g,"");
+            oEvent.getSource().setValue(val); 			
 			this.oViewModel.setProperty("/enable", true);
 			var inc = 0;
 			var editArr = this.oViewModel.getData();
@@ -214,6 +216,7 @@ sap.ui.define([
 		/** @Function callback function for ajax success
 		 */		
 		successOnUpdate: function(rs){
+				sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
 				this.onSearch();
 		},
 		

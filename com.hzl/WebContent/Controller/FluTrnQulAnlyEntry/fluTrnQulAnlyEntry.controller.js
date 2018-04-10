@@ -54,10 +54,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	    	MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));   	
 	        return;
 	    }	
-		this.startBusyIndicator();		
-		jQuery.sap.delayedCall(2000, this, function () {
-			this.stopBusyIndicator();
-		});	    
+		this.startBusyIndicator();		    
 		var oAjaxHandler = ajaxHandler.getInstance();
 		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_QUAL_DIS");
 		oAjaxHandler.setProperties("Param.1",fromDate.getValue());
@@ -72,12 +69,14 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 */		
 	successSrch: function(rs){
 		this.getView().setModel(new JSONModel(rs),"fluTrnsQulAnlyEntr");
+		this.stopBusyIndicator();
     },
     
 	/** @Function callback function for ajax fail
 	 */	    
     failRequestScrch: function(rs){
     	sap.m.MessageBox.alert(rs.statusText);
+    	this.stopBusyIndicator();
     },
 	
 	/** @Function validation for empty data in mandatory fields
@@ -606,6 +605,12 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 			viewModel.visiblity.add = true;		
 		}		
 		this.oViewModel.setData(viewModel);		
+	},
+	
+	onRowChange: function(oEvent){
+		var val = oEvent.getSource().getValue();
+        val = val.replace(/[^\d]/g,"");
+        oEvent.getSource().setValue(val); 		
 	}
 	
 });

@@ -208,10 +208,7 @@ sap.ui.define([
     	    	sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));     	    	
     	        return;
     	    }	
-			this.startBusyIndicator();		
-			jQuery.sap.delayedCall(2000, this, function () {
-				this.stopBusyIndicator();
-			});	
+			this.startBusyIndicator();			
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_REPORT_MAIN_DIS");    
     		oAjaxHandler.setProperties("Param.1",fromDate.getValue());
@@ -226,12 +223,14 @@ sap.ui.define([
       	 */	         
          successSrch: function(rs){
 				this.getView().setModel(new JSONModel(rs),"tableModel");
+				this.stopBusyIndicator();
          },
          
       	/** @Function callback function for ajax fail
       	 */	          
          failRequestScrch: function(rs){
         	 sap.m.MessageBox.alert(rs.statusText);
+        	 this.stopBusyIndicator();
          },
          
      	/** @Function validation for empty data in mandatory fields

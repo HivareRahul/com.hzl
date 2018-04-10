@@ -31,17 +31,17 @@
 								<Button	tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>
 							</Toolbar>
 				</headerToolbar>
-				<columns>
-					<Column hAlign="Center" id="EqyTyp"><Text text="Equipment Type"/></Column>
+				<columns>					
 					<Column hAlign="Center" id="smp"><Text text="{i18n>SSR_smp}"/></Column>
 					<Column hAlign="Center" id="std"><Text text="{i18n>SSR_std}"/></Column>
 					<Column hAlign="Center" id="fac"><Text text="{i18n>SSR_fac}"/></Column>
 					<Column hAlign="Center" id="actVol"><Text text="{i18n>SSR_actVol}"/></Column>					
 					<Column hAlign="Center" id="znGpl"><Text text="{i18n>SSR_znGpl}"/></Column>
-					<Column hAlign="Center" id="znKg"><Text text="{i18n>SSR_znMic}"/></Column>					
+					<Column hAlign="Center" id="znKg"><Text text="{i18n>SSR_znMic}"/></Column>		
+					<Column hAlign="Center" id="EqyTyp"><Text text="{i18n>SSR_eqTyp}"/></Column>			
 				</columns>
 			</Table>    
-			<ScrollContainer height='28.5rem' vertical='true'>
+			<ScrollContainer height='50rem' vertical='true'>
 				<Table id="SSR_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}">
 					<columns>
 						<Column hAlign="Center"></Column>
@@ -54,14 +54,14 @@
 					</columns>
 					<items>
 						<ColumnListItem>
-							<cells>
-								<Text text="{tableModel>EQP_TYP}"/>
+							<cells>								
 								<Text text="{tableModel>EQP_DESC}"/>
 								<Text text="{tableModel>STD_VOL}"/>
-								<cmn:TextField value="{tableModel>EQP_FAC}" editable="false" change="onRowChange"/>							
+								<cmn:TextField value="{path:'tableModel>EQP_FAC',type:'sap.ui.model.type.Integer'}" editable="false" change="onRowChange"/>							
 								<Text text="{tableModel>ACT_VOL}"/>
 								<Text text="{tableModel>ZN_CAL}"/>
-								<cmn:TextField value="{tableModel>ZN_MIC}" editable="false" change="onRowChange"/>	
+								<cmn:TextField value="{tableModel>ZN_MIC}" editable="false" change="onRowChange"/>
+								<Text text="{tableModel>EQP_TYP}"/>	
 							</cells>
 						</ColumnListItem>
 					</items>

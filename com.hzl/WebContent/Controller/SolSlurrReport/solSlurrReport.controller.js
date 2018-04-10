@@ -81,9 +81,6 @@ sap.ui.define([
     			return;
     		}	
 			this.startBusyIndicator();		
-			/*jQuery.sap.delayedCall(3000, this, function () {
-				this.stopBusyIndicator();
-			});	*/
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QTY_DIS");   
     		oAjaxHandler.setProperties("Param.1",date.getValue() + " 00:00:00");
@@ -130,6 +127,10 @@ sap.ui.define([
 		/** @Event change event triggers when row data is changed
 		 */ 		
 		onRowChange: function(oEvent){
+			var val = oEvent.getSource().getValue();
+            val = val.replace(/[^\d]/g,"");
+            oEvent.getSource().setValue(val);          
+			this.oViewModel.setProperty("/enable", true);
 			var inc = 0;
 			var editArr = this.oViewModel.getData();
 			var rowData = oEvent.getSource().getParent().getBindingContext("tableModel");
@@ -181,20 +182,20 @@ sap.ui.define([
 		 *  @oAjaxHandler reusable ajax call
 		 */		
 		onUpdate: function(oEvent){	
-			/*var myData = 'Param.1={"Root":'+JSON.stringify(this.oViewModel.getData().myEditData)+'}';
+			var myData = 'Param.1={"Root":'+JSON.stringify(this.oViewModel.getData().myEditData)+'}';
 			var oAjaxHandler = ajaxHandler.getInstance();
-			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
+			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QTY_UPDATE");
 			oAjaxHandler.setRequestData(myData);
 			oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
 			oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
 			oAjaxHandler.triggerPostRequest();		
-			this.oViewModel.getData().myEditData = [];*/				
+			this.oViewModel.getData().myEditData = [];				
 		},
      	
      	/** @Function callback function for ajax success
      	 */		
      	successOnUpdate: function(rs){
-     		sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+     		//sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
      		this.onSearch();
      	},
      	
@@ -353,12 +354,12 @@ sap.ui.define([
 				if(myTable.getItems()[i].getMetadata().getElementName() === "sap.m.GroupHeaderListItem"){
 					continue;
 				}
-				if(myTable.getItems()[i].getCells()[0].getText() === "TH5"){
-					myTable.getItems()[i].getCells()[3].setEditable(false);
-					myTable.getItems()[i].getCells()[6].setEditable(true);					
+				if(myTable.getItems()[i].getCells()[6].getText() === "TH5"){
+					myTable.getItems()[i].getCells()[2].setEditable(false);
+					myTable.getItems()[i].getCells()[5].setEditable(true);					
 				}else{
-					myTable.getItems()[i].getCells()[3].setEditable(true);
-					myTable.getItems()[i].getCells()[6].setEditable(false);					
+					myTable.getItems()[i].getCells()[2].setEditable(true);
+					myTable.getItems()[i].getCells()[5].setEditable(false);					
 				}
 			}
 		}

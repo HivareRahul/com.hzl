@@ -30,7 +30,7 @@
                     </fb:FilterItem>
                 </fb:filterItems>
             </fb:FilterBar>
-			<Table id="fluTrnsQualityEntryTable" items="{tableModel>/Rowsets/Rowset/0/Row/}" growing="true"  mode="SingleSelectMaster"  itemPress="vendorSelect">
+			<Table id="fluTrnsQualityEntryTable" items="{tableModel>/Rowsets/Rowset/0/Row/}" mode="SingleSelectMaster"  itemPress="vendorSelect">
 				<headerToolbar>
 							<Toolbar>							
 								<ToolbarSpacer/>								

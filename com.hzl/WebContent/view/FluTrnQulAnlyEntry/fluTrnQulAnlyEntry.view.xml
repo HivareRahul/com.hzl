@@ -64,9 +64,9 @@
 							<Text text="{fluTrnsQulAnlyEntr>TO_MAT_DESC}"/>
 							<Text text="{fluTrnsQulAnlyEntr>FRM_PLANT_DESC}"/>
 							<Text text="{fluTrnsQulAnlyEntr>TO_PLANT_DESC}"/>
-							<cmn:TextField value="{fluTrnsQulAnlyEntr>ZN_GPL_PARAM}" type="Number" editable="false"/>
+							<cmn:TextField value="{fluTrnsQulAnlyEntr>ZN_GPL_PARAM}" type="Number" editable="false" change="onRowChange"/>
 							<Text text="GPL"/>
-							<cmn:TextField value="{fluTrnsQulAnlyEntr>DEN_PARAM}" type="Number" editable="false"/>
+							<cmn:TextField value="{fluTrnsQulAnlyEntr>DEN_PARAM}" type="Number" editable="false" change="onRowChange"/>
 							<Text text="kg/m3"/>
 						</cells>
 					</ColumnListItem>
