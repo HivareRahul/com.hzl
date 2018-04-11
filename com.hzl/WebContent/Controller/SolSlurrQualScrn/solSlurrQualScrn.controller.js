@@ -124,10 +124,7 @@ sap.ui.define([
 		
 		/** @Event change event triggers when row data is changed
 		 */ 		
-		onRowChange: function(oEvent){
-			var val = oEvent.getSource().getValue();
-            val = val.replace(/[^\d]/g,"");
-            oEvent.getSource().setValue(val); 			
+		onRowChange: function(oEvent){			
 			this.oViewModel.setProperty("/enable", true);
 			var inc = 0;
 			var editArr = this.oViewModel.getData();
@@ -203,10 +200,10 @@ sap.ui.define([
 		 *  @oAjaxHandler reusable ajax call
 		 */		
 		onUpdate: function(oEvent){	
-			var myData = 'Param.1={"Root":'+JSON.stringify(this.oViewModel.getData().myEditData)+'}';
+			var tblData = 'Param.1={"Root":'+encodeURIComponent(JSON.stringify(this.oViewModel.getData().myEditData))+'}';
 			var oAjaxHandler = ajaxHandler.getInstance();
 			oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
-			oAjaxHandler.setRequestData(myData);
+			oAjaxHandler.setRequestData(tblData);
 			oAjaxHandler.setCallBackSuccessMethod(this.successOnUpdate, this);
 			oAjaxHandler.setCallBackFailureMethod(this.failRequestOnUpdate, this);
 			oAjaxHandler.triggerPostRequest();		

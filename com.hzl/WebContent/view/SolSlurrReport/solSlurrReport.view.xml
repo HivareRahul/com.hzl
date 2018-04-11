@@ -57,7 +57,7 @@
 							<cells>								
 								<Text text="{tableModel>EQP_DESC}"/>
 								<Text text="{tableModel>STD_VOL}"/>
-								<cmn:TextField value="{path:'tableModel>EQP_FAC',type:'sap.ui.model.type.Integer'}" editable="false" change="onRowChange"/>							
+								<cmn:TextField value="{tableModel>EQP_FAC}" editable="false" change="onRowChange"/>							
 								<Text text="{tableModel>ACT_VOL}"/>
 								<Text text="{tableModel>ZN_CAL}"/>
 								<cmn:TextField value="{tableModel>ZN_MIC}" editable="false" change="onRowChange"/>
