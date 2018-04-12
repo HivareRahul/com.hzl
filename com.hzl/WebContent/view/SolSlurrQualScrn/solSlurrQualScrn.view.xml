@@ -49,7 +49,7 @@
 				</columns>
 			</Table>            
             <ScrollContainer height='50rem' vertical='true'>
-				<Table id="SSQS_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}">
+				<Table id="SSQS_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}" growingThreshold="300">
 					<columns>
 						<Column hAlign="Center"></Column>
 						<Column hAlign="Center"></Column>

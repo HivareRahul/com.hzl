@@ -94,9 +94,12 @@ sap.ui.define([
      	  * @initTableSetting initialisation of table as per requirement
      	 */	         
          successSrch: function(rs){
-				this.getView().setModel(new JSONModel(rs),"tableModel");	
-				this.initTableSetting();
-				this.stopBusyIndicator();
+        	    var myModel = new JSONModel();
+        	    myModel.setData(rs);
+        	    myModel.setSizeLimit(300);
+        	    this.getView().setModel(myModel,"tableModel");
+        	    this.initTableSetting();
+        	    this.stopBusyIndicator();
          },
          
      	/** @Function callback function for ajax fail
@@ -141,6 +144,8 @@ sap.ui.define([
 					GUID_QTY : rowData.getProperty("GUID_QTY"),
 					PLANT_DESC : rowData.getProperty("PLANT_DESC"),
 					PLANT_NUM : rowData.getProperty("PLANT_NUM"),
+					STATUS_FACTOR : rowData.getProperty("STATUS_FACTOR"),
+					STATUS_QTY : rowData.getProperty("STATUS_QTY"),
 					STD_VOL : rowData.getProperty("STD_VOL"),
 					S_DATE : rowData.getProperty("S_DATE"),
 					ZN_CAL : rowData.getProperty("ZN_CAL"),
@@ -159,6 +164,8 @@ sap.ui.define([
 						editArr.myEditData[i].EQP_TYP = rowData.getProperty("EQP_TYP");
 						editArr.myEditData[i].PLANT_DESC = rowData.getProperty("PLANT_DESC");
 						editArr.myEditData[i].PLANT_NUM = rowData.getProperty("PLANT_NUM");
+						editArr.myEditData[i].STATUS_FACTOR = rowData.getProperty("STATUS_FACTOR");
+						editArr.myEditData[i].STATUS_QTY = rowData.getProperty("STATUS_QTY");
 						editArr.myEditData[i].STD_VOL = rowData.getProperty("STD_VOL");
 						editArr.myEditData[i].S_DATE = rowData.getProperty("S_DATE");
 						editArr.myEditData[i].ZN_CAL = rowData.getProperty("ZN_CAL");

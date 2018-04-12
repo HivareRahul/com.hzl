@@ -52,8 +52,11 @@ sap.ui.define([
      	 /** @Function callback function for ajax success
      	 */	         
          successSrch: function(rs){
-				this.getView().setModel(new JSONModel(rs),"tableModel");
-				this.stopBusyIndicator();
+        	    var myModel = new JSONModel();
+        	    myModel.setData(rs);
+        	    myModel.setSizeLimit(300);
+        	    this.getView().setModel(myModel,"tableModel");
+        	    this.stopBusyIndicator();				
          },
          
      	/** @Function callback function for ajax fail

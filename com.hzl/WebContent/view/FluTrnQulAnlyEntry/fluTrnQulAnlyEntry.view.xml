@@ -35,7 +35,7 @@
 				</fb:FilterItem>		
 			</fb:filterItems>							
 	    </fb:FilterBar>	
-			<Table id="fluTrnsQulAnlyEntrTable" items="{fluTrnsQulAnlyEntr>/Rowsets/Rowset/0/Row/}" growing="true" mode="SingleSelectMaster"  itemPress="vendorSelect">
+			<Table id="fluTrnsQulAnlyEntrTable" items="{fluTrnsQulAnlyEntr>/Rowsets/Rowset/0/Row/}" mode="SingleSelectMaster"  itemPress="vendorSelect">
 				<headerToolbar>
 							<Toolbar>							
 								<ToolbarSpacer/>
