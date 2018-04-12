@@ -147,7 +147,8 @@ sap.ui.define([
 		 *  @oAjaxHandler reusable ajax call
 		 */			
 		onSearch:function(oEvent){	
-			this.oViewModel.setProperty("/enable", false);
+			this.oViewModel.setProperty("/enable", false);	
+			this.oViewModel.setProperty("/oIndex", undefined);			
 			var that = this;	
     		this.filterBar = this.getView().byId("FTQE_fltBar");
     		var fromDate = this.getView().byId("frmDate");
@@ -227,12 +228,18 @@ sap.ui.define([
     	 *  @Model getting the required data into model table getSelected item method
     	 *  @oAjaxHandler reusable ajax call
     	 */	    	
-    	onUpdate: function(oEvent){
-    		var that = this;
+    	onUpdate: function(oEvent ,index){
     		this.oViewModel.setProperty("/enable", false);
-    		var myCell = this.getView().byId("fluTrnsQualityEntryTable").getSelectedItem();
-    		var myEditModel1 = this.getView().getModel("myEdit").getData();
-    		myEditModel1.fourth = myCell.getCells()[5].getValue();
+    		var myEditModel1 = this.getView().getModel("myEdit").getData();    		
+    		if(index != undefined){
+    			myEditModel1.fourth = this.getView().byId("fluTrnsQualityEntryTable").getItems()[index].getCells()[5].getValue();
+    			myEditModel1.first = this.previousEditData.first;
+    			myEditModel1.second = this.previousEditData.second;
+    			myEditModel1.third = this.previousEditData.third;
+    			myEditModel1.fifth = this.previousEditData.fifth;
+    		}else{
+    			myEditModel1.fourth = this.getView().byId("fluTrnsQualityEntryTable").getSelectedItem().getCells()[5].getValue();
+    		}	
     		var oAjaxHandler = ajaxHandler.getInstance();
     		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_UPD_ROW_QTY");
     		oAjaxHandler.setProperties("Param.1",myEditModel1.first);
@@ -264,13 +271,19 @@ sap.ui.define([
     	 *  @Visiblity makes input fields enable
     	 */	    	
     	vendorSelect: function(oEvent){
+    		var that = this;
     		if(this.role != "ZNREC_REPORT_ANALYST"){
     			return;
-    		}    		
+    		}
+    		var row = oEvent.getParameter("listItem").getBindingContext("tableModel");     		
+    		if(this.getView().getModel("myEdit") !== undefined){
+        		this.previousEditData = this.getView().getModel("myEdit").getData();
+        		this.previousEditData.changedField = this.currentEditData;
+        		this.currentEditData = row.getProperty("MAT_QTY");
+    		}
     		this.oViewModel.setProperty("/enable", true);
     		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:""}), "myEdit");
-    		var myEditModel = this.getView().getModel("myEdit").getData();
-    		var row = oEvent.getParameter("listItem").getBindingContext("tableModel");        		
+    		var myEditModel = this.getView().getModel("myEdit").getData();       		
     		myEditModel.first = row.getProperty("S_DATE");
     		myEditModel.second = row.getProperty("GUID");
     		myEditModel.third = row.getProperty("STATUS"); 
@@ -285,11 +298,34 @@ sap.ui.define([
 	          oModel.setProperty("/oIndex", oIndex);
 	          this.onPress(oItem, true);
 	        } else {
-	          var oPreviousItem = oTable.getItems()[oFlag];
-	          this.onPress(oPreviousItem, false);
-	          var oCurrentItem = oTable.getItems()[oIndex];
-	          oModel.setProperty("/oIndex", oIndex);
-              this.onPress(oCurrentItem, true);
+	        	if(oFlag === oIndex){
+			          var oPreviousItem = oTable.getItems()[oFlag];
+			          this.onPress(oPreviousItem, false);
+			          var oCurrentItem = oTable.getItems()[oIndex];
+			          oModel.setProperty("/oIndex", oIndex);
+			          this.onPress(oCurrentItem, true);	        		
+	        	}else{
+		        	sap.m.MessageBox.show(
+	     					"Do you want to save it ?", {
+	     					icon: sap.m.MessageBox.Icon.QUESTION,
+	     					title: "Really Do This?",
+	     					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+	     					onClose: function(oAction) { 
+	     						if(oAction === "OK"){
+	     							  that.onUpdate("",oFlag);
+	     						}
+	     						if(oAction === "CANCEL"){
+	     							  oTable.getItems()[oFlag].getCells()[5].setValue(that.previousEditData.changedField);
+	     					          var oPreviousItem = oTable.getItems()[oFlag];
+	     					          that.onPress(oPreviousItem, false);
+	     					          var oCurrentItem = oTable.getItems()[oIndex];
+	     					          oModel.setProperty("/oIndex", oIndex);
+	     					          that.onPress(oCurrentItem, true);
+	     						}
+	     					}
+	     				}
+		     		);
+	        	}
             }
   
     	},
@@ -307,7 +343,7 @@ sap.ui.define([
               }
             });
          },
-    	
+         
       	/** @Function to instantiation of view setting dialog
       	 */	         
     	viewSettingInit: function(){
