@@ -18,6 +18,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @TablePersoController creating TablePersoController for table
 	 *  @Models viewModel for basic view operations and another i18n for ResourceModel
 	 *  @Method createAddDialog and viewSettingInit method for instantiation for add dialog and view setting dialog, initialSettings for user data and role based visiblity
+	 *  @variable this.inc for single row edit logic
 	 */
 	onInit: function () {
 		this.getView().setModel(new JSONModel({enable:false,userDetails:[],visiblity:{add:false,updateSave:false,updateCancel:false}}),"viewModel");
@@ -33,6 +34,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 		}).activate();		
         this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
         this.createAddDialog();
+        this.inc = 0;
 	},
 	
 	/** @Event search event name onSearch triggers when search button clicked
@@ -41,6 +43,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 */	
 	onSearch : function(oEvent){
 		this.oViewModel.setProperty("/enable", false);
+		this.oViewModel.setProperty("/oIndex", undefined);
 		var that = this;		
 		this.filterBar = this.getView().byId("FTQAE_fltBar");
 		var fromDate = this.filterBar.determineControlByName("fromDate");
@@ -388,7 +391,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	/** @Function callback function for ajax success
 	 */	 	
 	successOnSave: function(rs){
-		//sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("succAlert"));
+		sap.m.MessageBox.alert(rs.Rowsets.Rowset[0].Row[0].ERROR_MESSAGE);
 		this.onSearch();
 	},
 	
@@ -409,13 +412,23 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @Model getting the required data into model table getSelected item method
 	 *  @oAjaxHandler reusable ajax call
 	 */		
-	onUpdate: function(oEvent){
-		var that = this;
+	onUpdate: function(oEvent ,index){
 		this.oViewModel.setProperty("/enable", false);
-		var myEditModel1 = this.getView().getModel("myEdit").getData();	
 		var oTable = this.getView().byId("fluTrnsQulAnlyEntrTable");
-		myEditModel1.fourth = oTable.getSelectedItem().getCells()[5].getValue();
-		myEditModel1.first = oTable.getSelectedItem().getCells()[7].getValue();
+		var myEditModel1 = this.getView().getModel("myEdit").getData();    		
+		if(index != undefined){
+			myEditModel1.first = oTable.getItems()[index].getCells()[7].getValue();
+			myEditModel1.second = this.previousEditData.second;
+			myEditModel1.third = this.previousEditData.third;
+			myEditModel1.fourth = oTable.getItems()[index].getCells()[5].getValue();
+			myEditModel1.fifth = this.previousEditData.fifth;
+			myEditModel1.sixth = this.previousEditData.sixth;
+			myEditModel1.seventh = this.previousEditData.seventh;
+			myEditModel1.eight = this.previousEditData.eight;		
+		}else{
+			myEditModel1.fourth = oTable.getSelectedItem().getCells()[5].getValue();
+			myEditModel1.first = oTable.getSelectedItem().getCells()[7].getValue();
+		}	
 		var oAjaxHandler = ajaxHandler.getInstance();
 		oAjaxHandler.setProperties("QueryTemplate","SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_UPD_ROW_QUAL");
 		oAjaxHandler.setProperties("Param.1",myEditModel1.first);
@@ -435,7 +448,7 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	/** @Function callback function for ajax success
 	 */		
 	successOnUpdate: function(rs){
-		sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+		sap.m.MessageBox.alert(rs.Rowsets.Rowset[0].Row[0].ERROR_MESSAGE);
 		this.onSearch();
 	},
 	
@@ -450,13 +463,22 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
 	 *  @Visiblity makes input fields enable
 	 */		
 	vendorSelect: function(oEvent){
+		var that = this;
+		this.inc ++;		
 		if(this.role != "ZNREC_LAB_SUP"){
 			return;
 		}
+		var row = oEvent.getParameter("listItem").getBindingContext("fluTrnsQulAnlyEntr");		
+		if(this.getView().getModel("myEdit") !== undefined){
+    		this.previousEditData = this.getView().getModel("myEdit").getData();    		
+    		this.previousEditData.previousZN_GPL_PARAM = this.currentZN_GPL_PARAM;
+    		this.previousEditData.previousDEN_PARAM = this.currentDEN_PARAM;    		
+    		this.currentZN_GPL_PARAM = row.getProperty("ZN_GPL_PARAM");
+    		this.currentDEN_PARAM = row.getProperty("DEN_PARAM");    		
+		}		
 		this.oViewModel.setProperty("/enable", true);
 		this.getView().setModel(new JSONModel({first:"",second:"",third:"",fourth:"",fifth:"",sixth:"",seventh:"",eight:""}), "myEdit");
-		var myEditModel = this.getView().getModel("myEdit").getData();
-		var row = oEvent.getParameter("listItem").getBindingContext("fluTrnsQulAnlyEntr");        		
+		var myEditModel = this.getView().getModel("myEdit").getData();       		
 		myEditModel.second = row.getProperty("S_DATE");
 		myEditModel.third = row.getProperty("GUID");
 		myEditModel.fifth = row.getProperty("FRM_MAT_NUM");
@@ -471,13 +493,44 @@ return baseController.extend("com.hzl.Controller.FluTrnQulAnlyEntry.fluTrnQulAnl
         var oFlag = oModel.getProperty("/oIndex");
         if (oFlag === undefined) {
           oModel.setProperty("/oIndex", oIndex);
+          this.lastDataZnGPL = oTable.getItems()[oIndex].getCells()[5].getValue();
+          this.lastDataZnDen = oTable.getItems()[oIndex].getCells()[7].getValue();
           this.onPress(oItem, true);
         } else {
-          var oPreviousItem = oTable.getItems()[oFlag];
-          this.onPress(oPreviousItem, false);
-          var oCurrentItem = oTable.getItems()[oIndex];
-          oModel.setProperty("/oIndex", oIndex);
-          this.onPress(oCurrentItem, true);
+            if(oFlag === oIndex){
+			          var oPreviousItem = oTable.getItems()[oFlag];
+			          this.onPress(oPreviousItem, false);
+			          var oCurrentItem = oTable.getItems()[oIndex];
+			          oModel.setProperty("/oIndex", oIndex);
+			          this.onPress(oCurrentItem, true);	        		
+		  	}else{
+		      	sap.m.MessageBox.show(
+							"Do you want to save the Data ?", {
+							icon: sap.m.MessageBox.Icon.INFORMATION,
+							title: "Information",
+							actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+							onClose: function(oAction) { 
+								if(oAction === "OK"){
+									  that.onUpdate("",oFlag);
+								}
+								if(oAction === "CANCEL"){
+						        	  if(that.inc === 2){
+						        		 oTable.getItems()[oFlag].getCells()[5].setValue(that.lastDataZnGPL);
+						        		 oTable.getItems()[oFlag].getCells()[7].setValue(that.lastDataZnDen);
+						        	  }else{
+		   							     oTable.getItems()[oFlag].getCells()[5].setValue(that.previousEditData.previousZN_GPL_PARAM);
+		   							     oTable.getItems()[oFlag].getCells()[7].setValue(that.previousEditData.previousDEN_PARAM);
+						        	  }	     							
+							          var oPreviousItem = oTable.getItems()[oFlag];
+							          that.onPress(oPreviousItem, false);
+							          var oCurrentItem = oTable.getItems()[oIndex];
+							          oModel.setProperty("/oIndex", oIndex);
+							          that.onPress(oCurrentItem, true);
+								}
+							}
+						}
+		   		);
+		  	}          
         }		
 		
 	},

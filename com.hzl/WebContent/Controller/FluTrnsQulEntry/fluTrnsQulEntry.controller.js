@@ -19,6 +19,7 @@ sap.ui.define([
 		 *  @TablePersoController creating TablePersoController for table
 		 *  @Models viewModel for basic view operations and another i18n for ResourceModel
 		 *  @Method viewSettingInit method for instantiation view setting dialog , initialSettings for user data and role based visiblity
+		 *  @variable this.inc for single row edit logic
 		 */		
 		onInit: function () {
 			this.getView().setModel(new JSONModel({enable:false,visiblity:{updateSave:false,updateCancel:false}}),"viewModel");
@@ -33,6 +34,7 @@ sap.ui.define([
 			}).activate();	
 			this.viewSettingInit();		 
 	        this.getView().setModel(new ResourceModel({ bundleUrl : "i18n/messageBundle.properties"}), "i18n");
+	        this.inc = 0;
 		},
 		
 		/** @Event press event triggers when import icon clicked on table header to export in CSV file
@@ -272,6 +274,7 @@ sap.ui.define([
     	 */	    	
     	vendorSelect: function(oEvent){
     		var that = this;
+    		this.inc ++;
     		if(this.role != "ZNREC_REPORT_ANALYST"){
     			return;
     		}
@@ -296,6 +299,7 @@ sap.ui.define([
 	        var oFlag = oModel.getProperty("/oIndex");
 	        if (oFlag === undefined) {
 	          oModel.setProperty("/oIndex", oIndex);
+	          this.lastData = oTable.getItems()[oIndex].getCells()[5].getValue();
 	          this.onPress(oItem, true);
 	        } else {
 	        	if(oFlag === oIndex){
@@ -306,16 +310,20 @@ sap.ui.define([
 			          this.onPress(oCurrentItem, true);	        		
 	        	}else{
 		        	sap.m.MessageBox.show(
-	     					"Do you want to save it ?", {
-	     					icon: sap.m.MessageBox.Icon.QUESTION,
-	     					title: "Really Do This?",
+	     					"Do you want to save the Data ?", {
+	     					icon: sap.m.MessageBox.Icon.INFORMATION,
+	     					title: "Information",
 	     					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 	     					onClose: function(oAction) { 
 	     						if(oAction === "OK"){
 	     							  that.onUpdate("",oFlag);
 	     						}
 	     						if(oAction === "CANCEL"){
-	     							  oTable.getItems()[oFlag].getCells()[5].setValue(that.previousEditData.changedField);
+	     				        	  if(that.inc === 2){
+	     				        		    oTable.getItems()[oFlag].getCells()[5].setValue(that.lastData);
+	     				        	  }else{
+		     							    oTable.getItems()[oFlag].getCells()[5].setValue(that.previousEditData.changedField);
+	     				        	  }	     							
 	     					          var oPreviousItem = oTable.getItems()[oFlag];
 	     					          that.onPress(oPreviousItem, false);
 	     					          var oCurrentItem = oTable.getItems()[oIndex];
