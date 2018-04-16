@@ -24,6 +24,7 @@ sap.ui.define([
         onInit: function() {
             this.getView().setModel(new JSONModel({
                 enable: false,
+                quantityChanged: 0,
                 visiblity: {
                     updateSave: false,
                     updateCancel: false
@@ -238,6 +239,9 @@ sap.ui.define([
         /** @Event press event trigger on clicking cancel button
          */
         onCancel: function() {
+            var oViewModel = this.oViewModel.getData();
+            oViewModel.quantityChanged = 0;
+            this.oViewModel.setData(oViewModel);
             this.onSearch();
         },
 
@@ -248,6 +252,9 @@ sap.ui.define([
          */
         onUpdate: function(oEvent, index) {
             this.oViewModel.setProperty("/enable", false);
+            var oViewModel = this.oViewModel.getData();
+            oViewModel.quantityChanged = 0;
+            this.oViewModel.setData(oViewModel);
             var myEditModel1 = this.getView().getModel("myEdit").getData();
             if (index != undefined) {
                 myEditModel1.fourth = this.getView().byId("fluTrnsQualityEntryTable").getItems()[index].getCells()[5].getValue();
@@ -336,30 +343,39 @@ sap.ui.define([
                     oModel.setProperty("/oIndex", oIndex);
                     this.onPress(oCurrentItem, true);
                 } else {
-                    sap.m.MessageBox.show(
-                        "Do you want to save the Data ?", {
-                            icon: sap.m.MessageBox.Icon.INFORMATION,
-                            title: "Information",
-                            actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
-                            onClose: function(oAction) {
-                                if (oAction === "OK") {
-                                    that.onUpdate("", oFlag);
-                                }
-                                if (oAction === "CANCEL") {
-                                    if (that.inc === 2) {
-                                        oTable.getItems()[oFlag].getCells()[5].setValue(that.lastData);
-                                    } else {
-                                        oTable.getItems()[oFlag].getCells()[5].setValue(that.previousEditData.changedField);
+                    if (this.oViewModel.getData().quantityChanged > 0) {
+                        sap.m.MessageBox.show(
+                            "Do you want to save the Data ?", {
+                                icon: sap.m.MessageBox.Icon.INFORMATION,
+                                title: "Information",
+                                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                                onClose: function(oAction) {
+                                    if (oAction === "OK") {
+                                        that.onUpdate("", oFlag);
                                     }
-                                    var oPreviousItem = oTable.getItems()[oFlag];
-                                    that.onPress(oPreviousItem, false);
-                                    var oCurrentItem = oTable.getItems()[oIndex];
-                                    oModel.setProperty("/oIndex", oIndex);
-                                    that.onPress(oCurrentItem, true);
+                                    if (oAction === "CANCEL") {
+                                        var oViewModel = that.oViewModel.getData();
+                                        oViewModel.quantityChanged = 0;
+                                        that.oViewModel.setData(oViewModel);
+                                        if (that.inc === 2) {
+                                            oTable.getItems()[oFlag].getCells()[5].setValue(that.lastData);
+                                        } else {
+                                            oTable.getItems()[oFlag].getCells()[5].setValue(that.previousEditData.changedField);
+                                        }
+                                        var oPreviousItem = oTable.getItems()[oFlag];
+                                        that.onPress(oPreviousItem, false);
+                                        var oCurrentItem = oTable.getItems()[oIndex];
+                                        oModel.setProperty("/oIndex", oIndex);
+                                        that.onPress(oCurrentItem, true);
+                                    }
                                 }
                             }
-                        }
-                    );
+                        );
+                    } else {
+                        this.onPress(oTable.getItems()[oFlag], false);
+                        oModel.setProperty("/oIndex", oIndex);
+                        this.onPress(oTable.getItems()[oIndex], true);
+                    }
                 }
             }
 
@@ -464,6 +480,10 @@ sap.ui.define([
                 viewModel.visiblity.updateSave = true;
             }
             this.oViewModel.setData(viewModel);
+        },
+
+        onFieldChange: function() {
+            this.oViewModel.getData().quantityChanged++;
         }
 
 
