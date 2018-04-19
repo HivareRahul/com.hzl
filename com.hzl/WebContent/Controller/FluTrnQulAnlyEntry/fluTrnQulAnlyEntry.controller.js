@@ -18,13 +18,13 @@ sap.ui.define([
          *  @TablePersoController creating TablePersoController for table
          *  @Models viewModel for basic view operations and another i18n for ResourceModel
          *  @Method createAddDialog and viewSettingInit method for instantiation for add dialog and view setting dialog, initialSettings for user data and role based visiblity
-         *  @variable this.inc for single row edit logic
          */
         onInit: function() {
             this.getView().setModel(new JSONModel({
                 enable: false,
                 userDetails: [],
                 quantityChanged: 0,
+                inc : 0,
                 visiblity: {
                     add: false,
                     updateSave: false,
@@ -45,7 +45,6 @@ sap.ui.define([
                 bundleUrl: "i18n/messageBundle.properties"
             }), "i18n");
             this.createAddDialog();
-            this.inc = 0;
         },
 
         /** @Event search event name onSearch triggers when search button clicked
@@ -491,7 +490,7 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successOnUpdate: function(rs) {
-            sap.m.MessageBox.alert(rs.Rowsets.Rowset[0].Row[0].ERROR_MESSAGE);
+            sap.m.MessageToast.show(rs.Rowsets.Rowset[0].Row[0].ERROR_MESSAGE);
             this.onSearch();
         },
 
@@ -507,7 +506,7 @@ sap.ui.define([
          */
         vendorSelect: function(oEvent) {
             var that = this;
-            this.inc++;
+            this.oViewModel.getData().inc ++;
             if (this.role != "ZNREC_LAB_SUP") {
                 return;
             }
@@ -570,7 +569,7 @@ sap.ui.define([
                                         var oViewModel = that.oViewModel.getData();
                                         oViewModel.quantityChanged = 0;
                                         that.oViewModel.setData(oViewModel);
-                                        if (that.inc === 2) {
+                                        if (that.oViewModel.getData().inc === 2) {
                                             oTable.getItems()[oFlag].getCells()[5].setValue(that.lastDataZnGPL);
                                             oTable.getItems()[oFlag].getCells()[7].setValue(that.lastDataZnDen);
                                         } else {

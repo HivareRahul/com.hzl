@@ -7,7 +7,7 @@
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
 		</headerContent>	
 		<content>
-				<fb:FilterBar reset="onReset" search="onSearch">
+			<fb:FilterBar reset="onReset" search="onSearch">
                 <fb:filterItems>
                    <fb:FilterItem name="SSQSpt" mandatory="true" label="{i18n>SSQSplt}">
                         <fb:control>

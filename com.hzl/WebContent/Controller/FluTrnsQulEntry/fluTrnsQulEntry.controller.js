@@ -19,12 +19,12 @@ sap.ui.define([
          *  @TablePersoController creating TablePersoController for table
          *  @Models viewModel for basic view operations and another i18n for ResourceModel
          *  @Method viewSettingInit method for instantiation view setting dialog , initialSettings for user data and role based visiblity
-         *  @variable this.inc for single row edit logic
          */
         onInit: function() {
             this.getView().setModel(new JSONModel({
-                enable: false,
-                quantityChanged: 0,
+                enable : false,
+                quantityChanged : 0,
+                inc : 0,
                 visiblity: {
                     updateSave: false,
                     updateCancel: false
@@ -43,7 +43,6 @@ sap.ui.define([
             this.getView().setModel(new ResourceModel({
                 bundleUrl: "i18n/messageBundle.properties"
             }), "i18n");
-            this.inc = 0;
         },
 
         /** @Event press event triggers when import icon clicked on table header to export in CSV file
@@ -286,7 +285,7 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successOnUpdate: function() {
-            sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+            sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
             this.onSearch();
         },
 
@@ -302,7 +301,7 @@ sap.ui.define([
          */
         vendorSelect: function(oEvent) {
             var that = this;
-            this.inc++;
+            this.oViewModel.getData().inc ++;
             if (this.role != "ZNREC_REPORT_ANALYST") {
                 return;
             }
@@ -357,7 +356,7 @@ sap.ui.define([
                                         var oViewModel = that.oViewModel.getData();
                                         oViewModel.quantityChanged = 0;
                                         that.oViewModel.setData(oViewModel);
-                                        if (that.inc === 2) {
+                                        if (that.oViewModel.getData().inc === 2) {
                                             oTable.getItems()[oFlag].getCells()[5].setValue(that.lastData);
                                         } else {
                                             oTable.getItems()[oFlag].getCells()[5].setValue(that.previousEditData.changedField);

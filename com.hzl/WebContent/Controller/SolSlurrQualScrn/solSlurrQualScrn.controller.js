@@ -212,6 +212,7 @@ sap.ui.define([
          *  @oAjaxHandler reusable ajax call
          */
         onUpdate: function() {
+            this.startBusyIndicator();           	
             var tblData = 'Param.1={"Root":' + encodeURIComponent(JSON.stringify(this.oViewModel.getData().myEditData)) + '}';
             var oAjaxHandler = ajaxHandler.getInstance();
             oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_QULTY_UPDATE");
@@ -225,7 +226,7 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successOnUpdate: function() {
-            sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+            sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
             this.onSearch();
         },
 
