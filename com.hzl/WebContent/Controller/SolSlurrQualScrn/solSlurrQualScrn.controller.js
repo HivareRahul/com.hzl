@@ -225,15 +225,22 @@ sap.ui.define([
 
         /** @Function callback function for ajax success
          */
-        successOnUpdate: function() {
-            sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
-            this.onSearch();
+        successOnUpdate: function(rs) {
+    		if(rs.Rowsets.Rowset[0].Row[0].QrySuccess === 1){
+                sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+                this.onSearch();
+    		}else{
+    			var rs = {};
+    			rs.statusText = this.getView().getModel("i18n").getResourceBundle().getText("unexpecErr");
+    			this.failRequestOnUpdate(rs);
+    		}     	
         },
 
         /** @Function callback function for ajax fail
          */
         failRequestOnUpdate: function(rs) {
             sap.m.MessageBox.alert(rs.statusText);
+            this.stopBusyIndicator();
         },
 
         /** @Event press event trigger on clicking cancel button
