@@ -22,6 +22,8 @@ sap.ui.define([
                 oRouter.navTo("solSlurrQualScrn");
             } else if (oEvent.getSource().getCustomData()[0].getValue() === "solSlurrReport") {
                 oRouter.navTo("solSlurrReport");
+            } else if (oEvent.getSource().getCustomData()[0].getValue() === "errLogs") {
+                oRouter.navTo("errLogs");
             }
         }
     });

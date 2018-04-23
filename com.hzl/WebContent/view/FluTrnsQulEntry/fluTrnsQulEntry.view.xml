@@ -7,7 +7,7 @@
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
 		</headerContent>	
 		<content>
-				<fb:FilterBar id="FTQE_fltBar" reset="onReset" search="onSearch">
+			<fb:FilterBar id="FTQE_fltBar" reset="onReset" search="onSearch">
                 <fb:filterItems>
                     <fb:FilterItem name="B" label="{i18n>FTQE_frmDt}" mandatory="true">
                         <fb:control>

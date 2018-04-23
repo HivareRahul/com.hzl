@@ -70,6 +70,11 @@ sap.ui.core.UIComponent.extend("com.hzl.Component", {
                     viewLevel: 2
                 },
                 {
+                    pattern: "errLogs",
+                    name: "errLogs",
+                    view: "Logs.errLogs"
+                },
+                {
                     pattern: ":all*:",
                     name: "notFound",
                     view: "Global.notFound"

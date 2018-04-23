@@ -1,0 +1,44 @@
+<mvc:View
+	height="100%"
+	controllerName="com.hzl.Controller.Logs.errLogs"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:l="sap.ui.layout"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:myData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:cmn="sap.ui.commons">	
+	<Page title="{i18n>errLog_Title}" showNavButton="true" navButtonPress="myNavBack">
+		<headerContent>
+			<Text text="{i18n>logAs}"></Text>
+			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
+		</headerContent>
+		<content>
+			<fb:FilterBar id="errLog_fltBar" search="onSearch" advancedMode="true">
+                <fb:filterItems>
+                    <fb:FilterItem name="A" label="Date" mandatory="true">
+                        <fb:control>
+                            <DateTimeInput id="errDate" type="DateTime" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="Enter Date..."/>
+                        </fb:control>
+                    </fb:FilterItem>
+                </fb:filterItems>
+            </fb:FilterBar>	  
+            <Table id="errLogTable">
+				<columns>
+					<Column id="err"><Text text="Error List"/></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="Error !"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+ 		</content> 
+		<footer>
+			<Toolbar>
+			</Toolbar>
+		</footer>
+	</Page>
+</mvc:View>
