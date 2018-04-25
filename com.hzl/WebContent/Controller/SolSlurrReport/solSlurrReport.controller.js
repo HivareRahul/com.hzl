@@ -372,11 +372,23 @@ sap.ui.define([
             for (var i = 0; i < myTable.getItems().length; i++) {
                 if (myTable.getItems()[i].getMetadata().getElementName() === "sap.m.GroupHeaderListItem") {
                     continue;
-                }
-                if (myTable.getItems()[i].getCells()[6].getText() === "TH5") {
-                    myTable.getItems()[i].getCells()[2].setEditable(false);
+                }                
+                if (myTable.getItems()[i].getCells()[6].getText() === "TH5") {                
+                	for(var j=0; j < myTable.getItems()[i].getCells().length ;j++){
+                		myTable.getItems()[i].getCells()[j].addStyleClass("myCustColor");
+                	}                	                	
+                    myTable.getItems()[i].getCells()[2].setEditable(false);                    
                     myTable.getItems()[i].getCells()[5].setEditable(true);
-                } else {
+                }else if(myTable.getItems()[i].getCells()[6].getText().slice(0,2) === "TH"){                	
+                	for(var m=0; m < myTable.getItems()[i].getCells().length ;m++){
+                		myTable.getItems()[i].getCells()[m].addStyleClass("greenColor");
+                	}    
+                    myTable.getItems()[i].getCells()[2].setEditable(true);
+                    myTable.getItems()[i].getCells()[5].setEditable(false);                	
+                } else {                	
+                	for(var k=0; k < myTable.getItems()[i].getCells().length ;k++){
+                		myTable.getItems()[i].getCells()[k].addStyleClass("blueColor");
+                	}                	                	
                     myTable.getItems()[i].getCells()[2].setEditable(true);
                     myTable.getItems()[i].getCells()[5].setEditable(false);
                 }

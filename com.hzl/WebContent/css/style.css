@@ -1,3 +1,15 @@
 .sapUiTheme-sap_bluecrystal {
     font-size: 14px !important;
 }
+
+.myCustColor{
+	color: #bb0808 !important;
+}
+
+.blueColor{
+	color: #3b0bb1 !important;
+}
+
+.greenColor{
+	color: #136f13 !important;
+}

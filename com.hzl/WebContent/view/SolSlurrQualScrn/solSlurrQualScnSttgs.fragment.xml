@@ -1,9 +1,8 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
 	<ViewSettingsDialog title="{i18n>custSett}" confirm="handleConfirm">
 		<sortItems>
-			<ViewSettingsItem text="{i18n>SSQS_smpId}" key="EQP_NUM"/>
+			<ViewSettingsItem text="{i18n>SSQS_smpId}" key="EQP_NUM" selected="true"/>
 			<ViewSettingsItem text="{i18n>SSQS_smpNm}" key="EQP_DESC"/>
-			<ViewSettingsItem text="{i18n>SSQS_smpGrp}" key="SAMP_GRP" selected="true"/>
 			<ViewSettingsItem text="{i18n>SSQS_znGpl}" key="ZN_GPL_PARA"/>
 			<ViewSettingsItem text="{i18n>SSQS_h2o}" key="PER_H2O_PARAM"/>
 			<ViewSettingsItem text="{i18n>SSQS_bd}" key="BD_PARAM"/>
@@ -19,7 +18,6 @@
 		<groupItems>
 			<ViewSettingsItem text="{i18n>SSQS_smpId}" key="EQP_NUM"/>
 			<ViewSettingsItem text="{i18n>SSQS_smpNm}" key="EQP_DESC"/>
-			<ViewSettingsItem text="{i18n>SSQS_smpGrp}" key="SAMP_GRP"/>
 			<ViewSettingsItem text="{i18n>SSQS_znGpl}" key="ZN_GPL_PARA"/>
 			<ViewSettingsItem text="{i18n>SSQS_h2o}" key="PER_H2O_PARAM"/>
 			<ViewSettingsItem text="{i18n>SSQS_bd}" key="BD_PARAM"/>

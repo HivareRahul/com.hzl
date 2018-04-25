@@ -267,13 +267,6 @@ sap.ui.define([
                         text: name
                     };
                 },
-                SAMP_GRP: function(oContext) {
-                    var name = oContext.getProperty("SAMP_GRP");
-                    return {
-                        key: name,
-                        text: name
-                    };
-                },
                 ZN_GPL_PARA: function(oContext) {
                     var name = oContext.getProperty("ZN_GPL_PARA");
                     return {
@@ -373,11 +366,6 @@ sap.ui.define([
                     name: "Sample Name",
                     template: {
                         content: "{EQP_DESC}"
-                    }
-                }, {
-                    name: "Sample Group",
-                    template: {
-                        content: "{SAMP_GRP}"
                     }
                 }, {
                     name: "Zn GPL",

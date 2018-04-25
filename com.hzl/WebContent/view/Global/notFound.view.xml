@@ -3,9 +3,7 @@
 	xmlns="sap.m"
 	controllerName="com.hzl.Controller.Global.notFound">
 	<Page
-		title="{i18n>notFoundTitle}"
-		 showNavButton="true" 
-		 navButtonPress="myNavBack">
+		title="{i18n>notFoundTitle}">
 		<content>
 		<FlexBox
 			alignItems="Center"
