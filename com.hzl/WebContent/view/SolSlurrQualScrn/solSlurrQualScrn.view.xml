@@ -18,7 +18,7 @@
                     </fb:FilterItem>                
                     <fb:FilterItem name="SSQSd" label="{i18n>SSQSdt}" mandatory="true">
                         <fb:control>
-                            <DateTimeInput id="SSQSdate" valueFormat="MM-dd-yyyy" placeholder="{i18n>SSQS_PH_enDt}"/>
+                            <DateTimeInput id="SSQSdate" valueFormat="MM-dd-yyyy" placeholder="{i18n>SSQS_PH_enDt}" enabled="{viewModel>/visiblity/dateEnabled}"/>
                         </fb:control>
                     </fb:FilterItem>
                 </fb:filterItems>
@@ -69,17 +69,17 @@
 							<cells>
 								<Text text="{tableModel>EQP_NUM}"/>
 								<Text text="{tableModel>EQP_DESC}"/>
-								<cmn:TextField value="{tableModel>ZN_GPL_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>PER_H2O_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>BD_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>PERC_ZNPT_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>SOLID_GPL_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>PER_PB_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>PER_ZN_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>PER_CD_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>PER_AG_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>SLURRY_DEN_PARAM}" editable="true" width="6rem" change="onRowChange"/>
-								<cmn:TextField value="{tableModel>SOLID_DEN_PARAM}" editable="true" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>ZN_GPL_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>PER_H2O_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>BD_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>PERC_ZNPT_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>SOLID_GPL_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>PER_PB_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>PER_ZN_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>PER_CD_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>PER_AG_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>SLURRY_DEN_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
+								<cmn:TextField value="{tableModel>SOLID_DEN_PARAM}" editable="{viewModel>/visiblity/tableFieldEditable}" width="6rem" change="onRowChange"/>
 							</cells>
 						</ColumnListItem>
 					</items>

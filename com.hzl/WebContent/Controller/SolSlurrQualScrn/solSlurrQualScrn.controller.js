@@ -24,7 +24,9 @@ sap.ui.define([
                 userDetails: [],
                 myEditData: [],
                 visiblity: {
-                    updateSave: false,
+                    dateEnabled: false,
+                    tableFieldEditable: false,
+                	updateSave: false,
                     updateCancel: false
                 }
             }), "viewModel");
@@ -462,8 +464,28 @@ sap.ui.define([
          */
         visiblitySettings: function() {
             var viewModel = this.oViewModel.getData();
-            viewModel.visiblity.updateCancel = true;
-            viewModel.visiblity.updateSave = true;
+            var myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[0].ROLE;
+            switch (myRole) {
+	            case "ZNREC_LAB_ANALYST":
+		                viewModel.visiblity.updateCancel = true;
+		                viewModel.visiblity.updateSave = true; 	            	
+		            	viewModel.visiblity.tableFieldEditable = true;
+		                break;
+	            case "ZNREC_LAB_SUP":
+		                viewModel.visiblity.updateCancel = true;
+		                viewModel.visiblity.updateSave = true;   
+		                viewModel.visiblity.dateEnabled = true;
+		                viewModel.visiblity.tableFieldEditable = true;
+		                break;
+	            case "ZNREC_READONLY":
+	            		viewModel.visiblity.dateEnabled = true;
+	            		break;
+	            case "ZNREC_REPORT_ANALYST":
+	            		this.getView().byId("SSQS_Table").destroyColumns();
+	                	break;
+	            default:
+		            	this.getView().byId("SSQS_Table").destroyColumns();         
+            }                                    
             this.oViewModel.setData(viewModel);
         }
     });
