@@ -464,7 +464,7 @@ sap.ui.define([
          */
         visiblitySettings: function() {
             var viewModel = this.oViewModel.getData();
-            var myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[0].ROLE;
+            var myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[1].ROLE;
             switch (myRole) {
 	            case "ZNREC_LAB_ANALYST":
 		                viewModel.visiblity.updateCancel = true;
