@@ -18,12 +18,12 @@
 			<fb:filterItems>
 				<fb:FilterItem name="fromDate" label="{i18n>FTQAE_frmDate}" mandatory="true">
 					<fb:control>
-						<DateTimeInput id="frmDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQAE_PH_frmDt}" type="DateTime"></DateTimeInput>
+						<DateTimeInput id="frmDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>FTQAE_PH_frmDt}"></DateTimeInput>
 					</fb:control>
 				</fb:FilterItem>
 				<fb:FilterItem name="toDate" label="{i18n>FTQAE_toDate}" mandatory="true">
 					<fb:control>
-						<DateTimeInput id="toDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>FTQAE_PH_toDt}" type="DateTime"></DateTimeInput>
+						<DateTimeInput id="toDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>FTQAE_PH_toDt}"></DateTimeInput>
 					</fb:control>
 				</fb:FilterItem>
 				<fb:FilterItem name="plant" label="{i18n>FTQAE_plt}" mandatory="true">

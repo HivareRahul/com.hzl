@@ -32,8 +32,8 @@ sap.ui.define([
             }), "viewModel");
             this.oViewModel = this.getView().getModel("viewModel");
             this.initialSettings();
-            this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()));
-            this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setDate(new Date().getDate() - 2))));
+            this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()).slice(0, 10));
+            this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setDate(new Date().getDate() - 2))).slice(0, 10));
             this._oTPC = new TablePersoController({
                 table: this.getView().byId("fluTrnsQualityEntryTable"),
                 componentName: "FTQE",
@@ -160,14 +160,14 @@ sap.ui.define([
             this.oViewModel.setProperty("/enable", false);
             this.oViewModel.setProperty("/oIndex", undefined);
             this.filterBar = this.getView().byId("FTQE_fltBar");
-            var fromDate = this.getView().byId("frmDate");
-            var toDate = this.getView().byId("toDate");
+            var fromDate = this.getView().byId("frmDate").getValue() + " 00:00:00";
+            var toDate = this.getView().byId("toDate").getValue() + " 23:59:59";
             var plant = this.getView().byId("FTQEplant");
             if (this.validation(this.filterBar) > 0) {
                 sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
                 return;
             }
-            if (Date.parse(fromDate.getValue().slice(0, 10) + " " + fromDate.getValue().slice(11).split("-").join(":")) >= Date.parse(toDate.getValue().slice(0, 10) + " " + toDate.getValue().slice(11).split("-").join(":"))) {
+            if (Date.parse(fromDate.slice(0, 10) + " " + fromDate.slice(11).split("-").join(":")) >= Date.parse(toDate.slice(0, 10) + " " + toDate.slice(11).split("-").join(":"))) {
                 sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
                 return;
             }
@@ -175,8 +175,8 @@ sap.ui.define([
             var oAjaxHandler = ajaxHandler.getInstance();
             oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_QTYDET_DIS");
             oAjaxHandler.setProperties("IsTesting", "T");
-            oAjaxHandler.setProperties("Param.1", fromDate.getValue());
-            oAjaxHandler.setProperties("Param.2", toDate.getValue());
+            oAjaxHandler.setProperties("Param.1", fromDate);
+            oAjaxHandler.setProperties("Param.2", toDate);
             oAjaxHandler.setProperties("Param.3", plant.getValue());
             oAjaxHandler.setCallBackSuccessMethod(this.successSrch, this);
             oAjaxHandler.setCallBackFailureMethod(this.failRequestScrch, this);
@@ -201,17 +201,6 @@ sap.ui.define([
          *  @Functinality resets the control data 
          */
         onReset: function() {
-            var oFilterDataModel = new JSONModel({
-                frmDate: "",
-                toDate: "",
-                tsId: "",
-                MatTrans: "",
-                matTrnsFrm: "",
-                matTrnsTo: "",
-                sft: "",
-                tagId: ""
-            });
-            this.getView().setModel(oFilterDataModel, "filterData");
             this.getView().byId("frmDate").setValue("");
             this.getView().byId("toDate").setValue("");
             this.getView().byId("FTQEplant").setSelectedKey(null);
