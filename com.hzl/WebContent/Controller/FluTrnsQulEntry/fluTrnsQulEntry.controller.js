@@ -185,15 +185,21 @@ sap.ui.define([
 
         /** @Function callback function for ajax success
          */
-        successSrch: function(rs) {
-            this.getView().setModel(new JSONModel(rs), "tableModel");
-            this.stopBusyIndicator();
+        successSrch: function(rs) {            
+    		if(rs.Rowsets.Rowset[1].Row["0"].SUCC_IND === 1){
+                this.getView().setModel(new JSONModel(rs), "tableModel");
+                this.stopBusyIndicator();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset[1].Row["0"].SUCCERR_MESSAGE;
+    			this.failRequestScrch(rsp);
+    		}             
         },
 
         /** @Function callback function for ajax fail
          */
         failRequestScrch: function(rs) {
-            sap.m.MessageBox.alert(rs.statusText);
+            sap.m.MessageToast.show(rs.statusText);
             this.stopBusyIndicator();
         },
 
@@ -273,15 +279,22 @@ sap.ui.define([
 
         /** @Function callback function for ajax success
          */
-        successOnUpdate: function() {
-            sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
-            this.onSearch();
+        successOnUpdate: function(rs) {            
+    		if(rs.Rowsets.Rowset[0].Row[0].SUCCESS === 1){
+                sap.m.MessageToast.show(rs.Rowsets.Rowset[0].Row[0].SUCC_ERROR_MESSAGE);
+                this.onSearch();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = this.getView().getModel("i18n").getResourceBundle().getText("unexpecErr");
+    			this.failRequestOnUpdate(rsp);
+    		}                                     
         },
 
         /** @Function callback function for ajax fail
          */
         failRequestOnUpdate: function(rs) {
             sap.m.MessageBox.alert(rs.statusText);
+            this.stopBusyIndicator();
         },
 
         /** @Event itemPress event triggered after clicking on a table row
@@ -469,9 +482,19 @@ sap.ui.define([
             }
             this.oViewModel.setData(viewModel);
         },
-
-        onFieldChange: function() {
+        
+        /** @Function for input field validation
+         */
+        onFieldChange: function(oEvent) {
             this.oViewModel.getData().quantityChanged++;
+            var result = isNaN(parseFloat(oEvent.getParameter("liveValue")));
+            if(oEvent.getParameter("liveValue").slice(-1) !== "."){
+	            if(result === false){
+	            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("liveValue")));
+	            }else{
+	            	oEvent.getSource().setValue("");
+	            }
+            }
         }
 
 

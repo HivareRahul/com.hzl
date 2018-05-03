@@ -80,14 +80,20 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successSrch: function(rs) {
-            this.getView().setModel(new JSONModel(rs), "fluTrnsQulAnlyEntr");
-            this.stopBusyIndicator();
+    		if(rs.Rowsets.Rowset[1].Row[0].SUCC_IND === 1){
+                this.getView().setModel(new JSONModel(rs), "fluTrnsQulAnlyEntr");
+                this.stopBusyIndicator();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset[1].Row[0].SUCCERR_MESSAGE;
+    			this.failRequestScrch(rsp);
+    		}                        
         },
 
         /** @Function callback function for ajax fail
          */
         failRequestScrch: function(rs) {
-            sap.m.MessageBox.alert(rs.statusText);
+            sap.m.MessageToast.show(rs.statusText);
             this.stopBusyIndicator();
         },
 
@@ -418,14 +424,21 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successOnSave: function(rs) {
-            sap.m.MessageBox.alert(rs.Rowsets.Rowset[0].Row[0].ERROR_MESSAGE);
-            this.onSearch();
+    		if(rs.Rowsets.Rowset[0].Row[0].SUCCESS === 1){
+                sap.m.MessageToast.show(rs.Rowsets.Rowset["0"].Row["0"].SUCCERR_MESSAGE);
+                this.onSearch();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset["0"].Row["0"].SUCCERR_MESSAGE;
+    			this.failRequestOnSave(rsp);
+    		}                
         },
 
         /** @Function callback function for ajax fail
          */
         failRequestOnSave: function(rs) {
             sap.m.MessageBox.alert(rs.statusText);
+            this.stopBusyIndicator();
         },
 
         /** @Event press event trigger on clicking cancel button
@@ -719,9 +732,36 @@ sap.ui.define([
             }
             this.oViewModel.setData(viewModel);
         },
-
+        
+        /** @Function for input field validation
+         */
         onFieldChange: function() {
             this.oViewModel.getData().quantityChanged++;
+        },
+
+        /** @Event trigger when Add fragment date got changed
+         */        
+        onDateChange: function(oEvent){
+            var oAjaxHandler = ajaxHandler.getInstance();
+            oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_ADD_BUTTON_DEF_SHIFT");
+            oAjaxHandler.setProperties("Param.1", oEvent.getParameter("value"));
+            oAjaxHandler.setCallBackSuccessMethod(this.successDateChange, this);
+            oAjaxHandler.setCallBackFailureMethod(this.failDateChange, this);
+            oAjaxHandler.triggerPostRequest();
+        },
+
+        /** @Function callback function for ajax success
+         */
+        successDateChange: function(rs) {
+        	var a = 0;
+        	this.getView().getModel("inpDialogModel");
+        	//sap.ui.core.Fragment.byId("idQualAnalysisRec", "addShift").setSelectedKey(null);
+        },
+
+        /** @Function callback function for ajax fail
+         */
+        failDateChange: function(rs) {
+            sap.m.MessageBox.alert(rs.statusText);
         }
 
     });

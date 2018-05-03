@@ -232,9 +232,9 @@ sap.ui.define([
                 sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
                 this.onSearch();
     		}else{
-    			var rs = {};
-    			rs.statusText = this.getView().getModel("i18n").getResourceBundle().getText("unexpecErr");
-    			this.failRequestOnUpdate(rs);
+    			var rsp = {};
+    			rsp.statusText = this.getView().getModel("i18n").getResourceBundle().getText("unexpecErr");
+    			this.failRequestOnUpdate(rsp);
     		}     	
         },
 
