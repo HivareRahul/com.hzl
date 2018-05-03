@@ -164,11 +164,11 @@ sap.ui.define([
             var toDate = this.getView().byId("toDate").getValue() + " 23:59:59";
             var plant = this.getView().byId("FTQEplant");
             if (this.validation(this.filterBar) > 0) {
-                sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
                 return;
             }
             if (Date.parse(fromDate.slice(0, 10) + " " + fromDate.slice(11).split("-").join(":")) >= Date.parse(toDate.slice(0, 10) + " " + toDate.slice(11).split("-").join(":"))) {
-                sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
                 return;
             }
             this.startBusyIndicator();
@@ -199,7 +199,7 @@ sap.ui.define([
         /** @Function callback function for ajax fail
          */
         failRequestScrch: function(rs) {
-            sap.m.MessageToast.show(rs.statusText);
+            sap.m.MessageBox.alert(rs.statusText);
             this.stopBusyIndicator();
         },
 
@@ -492,11 +492,10 @@ sap.ui.define([
 	            if(result === false){
 	            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("liveValue")));
 	            }else{
-	            	oEvent.getSource().setValue("");
+	            	oEvent.getSource().setValue("0");
 	            }
             }
         }
-
 
     });
 

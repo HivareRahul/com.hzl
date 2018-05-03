@@ -3,11 +3,7 @@
 	controllerName="com.hzl.Controller.Logs.errLogs"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:fb="sap.ui.comp.filterbar"
-	xmlns:l="sap.ui.layout"
-	xmlns="sap.m"
-	xmlns:core="sap.ui.core"
-	xmlns:myData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
-	xmlns:cmn="sap.ui.commons">	
+	xmlns="sap.m">	
 	<Page title="{i18n>errLog_Title}" showNavButton="true" navButtonPress="myNavBack">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>
@@ -16,25 +12,41 @@
 		<content>
 			<fb:FilterBar id="errLog_fltBar" search="onSearch" advancedMode="true">
                 <fb:filterItems>
-                    <fb:FilterItem name="A" label="Date" mandatory="true">
+                    <fb:FilterItem name="A" label="{i18n>errLog_dt}" mandatory="true">
                         <fb:control>
-                            <DateTimeInput id="errDate" type="DateTime" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="Enter Date..."/>
+                            <DateTimeInput id="errDate" type="DateTime" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>errLog_PH_Dt}"/>
                         </fb:control>
                     </fb:FilterItem>
                 </fb:filterItems>
-            </fb:FilterBar>	  
-            <Table id="errLogTable">
-				<columns>
-					<Column id="err"><Text text="Error List"/></Column>
+            </fb:FilterBar>	 
+			<Table showNoData='false'>
+				<columns>					
+						<Column hAlign="Center" id="dt"><Text text="{i18n>errLog_date}"/></Column>
+						<Column hAlign="Center" id="trnsPth"><Text text="{i18n>errLog_tranPth}"/></Column>
+						<Column hAlign="Center" id="src"><Text text="{i18n>errLog_src}"/></Column>
+						<Column hAlign="Center" id="msg"><Text text="{i18n>errLog_msg}"/></Column>			
 				</columns>
-				<items>
-					<ColumnListItem>
-						<cells>
-							<Text text="Error !"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
+			</Table>              
+			<ScrollContainer height='50rem' vertical='true'>            
+	            <Table id="errLogTable" items="{tableModel>/Rowsets/Rowset/0/Row/}">
+					<columns>
+						<Column hAlign="Center"></Column>
+						<Column hAlign="Center"></Column>
+						<Column hAlign="Center"></Column>
+						<Column hAlign="Center"></Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{tableModel>S_DATE}"/>
+								<Text text="{tableModel>TRX_PATH}"/>
+								<Text text="{tableModel>SOURCE}"/>
+								<Text text="{tableModel>MESSAGE}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+			</ScrollContainer>			
  		</content> 
 		<footer>
 			<Toolbar>

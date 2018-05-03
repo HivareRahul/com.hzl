@@ -47,7 +47,7 @@ sap.ui.define([
             var date = this.getView().byId("SSQSdate");
             var plant = this.getView().byId("SSQSplant");
             if (this.validation() > 0) {
-                MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
                 return;
             }
             this.startBusyIndicator();

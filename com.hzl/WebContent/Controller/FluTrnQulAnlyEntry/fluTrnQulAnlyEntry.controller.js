@@ -59,11 +59,11 @@ sap.ui.define([
             var toDate = this.filterBar.determineControlByName("toDate").getValue() + " 23:59:59";
             var plant = this.filterBar.determineControlByName("plant");
             if (this.validation(this.filterBar) > 0) {
-                MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
                 return;
             }
             if (Date.parse(fromDate.slice(0, 10) + " " + fromDate.slice(11).split("-").join(":")) >= Date.parse(toDate.slice(0, 10) + " " + toDate.slice(11).split("-").join(":"))) {
-                MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
                 return;
             }
             this.startBusyIndicator();
@@ -93,7 +93,7 @@ sap.ui.define([
         /** @Function callback function for ajax fail
          */
         failRequestScrch: function(rs) {
-            sap.m.MessageToast.show(rs.statusText);
+            sap.m.MessageBox.alert(rs.statusText);
             this.stopBusyIndicator();
         },
 
@@ -754,8 +754,10 @@ sap.ui.define([
          */
         successDateChange: function(rs) {
         	var a = 0;
-        	this.getView().getModel("inpDialogModel");
-        	//sap.ui.core.Fragment.byId("idQualAnalysisRec", "addShift").setSelectedKey(null);
+        	var addDialogData = this._addDialog.getModel().getData();
+        	addDialogData.Rowsets.shiftData = rs;      	
+        	this._addDialog.getModel().setData(addDialogData); 
+            sap.ui.core.Fragment.byId("idQualAnalysisRec", "addShift").setSelectedKey(addDialogData.Rowsets.shiftData.Rowsets.Rowset["0"].Row["0"].SHIFT);
         },
 
         /** @Function callback function for ajax fail

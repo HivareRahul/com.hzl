@@ -53,16 +53,16 @@ sap.ui.define([
         onSearch: function() {
             var date = this.getView().byId("errDate").getValue();
             if (date == "") {
-                MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
                 return;
             }
-            /*this.startBusyIndicator();
+            this.startBusyIndicator();
             var oAjaxHandler = ajaxHandler.getInstance();
-            oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_QTYDET_DIS");
-            oAjaxHandler.setProperties("Param.1", fromDate.getValue());
+            oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/COMMON/QRY/XQRY_SEL_ERRORLOG");
+            oAjaxHandler.setProperties("Param.1", date);
             oAjaxHandler.setCallBackSuccessMethod(this.successSrch, this);
             oAjaxHandler.setCallBackFailureMethod(this.failRequestScrch, this);
-            oAjaxHandler.triggerPostRequest();*/
+            oAjaxHandler.triggerPostRequest();
         },
 
         /** @Function callback function for ajax success

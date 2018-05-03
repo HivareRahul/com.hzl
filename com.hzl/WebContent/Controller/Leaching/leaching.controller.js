@@ -204,11 +204,11 @@ sap.ui.define([
             var toDate = this.getView().byId("toDate");
             var plant = this.getView().byId("plant");
             if (this.validation() > 0) {
-                sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
                 return;
             }
             if (Date.parse(fromDate.getValue().slice(0, 10) + " " + fromDate.getValue().slice(11).split("-").join(":")) >= Date.parse(toDate.getValue().slice(0, 10) + " " + toDate.getValue().slice(11).split("-").join(":"))) {
-                sap.m.MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
                 return;
             }
             this.startBusyIndicator();
