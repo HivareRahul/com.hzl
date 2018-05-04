@@ -735,8 +735,16 @@ sap.ui.define([
         
         /** @Function for input field validation
          */
-        onFieldChange: function() {
+        onFieldChange: function(oEvent) {
             this.oViewModel.getData().quantityChanged++;
+            var result = isNaN(parseFloat(oEvent.getParameter("liveValue")));
+            if(oEvent.getParameter("liveValue").slice(-1) !== "."){
+	            if(result === false){
+	            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("liveValue")));
+	            }else{
+	            	oEvent.getSource().setValue("0");
+	            }
+            }            
         },
 
         /** @Event trigger when Add fragment date got changed

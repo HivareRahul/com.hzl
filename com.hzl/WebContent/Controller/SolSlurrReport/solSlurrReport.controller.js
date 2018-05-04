@@ -153,6 +153,7 @@ sap.ui.define([
          */
         onRowChange: function(oEvent) {
             this.oViewModel.setProperty("/enable", true);
+            this.onFieldChange(oEvent);
             var inc = 0;
             var editArr = this.oViewModel.getData();
             var rowData = oEvent.getSource().getParent().getBindingContext("tableModel");
@@ -413,6 +414,20 @@ sap.ui.define([
                     myTable.getItems()[i].getCells()[2].setEditable(true);
                     myTable.getItems()[i].getCells()[5].setEditable(false);
                 }
+            }
+        },
+        
+        /** @Function for input field validation
+         */
+        onFieldChange: function(oEvent) {
+            this.oViewModel.getData().quantityChanged++;
+            var result = isNaN(parseFloat(oEvent.getParameter("newValue")));
+            if(oEvent.getParameter("newValue").slice(-1) !== "."){
+	            if(result === false){
+	            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("newValue")));
+	            }else{
+	            	oEvent.getSource().setValue("0");
+	            }
             }
         }
 
