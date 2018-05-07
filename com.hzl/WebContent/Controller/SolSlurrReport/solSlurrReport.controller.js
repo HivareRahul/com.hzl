@@ -116,12 +116,19 @@ sap.ui.define([
          * @initTableSetting initialisation of table as per requirement
          */
         successSrch: function(rs) {
-            var myModel = new JSONModel();
-            myModel.setData(rs);
-            myModel.setSizeLimit(300);
-            this.getView().setModel(myModel, "tableModel");
-            this.initTableSetting();
-            this.stopBusyIndicator();
+        	this.getView().setModel(new JSONModel(), "tableModel");
+    		if(rs.Rowsets.Rowset[1].Row["0"].SUCC_IND === 1){    			
+                var myModel = new JSONModel();
+                myModel.setData(rs);
+                myModel.setSizeLimit(300);
+                this.getView().setModel(myModel, "tableModel");
+                this.initTableSetting();
+                this.stopBusyIndicator();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset[1].Row["0"].SUCCERR_MESSAGE;
+    			this.failRequestScrch(rsp);
+    		}             
         },
 
         /** @Function callback function for ajax fail
@@ -227,9 +234,9 @@ sap.ui.define([
     			sap.m.MessageToast.show(rs.Rowsets.Rowset[0].Row[0].Succ_Err_Message);
                 this.onSearch();
     		}else{
-    			var rs = {};
-    			rs.statusText = this.getView().getModel("i18n").getResourceBundle().getText("unexpecErr");
-    			this.failRequestOnUpdate(rs);
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset["0"].Row["0"].Succ_Err_Message;
+    			this.failRequestOnUpdate(rsp);
     		}             
             
         },

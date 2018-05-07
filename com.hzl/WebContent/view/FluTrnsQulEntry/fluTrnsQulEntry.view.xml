@@ -54,7 +54,7 @@
 							<Text text="{tableModel>TO_MAT_DESC}"/>
 							<Text text="{tableModel>FROM_PLANT_DESC}"/>
 							<Text text="{tableModel>TO_PLANT_DESC}"/>
-							<cmn:TextField value="{tableModel>MAT_QTY}" editable="false" liveChange="onFieldChange"/>
+							<cmn:TextField value="{tableModel>MAT_QTY}" editable="false" liveChange="onFieldChange" enabled="{viewModel>/visiblity/tableFieldEnabled}"/>
 							<Text text="m3"/>
 						</cells>
 					</ColumnListItem>

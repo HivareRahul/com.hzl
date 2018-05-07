@@ -26,7 +26,9 @@ sap.ui.define([
                 quantityChanged: 0,
                 inc : 0,
                 visiblity: {
-                    add: false,
+                	tableFieldEnabled: false,
+                	dateEnabled: false,
+                	add: false,
                     updateSave: false,
                     updateCancel: false
                 }
@@ -80,8 +82,11 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successSrch: function(rs) {
-    		if(rs.Rowsets.Rowset[1].Row[0].SUCC_IND === 1){
-                this.getView().setModel(new JSONModel(rs), "fluTrnsQulAnlyEntr");
+        	this.getView().setModel(new JSONModel(), "fluTrnsQulAnlyEntr");
+    		if(rs.Rowsets.Rowset[1].Row[0].SUCC_IND === 1){    			
+                var myModel = new JSONModel();
+                myModel.setSizeLimit(1000);
+                this.getView().setModel(myModel, "fluTrnsQulAnlyEntr");     			
                 this.stopBusyIndicator();
     		}else{
     			var rsp = {};
@@ -520,9 +525,6 @@ sap.ui.define([
         vendorSelect: function(oEvent) {
             var that = this;
             this.oViewModel.getData().inc ++;
-            if (this.role != "ZNREC_LAB_SUP") {
-                return;
-            }
             var row = oEvent.getParameter("listItem").getBindingContext("fluTrnsQulAnlyEntr");
             if (this.getView().getModel("myEdit") !== undefined) {
                 this.previousEditData = this.getView().getModel("myEdit").getData();
@@ -719,17 +721,31 @@ sap.ui.define([
         /** @Function visiblity setting based on roles
          */
         visiblitySettings: function() {
-            //userDetails.Rowsets.Rowset[2].Columns.Column[0].Name
             var viewModel = this.oViewModel.getData();
-            this.role = "ZNREC_LAB_SUP";
-            if (this.role === "ZNREC_LAB_SUP") {
-                viewModel.visiblity.add = true;
-                viewModel.visiblity.updateCancel = true;
-                viewModel.visiblity.updateSave = true;
-            }
-            if (this.role === "ZNREC_LAB_ANALYST") {
-                viewModel.visiblity.add = true;
-            }
+            var myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[1].ROLE;
+            switch (myRole) {
+	            case "ZNREC_LAB_ANALYST":
+		            	viewModel.visiblity.updateCancel = true;
+		                viewModel.visiblity.updateSave = true; 	            	
+		            	viewModel.visiblity.tableFieldEnabled = true;
+		            	viewModel.visiblity.add = true;
+		                break;
+	            case "ZNREC_LAB_SUP":
+		            	viewModel.visiblity.updateCancel = true;
+		                viewModel.visiblity.updateSave = true; 	            	
+		            	viewModel.visiblity.tableFieldEnabled = true;
+		            	viewModel.visiblity.add = true;
+		            	viewModel.visiblity.dateEnabled = true;	     
+		                break;
+	            case "ZNREC_READONLY":
+	            		viewModel.visiblity.dateEnabled = true;	
+	            		break;
+	            case "ZNREC_REPORT_ANALYST":
+	            		this.getView().byId("fluTrnsQulAnlyEntrTable").destroyColumns();	            	
+	                	break;
+	            default:
+		            	this.getView().byId("fluTrnsQulAnlyEntrTable").destroyColumns();         
+            }                                    
             this.oViewModel.setData(viewModel);
         },
         
@@ -739,11 +755,15 @@ sap.ui.define([
             this.oViewModel.getData().quantityChanged++;
             var result = isNaN(parseFloat(oEvent.getParameter("liveValue")));
             if(oEvent.getParameter("liveValue").slice(-1) !== "."){
-	            if(result === false){
-	            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("liveValue")));
-	            }else{
-	            	oEvent.getSource().setValue("0");
-	            }
+            	if(oEvent.getParameter("liveValue").slice(-1) === "0"){
+            		
+            	}else{            	
+		            if(result === false){
+		            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("liveValue")));
+		            }else{
+		            	oEvent.getSource().setValue("0");
+		            }
+            	}
             }            
         },
 

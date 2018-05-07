@@ -11,12 +11,12 @@
 					<fb:filterItems>						
 						<fb:FilterItem name="B" label="{i18n>frmDat}" mandatory="true">
 							<fb:control>
-								<DateTimeInput type="DateTime" id="frmDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>PH_frmDt}" width="100%"/>
+								<DateTimeInput id="frmDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>PH_frmDt}" width="100%"/>
 							</fb:control>
 						</fb:FilterItem>
 						<fb:FilterItem name="C" label="{i18n>toDt}" mandatory="true">
 							<fb:control>
-								<DateTimeInput type="DateTime" id="toDate" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>PH_toDt}" width="100%"/>
+								<DateTimeInput id="toDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>PH_toDt}" width="100%"/>
 							</fb:control>
 						</fb:FilterItem>
 						<fb:FilterItem name="A" label="{i18n>plant}" mandatory="true">

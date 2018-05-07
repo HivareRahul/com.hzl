@@ -26,6 +26,7 @@ sap.ui.define([
                 quantityChanged : 0,
                 inc : 0,
                 visiblity: {
+                    tableFieldEnabled: false,
                     updateSave: false,
                     updateCancel: false
                 }
@@ -185,9 +186,12 @@ sap.ui.define([
 
         /** @Function callback function for ajax success
          */
-        successSrch: function(rs) {            
+        successSrch: function(rs) {  
+            this.getView().setModel(new JSONModel(), "tableModel");                        
     		if(rs.Rowsets.Rowset[1].Row["0"].SUCC_IND === 1){
-                this.getView().setModel(new JSONModel(rs), "tableModel");
+                var myModel = new JSONModel(rs);
+                myModel.setSizeLimit(1000);
+                this.getView().setModel(myModel, "tableModel");     	
                 this.stopBusyIndicator();
     		}else{
     			var rsp = {};
@@ -304,9 +308,6 @@ sap.ui.define([
         vendorSelect: function(oEvent) {
             var that = this;
             this.oViewModel.getData().inc ++;
-            if (this.role != "ZNREC_REPORT_ANALYST") {
-                return;
-            }
             var row = oEvent.getParameter("listItem").getBindingContext("tableModel");
             if (this.getView().getModel("myEdit") !== undefined) {
                 this.previousEditData = this.getView().getModel("myEdit").getData();
@@ -475,13 +476,26 @@ sap.ui.define([
          */
         visiblitySettings: function() {
             var viewModel = this.oViewModel.getData();
-            this.role = "ZNREC_REPORT_ANALYST";
-            if (this.role === "ZNREC_REPORT_ANALYST") {
-                viewModel.visiblity.updateCancel = true;
-                viewModel.visiblity.updateSave = true;
-            }
+            var myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[3].ROLE;
+            switch (myRole) {
+	            case "ZNREC_LAB_ANALYST":
+	            		this.getView().byId("fluTrnsQualityEntryTable").destroyColumns();
+		                break;
+	            case "ZNREC_LAB_SUP":
+	            		this.getView().byId("fluTrnsQualityEntryTable").destroyColumns();
+		                break;
+	            case "ZNREC_READONLY":
+	            		break;
+	            case "ZNREC_REPORT_ANALYST":
+		            	viewModel.visiblity.updateCancel = true;
+		                viewModel.visiblity.updateSave = true; 	            	
+		            	viewModel.visiblity.tableFieldEnabled = true;
+	                	break;
+	            default:
+		            	this.getView().byId("fluTrnsQualityEntryTable").destroyColumns();         
+            }                                    
             this.oViewModel.setData(viewModel);
-        },
+        },        
         
         /** @Function for input field validation
          */
@@ -489,11 +503,15 @@ sap.ui.define([
             this.oViewModel.getData().quantityChanged++;
             var result = isNaN(parseFloat(oEvent.getParameter("liveValue")));
             if(oEvent.getParameter("liveValue").slice(-1) !== "."){
-	            if(result === false){
-	            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("liveValue")));
-	            }else{
-	            	oEvent.getSource().setValue("0");
-	            }
+            	if(oEvent.getParameter("liveValue").slice(-1) === "0"){
+            		
+            	}else{
+		            if(result === false){
+		            	oEvent.getSource().setValue(parseFloat(oEvent.getParameter("liveValue")));
+		            }else{
+		            	oEvent.getSource().setValue("0");
+		            }
+            	}
             }
         }
 

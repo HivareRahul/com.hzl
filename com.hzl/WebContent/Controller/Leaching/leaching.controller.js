@@ -27,8 +27,8 @@ sap.ui.define([
             }), "viewModel");
             this.oViewModel = this.getView().getModel("viewModel");
             this.initialSettings();
-            this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()));
-            this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth() - 1))));
+            this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()).slice(0, 10));
+            this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth() - 1))).slice(0, 10));
             this._oTPC = new TablePersoController({
                 table: this.getView().byId("FTR_Table"),
                 componentName: "leachingRecords",
@@ -200,22 +200,22 @@ sap.ui.define([
          *  @oAjaxHandler reusable ajax call
          */
         onSearch: function() {
-            var fromDate = this.getView().byId("frmDate");
-            var toDate = this.getView().byId("toDate");
+            var fromDate = this.getView().byId("frmDate").getValue() + " 00:00:00";
+            var toDate = this.getView().byId("toDate").getValue() + " 23:59:59";
             var plant = this.getView().byId("plant");
             if (this.validation() > 0) {
             	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("mandAlert"));
                 return;
             }
-            if (Date.parse(fromDate.getValue().slice(0, 10) + " " + fromDate.getValue().slice(11).split("-").join(":")) >= Date.parse(toDate.getValue().slice(0, 10) + " " + toDate.getValue().slice(11).split("-").join(":"))) {
+            if (Date.parse(fromDate.slice(0, 10) + " " + fromDate.slice(11).split("-").join(":")) >= Date.parse(toDate.slice(0, 10) + " " + toDate.slice(11).split("-").join(":"))) {
             	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("dateAlert"));
                 return;
             }
             this.startBusyIndicator();
             var oAjaxHandler = ajaxHandler.getInstance();
             oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_REPORT_MAIN_DIS");
-            oAjaxHandler.setProperties("Param.1", fromDate.getValue());
-            oAjaxHandler.setProperties("Param.2", toDate.getValue());
+            oAjaxHandler.setProperties("Param.1", fromDate);
+            oAjaxHandler.setProperties("Param.2", toDate);
             oAjaxHandler.setProperties("Param.3", plant.getValue());
             oAjaxHandler.setCallBackSuccessMethod(this.successSrch, this);
             oAjaxHandler.setCallBackFailureMethod(this.failRequestScrch, this);
@@ -225,8 +225,14 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successSrch: function(rs) {
-            this.getView().setModel(new JSONModel(rs), "tableModel");
-            this.stopBusyIndicator();
+    		if(rs.Rowsets.Rowset[1].Row["0"].SUCC_IND === 1){
+                this.getView().setModel(new JSONModel(rs), "tableModel");
+                this.stopBusyIndicator();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset[1].Row["0"].SUCCERR_MESSAGE;
+    			this.failRequestScrch(rsp);
+    		}             
         },
 
         /** @Function callback function for ajax fail

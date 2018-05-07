@@ -18,12 +18,12 @@
 			<fb:filterItems>
 				<fb:FilterItem name="fromDate" label="{i18n>FTQAE_frmDate}" mandatory="true">
 					<fb:control>
-						<DateTimeInput id="frmDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>FTQAE_PH_frmDt}"></DateTimeInput>
+						<DateTimeInput id="frmDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>FTQAE_PH_frmDt}" enabled="{viewModel>/visiblity/dateEnabled}"></DateTimeInput>
 					</fb:control>
 				</fb:FilterItem>
 				<fb:FilterItem name="toDate" label="{i18n>FTQAE_toDate}" mandatory="true">
 					<fb:control>
-						<DateTimeInput id="toDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>FTQAE_PH_toDt}"></DateTimeInput>
+						<DateTimeInput id="toDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>FTQAE_PH_toDt}" enabled="{viewModel>/visiblity/dateEnabled}"></DateTimeInput>
 					</fb:control>
 				</fb:FilterItem>
 				<fb:FilterItem name="plant" label="{i18n>FTQAE_plt}" mandatory="true">
@@ -64,9 +64,9 @@
 							<Text text="{fluTrnsQulAnlyEntr>TO_MAT_DESC}"/>
 							<Text text="{fluTrnsQulAnlyEntr>FRM_PLANT_DESC}"/>
 							<Text text="{fluTrnsQulAnlyEntr>TO_PLANT_DESC}"/>
-							<cmn:TextField value="{fluTrnsQulAnlyEntr>ZN_GPL_PARAM}" type="Number" editable="false" liveChange="onFieldChange"/>
+							<cmn:TextField value="{fluTrnsQulAnlyEntr>ZN_GPL_PARAM}" type="Number" editable="false" liveChange="onFieldChange" enabled="{viewModel>/visiblity/tableFieldEnabled}"/>
 							<Text text="GPL"/>
-							<cmn:TextField value="{fluTrnsQulAnlyEntr>DEN_PARAM}" type="Number" editable="false" liveChange="onFieldChange"/>
+							<cmn:TextField value="{fluTrnsQulAnlyEntr>DEN_PARAM}" type="Number" editable="false" liveChange="onFieldChange" enabled="{viewModel>/visiblity/tableFieldEnabled}"/>
 							<Text text="kg/m3"/>
 						</cells>
 					</ColumnListItem>

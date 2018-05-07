@@ -63,11 +63,18 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successSrch: function(rs) {
-            var myModel = new JSONModel();
-            myModel.setData(rs);
-            myModel.setSizeLimit(300);
-            this.getView().setModel(myModel, "tableModel");
-            this.stopBusyIndicator();
+        	this.getView().setModel(new JSONModel(), "tableModel");
+    		if(rs.Rowsets.Rowset[1].Row["0"].SUCC_IND === 1){    			
+                var myModel = new JSONModel();
+                myModel.setData(rs);
+                myModel.setSizeLimit(300);
+                this.getView().setModel(myModel, "tableModel");
+                this.stopBusyIndicator();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset[1].Row["0"].SUCCERR_MESSAGE;
+    			this.failRequestScrch(rsp);
+    		}             
         },
 
         /** @Function callback function for ajax fail
@@ -230,11 +237,11 @@ sap.ui.define([
          */
         successOnUpdate: function(rs) {
     		if(rs.Rowsets.Rowset[0].Row[0].QrySuccess === 1){
-                sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("updateAlert"));
+                sap.m.MessageToast.show(rs.Rowsets.Rowset["0"].Row["0"].Succ_Err_Message);
                 this.onSearch();
     		}else{
     			var rsp = {};
-    			rsp.statusText = this.getView().getModel("i18n").getResourceBundle().getText("unexpecErr");
+    			rsp.statusText = rs.Rowsets.Rowset["0"].Row["0"].Succ_Err_Message;
     			this.failRequestOnUpdate(rsp);
     		}     	
         },

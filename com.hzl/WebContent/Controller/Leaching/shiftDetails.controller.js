@@ -70,10 +70,18 @@ sap.ui.define([
         /** @Function callback function for ajax success
          * @Method initialSettings for user data and role based visiblity
          */
-        successTab1: function(rs) {
-            this.getView().setModel(new JSONModel(rs), "sftAvgTblModel");
-            this.initialSettings();
-            this.stopBusyIndicator();
+        successTab1: function(rs) { 
+        	this.getView().setModel(new JSONModel(), "sftAvgTblModel");
+    		if(rs.Rowsets.Rowset[1].Row["0"].SUCC_IND === 1){
+                this.getView().setModel(new JSONModel(rs), "sftAvgTblModel");
+                this.initialSettings();
+                this.stopBusyIndicator();
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset[1].Row["0"].SUCC_MESS;
+    			this.failRequestTab1(rsp);
+                this.initialSettings();    			
+    		}              
         },
 
         /** @Function callback function for ajax fail
@@ -117,7 +125,14 @@ sap.ui.define([
         /** @Function callback function for ajax success
          */
         successTab2: function(rs) {
-            this.getView().setModel(new JSONModel(rs), "shtVluTblModel");
+            this.getView().setModel(new JSONModel(), "shtVluTblModel");
+    		if(rs.Rowsets.Rowset[1].Row["0"].SUCC_IND === 1){
+    			this.getView().setModel(new JSONModel(rs), "shtVluTblModel");
+    		}else{
+    			var rsp = {};
+    			rsp.statusText = rs.Rowsets.Rowset[1].Row["0"].SUCCERR_MESSAGE;
+    			this.failRequestTab2(rsp); 			
+    		}              
         },
 
         /** @Function callback function for ajax fail
