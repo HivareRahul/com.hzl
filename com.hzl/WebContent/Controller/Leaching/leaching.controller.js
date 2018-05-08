@@ -28,7 +28,7 @@ sap.ui.define([
             this.oViewModel = this.getView().getModel("viewModel");
             this.initialSettings();
             this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()).slice(0, 10));
-            this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setMonth(new Date().getMonth() - 1))).slice(0, 10));
+            this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setDate(new Date().getDate() - 2))).slice(0, 10));
             this._oTPC = new TablePersoController({
                 table: this.getView().byId("FTR_Table"),
                 componentName: "leachingRecords",

@@ -95,7 +95,7 @@
 			</Panel>			
 			<Panel expandable="true" expanded="true" headerText="{i18n>SD_shiftVal}">		
 				<content>					
-					<Table id="shtVluTbl" items="{shtVluTblModel>/Rowsets/Rowset/0/Row/}" growing="true" growingThreshold="5">
+					<Table id="shtVluTbl" items="{shtVluTblModel>/Rowsets/Rowset/0/Row/}">
 						<headerToolbar>
 									<Toolbar>							
 										<ToolbarSpacer/>

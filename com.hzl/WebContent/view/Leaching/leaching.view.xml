@@ -29,7 +29,7 @@
 					</fb:filterItems>
 				</fb:FilterBar>
 			</l:VerticalLayout>
-			<Table id="FTR_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}" growing="true" mode="SingleSelectMaster" itemPress="vendorSelect">
+			<Table id="FTR_Table" items="{tableModel>/Rowsets/Rowset/0/Row/}" mode="SingleSelectMaster" itemPress="vendorSelect">
 				<headerToolbar>
 					<Toolbar>
 						<ToolbarSpacer/>

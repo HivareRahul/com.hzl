@@ -27,14 +27,13 @@ sap.ui.define([
                 inc : 0,
                 visiblity: {
                 	tableFieldEnabled: false,
-                	dateEnabled: false,
+                	addDateEnabled: false,
                 	add: false,
                     updateSave: false,
                     updateCancel: false
                 }
             }), "viewModel");
             this.oViewModel = this.getView().getModel("viewModel");
-            this.initialSettings();
             this.getView().byId("toDate").setValue(this.changeDateFormat(new Date()).slice(0, 10));
             this.getView().byId("frmDate").setValue(this.changeDateFormat(new Date(new Date().setDate(new Date().getDate() - 2))).slice(0, 10));
             this.viewSettingInit();
@@ -47,6 +46,7 @@ sap.ui.define([
                 bundleUrl: "i18n/messageBundle.properties"
             }), "i18n");
             this.createAddDialog();
+            this.initialSettings();            
         },
 
         /** @Event search event name onSearch triggers when search button clicked
@@ -273,7 +273,7 @@ sap.ui.define([
                 this._addDialog = sap.ui.xmlfragment("idQualAnalysisRec", "com.hzl.view.FluTrnQulAnlyEntry.addFTQAE", this);
                 this._addDialog.setModel(this.getView().getModel("i18n"), "i18n");
             }
-            this._addDialog.setModel(new JSONModel(addDialogModel), "addDialogModel");
+            this._addDialog.setModel(new JSONModel(addDialogModel), "addDialogModel");            
         },
 
         /** @Event press event triggers when plus icon clicked on table header
@@ -283,7 +283,7 @@ sap.ui.define([
         onAdd: function() {
             var plant = this.getView().byId("FTQAE_fltBar").determineControlByName("plant").getValue();
             if (plant == "") {
-                MessageBox.alert(this.getView().getModel("i18n").getResourceBundle().getText("selePltAlert"));
+            	sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("selePltAlert"));
                 return;
             }
             var oAjaxHandler = ajaxHandler.getInstance();
@@ -301,6 +301,8 @@ sap.ui.define([
         successOnAdd: function(rs) {
             this.getView().setModel(new JSONModel(rs), "inpDialogModel");
             this._addDialog.setModel(this.getView().getModel("inpDialogModel"));
+            sap.ui.core.Fragment.byId("idQualAnalysisRec", "addDate").setValue(this.changeDateFormat(new Date()));
+            this.onDateChange();            
         },
 
         /** @Function callback function for ajax fail
@@ -718,7 +720,7 @@ sap.ui.define([
             sap.m.MessageBox.alert(rs.statusText);
         },
 
-        /** @Function visiblity setting based on roles
+        /** @Function visiblity setting based on roles sap.ui.core.Fragment.byId("idQualAnalysisRec", "addShift")
          */
         visiblitySettings: function() {
             var viewModel = this.oViewModel.getData();
@@ -735,7 +737,8 @@ sap.ui.define([
 		                viewModel.visiblity.updateSave = true; 	            	
 		            	viewModel.visiblity.tableFieldEnabled = true;
 		            	viewModel.visiblity.add = true;
-		            	viewModel.visiblity.dateEnabled = true;	     
+		            	viewModel.visiblity.dateEnabled = true;	 
+		            	sap.ui.core.Fragment.byId("idQualAnalysisRec", "addDate").setEnabled(true);
 		                break;
 	            case "ZNREC_READONLY":
 	            		viewModel.visiblity.dateEnabled = true;	
@@ -772,7 +775,7 @@ sap.ui.define([
         onDateChange: function(oEvent){
             var oAjaxHandler = ajaxHandler.getInstance();
             oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/FLUID_TRANSFER_REPORT/QRY/XQRY_FLUID_TRN_ADD_BUTTON_DEF_SHIFT");
-            oAjaxHandler.setProperties("Param.1", oEvent.getParameter("value"));
+            oAjaxHandler.setProperties("Param.1", sap.ui.core.Fragment.byId("idQualAnalysisRec", "addDate").getValue());
             oAjaxHandler.setCallBackSuccessMethod(this.successDateChange, this);
             oAjaxHandler.setCallBackFailureMethod(this.failDateChange, this);
             oAjaxHandler.triggerPostRequest();
