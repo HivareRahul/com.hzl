@@ -18,7 +18,7 @@
                     </fb:FilterItem>                
                     <fb:FilterItem name="SSQSd" label="{i18n>SSQSdt}" mandatory="true">
                         <fb:control>
-                            <DateTimeInput id="SSQSdate" valueFormat="MM-dd-yyyy" placeholder="{i18n>SSQS_PH_enDt}" enabled="{viewModel>/visiblity/dateEnabled}"/>
+                            <DateTimeInput id="SSQSdate" valueFormat="MM-dd-yyyy" placeholder="{i18n>SSQS_PH_enDt}"/>
                         </fb:control>
                     </fb:FilterItem>
                 </fb:filterItems>

@@ -16,7 +16,7 @@ sap.ui.define([
             this.getView().setModel(new JSONModel({
             	userDetails : []
             }), "viewModel");    
-            this.getView().byId("errDate").setValue(this.changeDateFormat(new Date()));
+            this.getView().byId("errDate").setValue(this.changeDateFormat(new Date()).slice(0, 10));
             this.oViewModel = this.getView().getModel("viewModel");
         	this.initialSettings();
         },
@@ -59,7 +59,7 @@ sap.ui.define([
             this.startBusyIndicator();
             var oAjaxHandler = ajaxHandler.getInstance();
             oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/COMMON/QRY/XQRY_SEL_ERRORLOG");
-            oAjaxHandler.setProperties("Param.1", date);
+            oAjaxHandler.setProperties("Param.1", date + "00:00:00");
             oAjaxHandler.setCallBackSuccessMethod(this.successSrch, this);
             oAjaxHandler.setCallBackFailureMethod(this.failRequestScrch, this);
             oAjaxHandler.triggerPostRequest();

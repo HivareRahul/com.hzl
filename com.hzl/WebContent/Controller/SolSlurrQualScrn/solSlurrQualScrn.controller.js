@@ -24,7 +24,6 @@ sap.ui.define([
                 userDetails: [],
                 myEditData: [],
                 visiblity: {
-                    dateEnabled: false,
                     tableFieldEditable: false,
                 	updateSave: false,
                     updateCancel: false
@@ -68,7 +67,10 @@ sap.ui.define([
                 var myModel = new JSONModel();
                 myModel.setData(rs);
                 myModel.setSizeLimit(300);
-                this.getView().setModel(myModel, "tableModel");
+                this.getView().setModel(myModel, "tableModel");                
+                if(this.myRole === "ZNREC_LAB_ANALYST"){
+                	this.roleBasedValidation();
+                }
                 this.stopBusyIndicator();
     		}else{
     			var rsp = {};
@@ -472,8 +474,8 @@ sap.ui.define([
          */
         visiblitySettings: function() {
             var viewModel = this.oViewModel.getData();
-            var myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[1].ROLE;
-            switch (myRole) {
+            this.myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[0].ROLE;
+            switch (this.myRole) {
 	            case "ZNREC_LAB_ANALYST":
 		                viewModel.visiblity.updateCancel = true;
 		                viewModel.visiblity.updateSave = true; 	            	
@@ -482,11 +484,9 @@ sap.ui.define([
 	            case "ZNREC_LAB_SUP":
 		                viewModel.visiblity.updateCancel = true;
 		                viewModel.visiblity.updateSave = true;   
-		                viewModel.visiblity.dateEnabled = true;
 		                viewModel.visiblity.tableFieldEditable = true;
 		                break;
 	            case "ZNREC_READONLY":
-	            		viewModel.visiblity.dateEnabled = true;
 	            		break;
 	            case "ZNREC_REPORT_ANALYST":
 	            		this.getView().byId("SSQS_Table").destroyColumns();
@@ -509,6 +509,18 @@ sap.ui.define([
 	            	oEvent.getSource().setValue("0");
 	            }
             }
+        },
+        
+        /** @Function visiblity of input fields based on role
+         */        
+        roleBasedValidation: function(){
+            var viewModel = this.oViewModel.getData(); 
+            if (this.getView().byId("SSQSdate").getValue() !== this.changeDateFormat(new Date()).slice(0, 10) ) {                
+            	viewModel.visiblity.tableFieldEditable = false;
+            }else{
+            	viewModel.visiblity.tableFieldEditable = true;
+            }  
+        	this.oViewModel.setData(viewModel);
         }
     });
 

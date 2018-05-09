@@ -26,8 +26,6 @@ sap.ui.define([
                 quantityChanged: 0,
                 inc : 0,
                 visiblity: {
-                	tableFieldEnabled: false,
-                	addDateEnabled: false,
                 	add: false,
                     updateSave: false,
                     updateCancel: false
@@ -84,9 +82,14 @@ sap.ui.define([
         successSrch: function(rs) {
         	this.getView().setModel(new JSONModel(), "fluTrnsQulAnlyEntr");
     		if(rs.Rowsets.Rowset[1].Row[0].SUCC_IND === 1){    			
-                var myModel = new JSONModel();
+                var myModel = new JSONModel(rs);
                 myModel.setSizeLimit(1000);
-                this.getView().setModel(myModel, "fluTrnsQulAnlyEntr");     			
+                this.getView().setModel(myModel, "fluTrnsQulAnlyEntr");  
+                if(this.myRole === "ZNREC_LAB_ANALYST"){
+                	this.roleBasedValidation("frmLabAnaly");
+                }else if(this.myRole === "ZNREC_LAB_SUP"){
+                	this.roleBasedValidation("frmSup");
+                }
                 this.stopBusyIndicator();
     		}else{
     			var rsp = {};
@@ -98,7 +101,6 @@ sap.ui.define([
         /** @Function callback function for ajax fail
          */
         failRequestScrch: function(rs) {
-            sap.m.MessageBox.alert(rs.statusText);
             this.stopBusyIndicator();
         },
 
@@ -250,6 +252,11 @@ sap.ui.define([
             bDescending = mParams.sortDescending;
             aSorters.push(new sap.ui.model.Sorter(sPath, bDescending));
             oBinding.sort(aSorters);
+            if(this.myRole === "ZNREC_LAB_ANALYST"){
+            	this.roleBasedValidation("frmLabAnaly");
+            }else if(this.myRole === "ZNREC_LAB_SUP"){
+            	this.roleBasedValidation("frmSup");
+            }            
         },
 
         /** @Function instantiation of Add dialog
@@ -724,24 +731,20 @@ sap.ui.define([
          */
         visiblitySettings: function() {
             var viewModel = this.oViewModel.getData();
-            var myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[1].ROLE;
-            switch (myRole) {
+            this.myRole = viewModel.userDetails.Rowsets.Rowset[2].Row[2].ROLE;
+            switch (this.myRole) {
 	            case "ZNREC_LAB_ANALYST":
 		            	viewModel.visiblity.updateCancel = true;
-		                viewModel.visiblity.updateSave = true; 	            	
-		            	viewModel.visiblity.tableFieldEnabled = true;
+		                viewModel.visiblity.updateSave = true; 	    
 		            	viewModel.visiblity.add = true;
 		                break;
 	            case "ZNREC_LAB_SUP":
 		            	viewModel.visiblity.updateCancel = true;
-		                viewModel.visiblity.updateSave = true; 	            	
-		            	viewModel.visiblity.tableFieldEnabled = true;
+		                viewModel.visiblity.updateSave = true; 	    
 		            	viewModel.visiblity.add = true;
-		            	viewModel.visiblity.dateEnabled = true;	 
 		            	sap.ui.core.Fragment.byId("idQualAnalysisRec", "addDate").setEnabled(true);
 		                break;
 	            case "ZNREC_READONLY":
-	            		viewModel.visiblity.dateEnabled = true;	
 	            		break;
 	            case "ZNREC_REPORT_ANALYST":
 	            		this.getView().byId("fluTrnsQulAnlyEntrTable").destroyColumns();	            	
@@ -795,6 +798,36 @@ sap.ui.define([
          */
         failDateChange: function(rs) {
             sap.m.MessageBox.alert(rs.statusText);
+        },
+
+        
+        /** @Function visiblity of input fields based on role
+         */        
+        roleBasedValidation: function(inf){
+            var myTable = this.getView().byId("fluTrnsQulAnlyEntrTable");
+            if(inf === "frmLabAnaly"){
+	            for (var i = 0; i < myTable.getItems().length; i++) {
+	                if (myTable.getItems()[i].getMetadata().getElementName() === "sap.m.GroupHeaderListItem") {
+	                    continue;
+	                } 
+	            	var reqDate = myTable.getItems()[i].getCells()[9].getText().slice(0,10);
+	                if (reqDate !== this.changeDateFormat(new Date()).slice(0, 10) ) {                
+	                	myTable.getItems()[i].getCells()[5].setEnabled(false);
+	                	myTable.getItems()[i].getCells()[7].setEnabled(false);
+	                }else{
+	                	myTable.getItems()[i].getCells()[5].setEnabled(true);
+	                	myTable.getItems()[i].getCells()[7].setEnabled(true);               	
+	                }            	
+	            }   
+            }else if(inf === "frmSup"){
+            	for (var j = 0; j < myTable.getItems().length; j++) {
+                    if (myTable.getItems()[j].getMetadata().getElementName() === "sap.m.GroupHeaderListItem") {
+                        continue;
+                    } 
+            		myTable.getItems()[j].getCells()[5].setEnabled(true); 
+            		myTable.getItems()[j].getCells()[7].setEnabled(true); 
+	            }            	
+            }
         }
 
     });

@@ -14,7 +14,7 @@
                 <fb:filterItems>
                     <fb:FilterItem name="A" label="{i18n>errLog_dt}" mandatory="true">
                         <fb:control>
-                            <DateTimeInput id="errDate" type="DateTime" valueFormat="MM-dd-yyyy HH:mm:ss" placeholder="{i18n>errLog_PH_Dt}"/>
+                            <DateTimeInput id="errDate" valueFormat="MM-dd-yyyy" placeholder="{i18n>errLog_PH_Dt}"/>
                         </fb:control>
                     </fb:FilterItem>
                 </fb:filterItems>
