@@ -8,8 +8,9 @@ sap.ui.define([
     "sap/ui/model/Sorter",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/resource/ResourceModel",
-    "com/hzl/Util/ajaxHandler"
-], function(baseController, Export, ExportTypeCSV, MessageBox, TablePersoController, fluTrnsQulEntryPersoService, Sorter, JSONModel, ResourceModel, ajaxHandler) {
+    "com/hzl/Util/ajaxHandler",
+    "com/hzl/Util/myFormatter"
+], function(baseController, Export, ExportTypeCSV, MessageBox, TablePersoController, fluTrnsQulEntryPersoService, Sorter, JSONModel, ResourceModel, ajaxHandler, myFormatter) {
     "use strict";
 
     return baseController.extend("com.hzl.Controller.FluTrnsQulEntry.fluTrnsQulEntry", {
@@ -45,6 +46,10 @@ sap.ui.define([
                 bundleUrl: "i18n/messageBundle.properties"
             }), "i18n");
         },
+        
+        /** @Formatter loads the Formatter file
+         */        
+        formatter: myFormatter,
 
         /** @Event press event triggers when import icon clicked on table header to export in CSV file
          */

@@ -10,8 +10,9 @@ sap.ui.define([
     "sap/m/MessageBox",
     "sap/ui/model/json/JSONModel",
     "sap/ui/model/resource/ResourceModel",
-    "com/hzl/Util/ajaxHandler"
-], function(baseController, Filter, FilterOperator, TablePersoController, leachingPersoService, Sorter, Export, ExportTypeCSV, MessageBox, JSONModel, ResourceModel, ajaxHandler) {
+    "com/hzl/Util/ajaxHandler",
+    "com/hzl/Util/myFormatter"
+], function(baseController, Filter, FilterOperator, TablePersoController, leachingPersoService, Sorter, Export, ExportTypeCSV, MessageBox, JSONModel, ResourceModel, ajaxHandler, myFormatter) {
     "use strict";
 
     return baseController.extend("com.hzl.Controller.Leaching.leaching", {
@@ -39,6 +40,10 @@ sap.ui.define([
                 bundleUrl: "i18n/messageBundle.properties"
             }), "i18n");
         },
+        
+        /** @Formatter loads the Formatter file
+         */        
+        formatter: myFormatter,        
 
         /** @Event press event triggers when setting icon clicked on table header
          */

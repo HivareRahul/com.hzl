@@ -25,7 +25,9 @@
             </fb:FilterBar>
 			<Table showNoData='false'>
 				<headerToolbar>
-							<Toolbar>							
+							<Toolbar>	
+								<Label design="Bold" text="Total Zinc MIC :"></Label>
+								<Label design="Bold" text="444"></Label>					
 								<ToolbarSpacer/>								
 								<Button tooltip="{i18n>vewSttg}" icon="sap-icon://drop-down-list" press="handleViewSettings"/>
 								<Button	tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>

@@ -56,7 +56,10 @@
 				<items>
 					<ColumnListItem type="Navigation">
 						<cells>
-							<Text text="{tableModel>S_DATE}"/>
+							<Text text= "{
+								path: 'tableModel>S_DATE',
+								formatter: '.formatter.removeDateStamp'
+							}"/>							
 							<Text text="{tableModel>TOTAL_QTY}"/>
 							<Text text="m3"/>
 							<Text text="{tableModel>TOTAL_ZN_MIC}"/>

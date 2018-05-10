@@ -5,8 +5,9 @@ sap.ui.define([
     "sap/m/TablePersoController",
     "com/hzl/Controller/Leaching/SD_RptEtry_PersoService",
     "com/hzl/Controller/Leaching/SD_SftAvg_PersoService",
-    "com/hzl/Controller/Leaching/SD_SftVlu_PersoService"
-], function(baseController, JSONModel, ajaxHandler, TablePersoController, SD_RptEtry_PersoService, SD_SftAvg_PersoService, SD_SftVlu_PersoService) {
+    "com/hzl/Controller/Leaching/SD_SftVlu_PersoService",
+    "com/hzl/Util/myFormatter"
+], function(baseController, JSONModel, ajaxHandler, TablePersoController, SD_RptEtry_PersoService, SD_SftAvg_PersoService, SD_SftVlu_PersoService, myFormatter) {
     "use strict";
     return baseController.extend("com.hzl.Controller.Leaching.shiftDetails", {
         /** SAP UI5 life cycle method triggered on first load 
@@ -22,6 +23,10 @@ sap.ui.define([
             this.getRouter().attachRoutePatternMatched(this.onRouteMatched, this);
             this.initPersonas();
         },
+        
+        /** @Formatter loads the Formatter file
+         */        
+        formatter: myFormatter,        
 
         /** @Validation first verifies navigated data present or not
          *  @Model initialise shtVluTblModel and headerModel model

@@ -32,7 +32,10 @@
 						<items>
 							<ColumnListItem>
 								<cells>
-									<Text text="{headerModel>Date}"/>
+									<Text text= "{
+										path: 'headerModel>Date',
+										formatter: '.formatter.removeDateStamp'
+									}"/>																		
 									<Text text="{headerModel>MaterialQuantity}"/>
 									<Text text="{headerModel>QuantityUOM}"/>
 									<Text text="{headerModel>ZnMIC}"/>
@@ -76,7 +79,10 @@
 						<items>
 							<ColumnListItem>
 								<cells>
-									<Text text="{sftAvgTblModel>S_DATE}"/>
+									<Text text= "{
+										path: 'sftAvgTblModel>S_DATE',
+										formatter: '.formatter.removeDateStamp'
+									}"/>									
 									<Text text="{sftAvgTblModel>MAT_VOL_TRAN}"/>
 									<Text text="m3"/>		
 									<Text text="{sftAvgTblModel>AVG_ZN_VOL}"/>
@@ -107,8 +113,7 @@
 							<Column hAlign="Center" id="SV_sft"><Text text="{i18n>SD_SV_sft}"/></Column>
 							<Column hAlign="Center" id="SV_spEstZnGPL"><Text text="{i18n>SD_SV_spEstZnGPL}"/></Column>
 							<Column hAlign="Center" id="SV_spWstZnGPL"><Text text="{i18n>SD_SV_spWstZnGPL}"/></Column>
-							<Column hAlign="Center" id="SV_fdEstInZnGPL"><Text text="{i18n>SD_SV_fdEstInZnGPL}"/></Column>
-							<Column hAlign="Center" id="SV_fdWstInZnGPL"><Text text="{i18n>SD_SV_fdWstInZnGPL}"/></Column>
+							<Column hAlign="Center" id="SV_fdEstInZnGPL"><Text text="{i18n>SD_SV_ZnGplZnso4}"/></Column>
 							<Column hAlign="Center" id="SV_den"><Text text="{i18n>SD_SV_dst}"/></Column>
 							<Column hAlign="Center" id="SV_znGPL"><Text text="{i18n>SD_SV_znGPL}"/></Column>
 						</columns>
@@ -119,8 +124,7 @@
 									<Text text="{shtVluTblModel>SHIFT}"/>
 									<Text text="{shtVluTblModel>SPENTEAST_ZN_GPL}"/>
 									<Text text="{shtVluTblModel>SPENTWEST_ZN_GPL}"/>
-									<Text text="{shtVluTblModel>FEEDEAST_ZN_GPL}"/>
-									<Text text="{shtVluTblModel>FEEDWEST_ZN_GPL}"/>
+									<Text text="{shtVluTblModel>ZNSO4_ZN_GPL}"/>
 									<Text text="{shtVluTblModel>DENSITY}"/>
 									<Text text="{shtVluTblModel>ZN_GPL}"/>
 								</cells>
