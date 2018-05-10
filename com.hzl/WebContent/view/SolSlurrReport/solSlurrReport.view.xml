@@ -26,8 +26,8 @@
 			<Table showNoData='false'>
 				<headerToolbar>
 							<Toolbar>	
-								<Label design="Bold" text="Total Zinc MIC :"></Label>
-								<Label design="Bold" text="444"></Label>					
+								<Label text="{i18n>SSR_ttlZnMic}"></Label>
+								<Label design="Bold" text="{viewModel>/totalZincMic}"></Label>					
 								<ToolbarSpacer/>								
 								<Button tooltip="{i18n>vewSttg}" icon="sap-icon://drop-down-list" press="handleViewSettings"/>
 								<Button	tooltip="{i18n>expCSV}" icon="sap-icon://download" press="onDataExport"/>

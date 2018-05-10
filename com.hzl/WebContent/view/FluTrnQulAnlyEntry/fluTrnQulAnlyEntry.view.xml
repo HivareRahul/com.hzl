@@ -55,7 +55,6 @@
 					<Column hAlign="Center" id="znGplUOM"><Text text="{i18n>FTQAE_znGplUOM}"/></Column>
 					<Column hAlign="Center" id="znDen"><Text text="{i18n>FTQAE_znDen}"/></Column>
 					<Column hAlign="Center" id="znDenUOM"><Text text="{i18n>FTQAE_znDenUOM}"/></Column>
-					<Column hAlign="Center" id="dt"><Text text="Date"/></Column>
 				</columns>
 				<items>
 					<ColumnListItem type="Active">
@@ -69,7 +68,6 @@
 							<Text text="GPL"/>
 							<cmn:TextField value="{fluTrnsQulAnlyEntr>DEN_PARAM}" type="Number" editable="false" liveChange="onFieldChange" enabled="false"/>
 							<Text text="kg/m3"/>
-							<Text text="{fluTrnsQulAnlyEntr>S_DATE}"/>
 						</cells>
 					</ColumnListItem>
 				</items>

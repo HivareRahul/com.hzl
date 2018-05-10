@@ -17,13 +17,14 @@ sap.ui.define([
          */
         onInit: function() {
             this.getView().setModel(new JSONModel({
-                myEditData: [],
+            	totalZincMic: "",
+            	myEditData: [],
                 enable: false,
                 userDetails: [],
                 visiblity: {
                 	tableFieldEnabled: false,
                 	updateSave: false,
-                    updateCancel: false
+                    updateCancel: false                    
                 }
             }), "viewModel");
             this.oViewModel = this.getView().getModel("viewModel");
@@ -124,6 +125,7 @@ sap.ui.define([
                 this.getView().setModel(myModel, "tableModel");
                 this.initTableSetting();
                 this.stopBusyIndicator();
+                this.totalZincMic();
     		}else{
     			var rsp = {};
     			rsp.statusText = rs.Rowsets.Rowset[1].Row["0"].SUCCERR_MESSAGE;
@@ -436,6 +438,33 @@ sap.ui.define([
 	            	oEvent.getSource().setValue("0");
 	            }
             }
+        },
+
+        /** @Function to set the value of Total zinc MIC at table header
+         */
+        totalZincMic: function(){
+            var oAjaxHandler = ajaxHandler.getInstance();
+            oAjaxHandler.setProperties("QueryTemplate", "SAP_ZN_REC/SOLUTION_SLURRY/QRY/XQRY_SOLUNSLUR_TOTAL_ZN");
+            oAjaxHandler.setProperties("Param.1", this.getView().byId("SSRdate").getValue() + " 00:00:00");
+            oAjaxHandler.setProperties("Param.2", this.getView().byId("SSRplant").getValue());
+            oAjaxHandler.setCallBackSuccessMethod(this.successTotalZincMic, this);
+            oAjaxHandler.setCallBackFailureMethod(this.failRequestTotalZincMic, this);
+            oAjaxHandler.triggerPostRequest();           
+        },
+
+        /** @Function callback function for ajax success
+         */
+        successTotalZincMic: function(rs) {
+            var viewModel = this.oViewModel.getData(); 
+            viewModel.totalZincMic = rs.Rowsets.Rowset["0"].Row["0"].TOTAL_ZN_MIC;
+            this.oViewModel.setData(viewModel);
+            //this.oViewModel.getData().totalZincMic = true;
+        },
+
+        /** @Function callback function for ajax fail
+         */
+        failRequestTotalZincMic: function(rs) {
+            sap.m.MessageBox.alert(rs.statusText);
         }
 
     });

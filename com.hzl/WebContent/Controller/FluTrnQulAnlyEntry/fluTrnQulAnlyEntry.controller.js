@@ -810,7 +810,7 @@ sap.ui.define([
 	                if (myTable.getItems()[i].getMetadata().getElementName() === "sap.m.GroupHeaderListItem") {
 	                    continue;
 	                } 
-	            	var reqDate = myTable.getItems()[i].getCells()[9].getText().slice(0,10);
+	            	var reqDate = myTable.getItems()[i].getCells()[0].getText().slice(0,10);
 	                if (reqDate !== this.changeDateFormat(new Date()).slice(0, 10) ) {                
 	                	myTable.getItems()[i].getCells()[5].setEnabled(false);
 	                	myTable.getItems()[i].getCells()[7].setEnabled(false);
