@@ -17,9 +17,9 @@
 				<Label text="{i18n>FTQAE_matTrnsTo}" design="Bold" required ="true"></Label>
 				<Input id="addMatTransTo" value="{addDialogModel>/MaterialTransferTo}" width="80%" type="Text" placeholder="{i18n>FTQAE_PH_entMatTransTo}" showSuggestion="true" showValueHelp="true" myData:key="TO_PLANT_DESC" valueHelpRequest="handleValueHelp" valueHelpOnly="true"></Input>
 				<Label text="{i18n>FTQAE_AD_znGPL}" design="Bold" required ="true"></Label>
-				<Input id="addZnGPL" value="{addDialogModel>/ZnInGPL}" width="80%" type="Text" placeholder="{i18n>FTQAE_AD_PH_znGPL}" myData:key="ZN_GPL_PARAM"></Input>
+				<Input id="addZnGPL" value="{addDialogModel>/ZnInGPL}" width="80%" type="Number" placeholder="{i18n>FTQAE_AD_PH_znGPL}" myData:key="ZN_GPL_PARAM"></Input>
 				<Label text="{i18n>FTQAE_AD_den}" design="Bold" required ="true"></Label>
-				<Input id="addDen" value="{addDialogModel>/Density}" width="80%" type="Text" placeholder="{i18n>FTQAE_AD_PH_entDen}" myData:key="DEN_PARAM"></Input>			
+				<Input id="addDen" value="{addDialogModel>/Density}" width="80%" type="Number" placeholder="{i18n>FTQAE_AD_PH_entDen}" myData:key="DEN_PARAM"></Input>			
 			</f:content>
 		</f:SimpleForm>
 		<beginButton>

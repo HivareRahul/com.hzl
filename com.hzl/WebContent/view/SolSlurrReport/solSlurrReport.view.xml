@@ -57,13 +57,13 @@
 					<items>
 						<ColumnListItem>
 							<cells>								
-								<Text text="{tableModel>EQP_DESC}"/>
-								<Text text="{tableModel>STD_VOL}"/>
-								<cmn:TextField value="{tableModel>EQP_FAC}" editable="false" enabled="{viewModel>/visiblity/tableFieldEnabled}" change="onRowChange"/>							
-								<Text text="{tableModel>ACT_VOL}"/>
-								<Text text="{tableModel>ZN_CAL}"/>
-								<cmn:TextField value="{tableModel>ZN_MIC}" editable="false" enabled="{viewModel>/visiblity/tableFieldEnabled}" change="onRowChange"/>
-								<Text text="{tableModel>EQP_TYP}"/>	
+								<Text text="{tableModel>EQP_DESC}" class="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptClss'}"/>
+								<Text text="{tableModel>STD_VOL}" class="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptClss'}"/>
+								<cmn:TextField value="{tableModel>EQP_FAC}" editable="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptFactorField'}" enabled="{viewModel>/visiblity/tableFieldEnabled}" change="onRowChange" class="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptClss'}"/>							
+								<Text text="{tableModel>ACT_VOL}" class="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptClss'}"/>
+								<Text text="{tableModel>ZN_CAL}" class="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptClss'}"/>
+								<cmn:TextField value="{tableModel>ZN_MIC}" editable="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptZnMICField'}" enabled="{viewModel>/visiblity/tableFieldEnabled}" change="onRowChange" class="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptClss'}"/>
+								<Text text="{tableModel>EQP_TYP}" class="{path: 'tableModel>EQP_TYP',formatter: '.formatter.solSlryRptClss'}"/>	
 							</cells>
 						</ColumnListItem>
 					</items>

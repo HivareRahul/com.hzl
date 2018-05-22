@@ -5,8 +5,9 @@ sap.ui.define([
     "sap/m/MessageBox",
     "sap/ui/model/Sorter",
     "sap/ui/core/util/Export",
-    "sap/ui/core/util/ExportTypeCSV"
-], function(baseController, JSONModel, ajaxHandler, MessageBox, Sorter, Export, ExportTypeCSV) {
+    "sap/ui/core/util/ExportTypeCSV",
+    "com/hzl/Util/myFormatter"
+], function(baseController, JSONModel, ajaxHandler, MessageBox, Sorter, Export, ExportTypeCSV, myFormatter) {
     "use strict";
     return baseController.extend("com.hzl.Controller.SolSlurrReport.solSlurrReport", {
 
@@ -31,7 +32,11 @@ sap.ui.define([
             this.getView().byId("SSRdate").setValue(this.changeDateFormat(new Date()).slice(0, 10));
             this.initialSettings();
             this.viewSettingInit();
-        },
+        },        
+        
+        /** @Formatter loads the Formatter file
+         */        
+        formatter: myFormatter,        
 
         /** @Function initialSettings to get user data
          */
@@ -402,26 +407,18 @@ sap.ui.define([
                 	for(var j=0; j < myTable.getItems()[i].getCells().length ;j++){
                 		myTable.getItems()[i].getCells()[j].addStyleClass("dykeThickner");
                 	}                	                	
-                    myTable.getItems()[i].getCells()[2].setEditable(false);                    
-                    myTable.getItems()[i].getCells()[5].setEditable(true);
                 }else if(myTable.getItems()[i].getCells()[6].getText() === "RE"){                	
                 	for(var n=0; n < myTable.getItems()[i].getCells().length ;n++){
                 		myTable.getItems()[i].getCells()[n].addStyleClass("reactor");
-                	}    
-                    myTable.getItems()[i].getCells()[2].setEditable(true);
-                    myTable.getItems()[i].getCells()[5].setEditable(false);                	
+                	}                    	
                 }else if(myTable.getItems()[i].getCells()[6].getText().slice(0,2) === "TH"){                	
                 	for(var m=0; m < myTable.getItems()[i].getCells().length ;m++){
                 		myTable.getItems()[i].getCells()[m].addStyleClass("thickner");
-                	}    
-                    myTable.getItems()[i].getCells()[2].setEditable(true);
-                    myTable.getItems()[i].getCells()[5].setEditable(false);                	
+                	}                    	
                 } else {                	
                 	for(var k=0; k < myTable.getItems()[i].getCells().length ;k++){
                 		myTable.getItems()[i].getCells()[k].addStyleClass("tank");
                 	}                	                	
-                    myTable.getItems()[i].getCells()[2].setEditable(true);
-                    myTable.getItems()[i].getCells()[5].setEditable(false);
                 }
             }
         },
