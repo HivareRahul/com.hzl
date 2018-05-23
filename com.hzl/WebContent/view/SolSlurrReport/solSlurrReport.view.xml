@@ -1,7 +1,7 @@
 <mvc:View controllerName="com.hzl.Controller.SolSlurrReport.solSlurrReport" xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core"
 	xmlns:fb="sap.ui.comp.filterbar" xmlns:cmn="sap.ui.commons">
-	<Page title="{i18n>SSR_title}" showNavButton="true" navButtonPress="myNavBack" class="solSlurRptPage">
+	<Page title="{i18n>SSR_title}" class="solSlurRptPage">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>

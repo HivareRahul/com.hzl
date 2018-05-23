@@ -4,7 +4,7 @@
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:fb="sap.ui.comp.filterbar"
 	xmlns="sap.m">	
-	<Page title="{i18n>errLog_Title}" showNavButton="true" navButtonPress="myNavBack">
+	<Page title="{i18n>errLog_Title}">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>

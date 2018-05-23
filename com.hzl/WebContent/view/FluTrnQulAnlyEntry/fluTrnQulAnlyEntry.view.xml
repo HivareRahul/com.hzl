@@ -8,7 +8,7 @@
 	xmlns:core="sap.ui.core"
 	xmlns:myData="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:cmn="sap.ui.commons">	
-	<Page title="{i18n>FTQAE_Title}" showNavButton="true" navButtonPress="myNavBack">
+	<Page title="{i18n>FTQAE_Title}">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>

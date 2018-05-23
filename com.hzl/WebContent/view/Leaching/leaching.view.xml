@@ -1,6 +1,6 @@
 <mvc:View controllerName="com.hzl.Controller.Leaching.leaching" xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc"
 	displayBlock="true" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:fb="sap.ui.comp.filterbar">
-	<Page title="{i18n>title}" showNavButton="true" navButtonPress="myNavBack">
+	<Page title="{i18n>title}">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>

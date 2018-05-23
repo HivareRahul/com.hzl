@@ -455,7 +455,6 @@ sap.ui.define([
             var viewModel = this.oViewModel.getData(); 
             viewModel.totalZincMic = rs.Rowsets.Rowset["0"].Row["0"].TOTAL_ZN_MIC;
             this.oViewModel.setData(viewModel);
-            //this.oViewModel.getData().totalZincMic = true;
         },
 
         /** @Function callback function for ajax fail

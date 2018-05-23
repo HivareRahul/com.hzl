@@ -1,5 +1,5 @@
 <mvc:View controllerName="com.hzl.Controller.Leaching.shiftDetails" xmlns:l="sap.ui.layout" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
-	<Page title="{i18n>SD_sftDet}" showNavButton="true" navButtonPress="myNavBack">
+	<Page title="{i18n>SD_sftDet}">
 		<headerContent>
 			<Text text="{i18n>logAs}"></Text>
 			<Label design="Bold" text="{viewModel>/userDetails/Rowsets/Rowset/0/Row/0/USERNAME}"></Label>
